@@ -59,7 +59,7 @@ write|WRITE {std::cout << "Found a WRITE keyword: " << yytext << "\n";}
 % {std::cout << "Found a % operator: " << yytext << "\n";}
 [0-9]x?[0-9a-fA-F]* {std::cout << "Found an INTEGER constant: " << yytext << "\n";}
 '.' {std::cout << "Found a CHARACTER constant: " << yytext << "\n";}
-\"[a-zA-Z0-9_\-+\+\[\{\]\};:'\,\<\.\>\/\?\\\|`~!@#\$%\^&\*\(\) \t\n]*\" {std::cout << "Found a STRING constant: " << yytext << "\n";}
+\"[a-zA-Z0-9_\-=\+\[\{\]\};:'\,\<\.\>\/\?\\\|`~!@#\$%\^&\*\(\) \t\n]*\" {std::cout << "Found a STRING constant: " << yytext << "\n";}
 $.* {std::cout << "Found a COMMENT: " << yytext << "\n";}
 [a-zA-z][a-zA-z0-9_]* {std::cout << "Found an identifier: " << yytext << "\n";}
 \n {std::cout << "Found a NEWLINE escape: " << yytext << "\n";}
