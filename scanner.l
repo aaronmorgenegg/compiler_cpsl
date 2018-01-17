@@ -59,7 +59,7 @@ write|WRITE {std::cout << "Found a WRITE keyword.\n";}
 % {std::cout << "Found a % operator.\n";}
 [0-9]x?[0-9a-fA-F]* {std::cout << "Found an INTEGER constant.\n";}
 '.' {std::cout << "Found a CHARACTER constant.\n";}
-\".*\" {std::cout << "Found a STRING constant.\n";}
+\"[a-zA-Z0-9_\-+\+\[\{\]\};:'\,\<\.\>\/\?\\\|`~!@#\$%\^&\*\(\) \t\n]*\" {std::cout << "Found a STRING constant.\n";}
 $.* {std::cout << "Found a COMMENT.\n";}
 [a-zA-z][a-zA-z0-9_]* {std::cout << "Found an identifier.\n";}
 \n {std::cout << "Found a NEWLINE escape.\n";}
@@ -70,7 +70,7 @@ $.* {std::cout << "Found a COMMENT.\n";}
 " " {std::cout << "Found a SPACE.\n";}
 "" {std::cout << "Found a BLANK.\n";}
 
-. {std::cout << "Lexical Error Detected";}
+. {std::cout << "Lexical Error Detected"; exit(1);}
 %%
 
 int main(){
