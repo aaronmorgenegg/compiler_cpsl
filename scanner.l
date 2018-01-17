@@ -34,35 +34,41 @@ until|UNTIL {std::cout << "Found a UNTIL keyword.\n";}
 var|VAR {std::cout << "Found a VAR keyword.\n";}
 while|WHILE {std::cout << "Found a WHILE keyword.\n";}
 write|WRITE {std::cout << "Found a WRITE keyword.\n";}
-+ {std::cout << "Found a + operator.\n";}
+\+ {std::cout << "Found a + operator.\n";}
 - {std::cout << "Found a - operator.\n";}
-* {std::cout << "Found a * operator.\n";}
-/ {std::cout << "Found a / operator.\n";}
+\* {std::cout << "Found a * operator.\n";}
+\/ {std::cout << "Found a / operator.\n";}
 & {std::cout << "Found a & operator.\n";}
-| {std::cout << "Found a | operator.\n";}
+\| {std::cout << "Found a | operator.\n";}
 ~ {std::cout << "Found a ~ operator.\n";}
 = {std::cout << "Found a = operator.\n";}
-<> {std::cout << "Found a <> operator.\n";}
-< {std::cout << "Found a < operator.\n";}
-<= {std::cout << "Found a <= operator.\n";}
-> {std::cout << "Found a > operator.\n";}
->= {std::cout << "Found a >= operator.\n";}
-. {std::cout << "Found a . operator.\n";}
+\<\> {std::cout << "Found a <> operator.\n";}
+\< {std::cout << "Found a < operator.\n";}
+\<= {std::cout << "Found a <= operator.\n";}
+\> {std::cout << "Found a > operator.\n";}
+\>= {std::cout << "Found a >= operator.\n";}
+\. {std::cout << "Found a . operator.\n";}
 , {std::cout << "Found a , operator.\n";}
 : {std::cout << "Found a : operator.\n";}
 ; {std::cout << "Found a ; operator.\n";}
-( {std::cout << "Found a ( operator.\n";}
-) {std::cout << "Found a ) operator.\n";}
-[ {std::cout << "Found a [ operator.\n";}
-] {std::cout << "Found a ] operator.\n";}
+\( {std::cout << "Found a ( operator.\n";}
+\) {std::cout << "Found a ) operator.\n";}
+\[ {std::cout << "Found a [ operator.\n";}
+\] {std::cout << "Found a ] operator.\n";}
 := {std::cout << "Found a := operator.\n";}
 % {std::cout << "Found a % operator.\n";}
 [0-9]x?[0-9a-fA-F]* {std::cout << "Found an INTEGER constant.\n";}
 '.' {std::cout << "Found a CHARACTER constant.\n";}
-".*" {std::cout << "Found a STRING constant.\n";}
+\".*\" {std::cout << "Found a STRING constant.\n";}
 $.* {std::cout << "Found a COMMENT.\n";}
 [a-zA-z][a-zA-z0-9_]* {std::cout << "Found an identifier.\n";}
-
+\n {std::cout << "Found a NEWLINE escape.\n";}
+\r {std::cout << "Found a CARRIAGE RETURN escape.\n";}
+\b {std::cout << "Found a BACKSPACE escape.\n";}
+\t {std::cout << "Found a TAB escape.\n";}
+\f {std::cout << "Found a NEWLINE escape.\n";}
+" " {std::cout << "Found a SPACE.\n";}
+"" {std::cout << "Found a BLANK.\n";}
 
 . {std::cout << "Lexical Error Detected";}
 %%
