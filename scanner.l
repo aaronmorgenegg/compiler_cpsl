@@ -62,13 +62,14 @@ write|WRITE {std::cout << "Found a WRITE keyword: " << yytext << "\n";}
 \"[a-zA-Z0-9_\-=\+\[\{\]\};:'\,\<\.\>\/\?\\\|`~!@#\$%\^&\*\(\) \t\n]*\" {std::cout << "Found a STRING constant: " << yytext << "\n";}
 $.* {std::cout << "Found a COMMENT: " << yytext << "\n";}
 [a-zA-z][a-zA-z0-9_]* {std::cout << "Found an identifier: " << yytext << "\n";}
-\n {std::cout << "Found a NEWLINE escape: " << yytext << "\n";}
-\r {std::cout << "Found a CARRIAGE RETURN escape: " << yytext << "\n";}
-\b {std::cout << "Found a BACKSPACE escape: " << yytext << "\n";}
-\t {std::cout << "Found a TAB escape: " << yytext << "\n";}
-\f {std::cout << "Found a NEWLINE escape: " << yytext << "\n";}
+\n {std::cout << "Found a NEWLINE: " << yytext << "\n";}
+\r {std::cout << "Found a CARRIAGE RETURN: " << yytext << "\n";}
+\b {std::cout << "Found a BACKSPACE: " << yytext << "\n";}
+\t {std::cout << "Found a TAB: " << yytext << "\n";}
+\f {std::cout << "Found a NEWLINE: " << yytext << "\n";}
 " " {std::cout << "Found a SPACE: " << yytext << "\n";}
 "" {std::cout << "Found a BLANK: " << yytext << "\n";}
+
 . {std::cout << "Lexical Error Detected"; exit(1);}
 %%
 
