@@ -1,22 +1,76 @@
 %{
 #include <iostream>
+#include <string>
+
 extern int yylex();
 extern int yyparse();
 %}
 
 %union
 {
-float val;
+int number;
+char character;
+std::string word;
 }
 
+%token ARRAY
+%token BEGIN
+%token CHR
+%token CONST
+%token DO
+%token DOWNTO
+%token ELSE
+%token ELSEIF
+%token END
+%token FOR
+%token FORWARD
+%token FUNCTION
+%token IF
+%token OF
+%token ORD
+%token PRED
+%token PROCEDURE
+%token READ
+%token RECORD
+%token REF
+%token REPEAT
+%token RETURN
+%token STOP
+%token SUCC
+%token THEN
+%token TO
+%token TYPE
+%token UNTIL
+%token VAL
+%token WHILE
+%token WRITE
 %token ADD
 %token SUB
-%token MULT
+%token MUL
 %token DIV
-%token OPEN
-%token CLOSE
-%token DONE
-%token NUMBER
+%token AND
+%token OR
+%token NOT
+%token EQ
+%token NEQ
+%token LE
+%token LEQ
+%token GE
+%token GEQ
+%token DOT
+%token COMMA
+%token COLON
+%token SEMICOLON
+%token OPAR
+%token CPAR
+%token OBRACKET
+%token CBRACKET
+%token ASSIGN
+%token MOD
+%token INT
+%token CHAR
+%token STR
+%token ID
 
 %type <val> NUMBER
 %type <val> Expression
