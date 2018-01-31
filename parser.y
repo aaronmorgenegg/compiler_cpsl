@@ -87,7 +87,8 @@ parameters : empty
 	   ;
 ident : ID
       ;
-ident_list : ident COMMA ident *
+ident_list : ident
+	   | ident_list COMMA ident
 	   ;
 type : type_simple
      | type_record
@@ -122,13 +123,15 @@ expression : expression OR expression
 	   : NOT expression
 	   : SUB expression
 	   : OPAR expression CPAR
-	   : ident OPAR expression COMMA expression * ? CPAR
+	   : ident OPAR expression_list CPAR
 	   : CHR expression
 	   : ORD expression
 	   : PRED expression
 	   : SUCC expression
 	   : lvalue
 	   ;
+expression_list : expression
+		| expression_list COMMA expression
 lvalue : ident 
        ;
 statement : assignment
@@ -145,8 +148,15 @@ statement : assignment
 	  ;
 assignment : lvalue ASSIGN expression
 	   ;
-statement_if : IF expression THEN statement_sequence ELSEIF expression THEN statement_sequence * ELSE statement_sequence ? END
+statement_if : IF expression THEN statement_sequence elseif_list else_list END
 	     ;
+elseif_list : empty
+	    | ELSEIF expression THEN statement_sequence
+	    | elseif_list elseif_list
+	    ;
+else_list : empty
+	  | ELSE statement_sequence
+	  ;
 statement_while : WHILE expression DO statement_sequence END
 		;
 statement_repeat : REPEAT statement_sequence UNTIL expression
@@ -192,6 +202,11 @@ Term : Term MULT Factor {$$ = $1 * $3;}
 Factor : OPEN Expression CLOSE {$$ = $2;}
        | NUMBER { $$ = $1;}
        ;
+
+void yyerror(char const *s){
+	std::cout<<"Parse Error Detected: " << s << std::endl;
+	exit(1);
+}
 
 int main(){
 	yyparse();
