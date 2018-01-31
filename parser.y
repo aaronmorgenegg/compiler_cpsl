@@ -100,32 +100,32 @@ type_array : ARRAY OBRACKET expression COLON expression CBRACKET OF type
 block : BEGIN statement_sequence END
       ;
 body : block
-     : decl_const body
-     : decl_type body
-     : decl_var body
+     | decl_const body
+     | decl_type body
+     | decl_var body
      ;
 expression : expression OR expression
-	   : expression AND expression
-	   : expression EQ expression
-	   : expression NEQ expression
-	   : expression LEQ expression
-	   : expression GEQ expression
-	   : expression LE expression
-	   : expression GE expression
-	   : expression ADD expression
-	   : expression SUB expression
-	   : expression MUL expression
-	   : expression DIV expression
-	   : expression MOD expression
-	   : NOT expression
-	   : SUB expression
-	   : OPAR expression CPAR
-	   : ident OPAR expression_list CPAR
-	   : CHR expression
-	   : ORD expression
-	   : PRED expression
-	   : SUCC expression
-	   : lvalue
+	   | expression AND expression
+	   | expression EQ expression
+	   | expression NEQ expression
+	   | expression LEQ expression
+	   | expression GEQ expression
+	   | expression LE expression
+	   | expression GE expression
+	   | expression ADD expression
+	   | expression SUB expression
+	   | expression MUL expression
+	   | expression DIV expression
+	   | expression MOD expression
+	   | NOT expression
+	   | SUB expression
+	   | OPAR expression CPAR
+	   | ident OPAR expression_list CPAR
+	   | CHR expression
+	   | ORD expression
+	   | PRED expression
+	   | SUCC expression
+	   | lvalue
 	   ;
 expression_list : expression
 		| expression_list COMMA expression
