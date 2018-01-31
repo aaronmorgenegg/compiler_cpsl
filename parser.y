@@ -210,19 +210,6 @@ decl_var_list : ident_list COLON type SEMICOLON
 	      | decl_var_list decl_var_list
 	      ;
 
-Statement : Expression DONE {std::cout << $1 << "\n";}
-Expression : Expression ADD Term {$$ = $1 + $3;} 
-	   | Expression SUB Term {$$ = $1 - $3;}
-	   | Term { $$ = $1;}
-           ;
-Term : Term MULT Factor {$$ = $1 * $3;}
-     | Term DIV Factor {$$ = $1 / $3;}
-     | Factor {$$ = $1;}
-     ;
-Factor : OPEN Expression CLOSE {$$ = $2;}
-       | NUMBER { $$ = $1;}
-       ;
-
 void yyerror(char const *s){
 	std::cout<<"Parse Error Detected: " << s << std::endl;
 	exit(1);
