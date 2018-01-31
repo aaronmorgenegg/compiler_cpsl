@@ -33,7 +33,7 @@ then|THEN {return THEN;}
 to|TO {return TO;}
 type|TYPE {return TYPE;}
 until|UNTIL {return UNTIL;}
-var|VAR {return VAL;}
+var|VAR {return VAR;}
 while|WHILE {return WHILE;}
 write|WRITE {return WRITE;}
 \+ {return ADD;}

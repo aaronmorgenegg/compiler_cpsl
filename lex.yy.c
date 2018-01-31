@@ -628,8 +628,10 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "scanner.l"
 #line 2 "scanner.l"
-#include <iostream>
-#line 633 "lex.yy.c"
+#include <cstdlib>
+
+#include "parser.hpp"
+#line 635 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -847,9 +849,9 @@ YY_DECL
 		}
 
 	{
-#line 5 "scanner.l"
+#line 7 "scanner.l"
 
-#line 853 "lex.yy.c"
+#line 855 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -908,347 +910,347 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 6 "scanner.l"
-{std::cout << "Found an ARRAY keyword: " << yytext << "\n";}
+#line 8 "scanner.l"
+{return ARRAY;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 7 "scanner.l"
-{std::cout << "Found a BEGIN keyword: " << yytext << "\n";}
+#line 9 "scanner.l"
+{return BEGIN;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 8 "scanner.l"
-{std::cout << "Found a CHR keyword: " << yytext << "\n";}
+#line 10 "scanner.l"
+{return CHR;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 9 "scanner.l"
-{std::cout << "Found a CONST keyword: " << yytext << "\n";}
+#line 11 "scanner.l"
+{return CONST;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 10 "scanner.l"
-{std::cout << "Found a DO keyword: " << yytext << "\n";}
+#line 12 "scanner.l"
+{return DO;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 11 "scanner.l"
-{std::cout << "Found a DOWNTO keyword: " << yytext << "\n";}
+#line 13 "scanner.l"
+{return DOWNTO;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 12 "scanner.l"
-{std::cout << "Found an ELSE keyword: " << yytext << "\n";}
+#line 14 "scanner.l"
+{return ELSE;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 13 "scanner.l"
-{std::cout << "Found a ELSEIF keyword: " << yytext << "\n";}
+#line 15 "scanner.l"
+{return ELSEIF;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 14 "scanner.l"
-{std::cout << "Found a END keyword: " << yytext << "\n";}
+#line 16 "scanner.l"
+{return END;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 15 "scanner.l"
-{std::cout << "Found a FOR keyword: " << yytext << "\n";}
+#line 17 "scanner.l"
+{return FOR;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 16 "scanner.l"
-{std::cout << "Found a FORWARD keyword: " << yytext << "\n";}
+#line 18 "scanner.l"
+{return FORWARD;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 17 "scanner.l"
-{std::cout << "Found a FUNCTION keyword: " << yytext << "\n";}
+#line 19 "scanner.l"
+{return FUNCTION;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 18 "scanner.l"
-{std::cout << "Found an IF keyword: " << yytext << "\n";}
+#line 20 "scanner.l"
+{return IF;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 19 "scanner.l"
-{std::cout << "Found an OF keyword: " << yytext << "\n";}
+#line 21 "scanner.l"
+{return OF;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 20 "scanner.l"
-{std::cout << "Found an ORD keyword: " << yytext << "\n";}
+#line 22 "scanner.l"
+{return ORD;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 21 "scanner.l"
-{std::cout << "Found a PRED keyword: " << yytext << "\n";}
+#line 23 "scanner.l"
+{return PRED;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 22 "scanner.l"
-{std::cout << "Found a PROCEDURE keyword: " << yytext << "\n";}
+#line 24 "scanner.l"
+{return PROCEDURE;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 23 "scanner.l"
-{std::cout << "Found a READ keyword: " << yytext << "\n";}
+#line 25 "scanner.l"
+{return READ;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 24 "scanner.l"
-{std::cout << "Found a RECORD keyword: " << yytext << "\n";}
+#line 26 "scanner.l"
+{return RECORD;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 25 "scanner.l"
-{std::cout << "Found a REF keyword: " << yytext << "\n";}
+#line 27 "scanner.l"
+{return REF;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 26 "scanner.l"
-{std::cout << "Found a REPEAT keyword: " << yytext << "\n";}
+#line 28 "scanner.l"
+{return REPEAT;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 27 "scanner.l"
-{std::cout << "Found a RETURN keyword: " << yytext << "\n";}
+#line 29 "scanner.l"
+{return RETURN;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 28 "scanner.l"
-{std::cout << "Found a STOP keyword: " << yytext << "\n";}
+#line 30 "scanner.l"
+{return STOP;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 29 "scanner.l"
-{std::cout << "Found a SUCC keyword: " << yytext << "\n";}
+#line 31 "scanner.l"
+{return SUCC;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 30 "scanner.l"
-{std::cout << "Found a THEN keyword: " << yytext << "\n";}
+#line 32 "scanner.l"
+{return THEN;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 31 "scanner.l"
-{std::cout << "Found a TO keyword: " << yytext << "\n";}
+#line 33 "scanner.l"
+{return TO;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 32 "scanner.l"
-{std::cout << "Found a TYPE keyword: " << yytext << "\n";}
+#line 34 "scanner.l"
+{return TYPE;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 33 "scanner.l"
-{std::cout << "Found a UNTIL keyword: " << yytext << "\n";}
+#line 35 "scanner.l"
+{return UNTIL;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 34 "scanner.l"
-{std::cout << "Found a VAR keyword: " << yytext << "\n";}
+#line 36 "scanner.l"
+{return VAL;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 35 "scanner.l"
-{std::cout << "Found a WHILE keyword: " << yytext << "\n";}
+#line 37 "scanner.l"
+{return WHILE;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 36 "scanner.l"
-{std::cout << "Found a WRITE keyword: " << yytext << "\n";}
+#line 38 "scanner.l"
+{return WRITE;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 37 "scanner.l"
-{std::cout << "Found a + operator: " << yytext << "\n";}
+#line 39 "scanner.l"
+{return ADD;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 38 "scanner.l"
-{std::cout << "Found a - operator: " << yytext << "\n";}
+#line 40 "scanner.l"
+{return SUB;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 39 "scanner.l"
-{std::cout << "Found a * operator: " << yytext << "\n";}
+#line 41 "scanner.l"
+{return MUL;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 40 "scanner.l"
-{std::cout << "Found a / operator: " << yytext << "\n";}
+#line 42 "scanner.l"
+{return DIV;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 41 "scanner.l"
-{std::cout << "Found a & operator: " << yytext << "\n";}
+#line 43 "scanner.l"
+{return AND;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 42 "scanner.l"
-{std::cout << "Found a | operator: " << yytext << "\n";}
+#line 44 "scanner.l"
+{return OR;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 43 "scanner.l"
-{std::cout << "Found a ~ operator: " << yytext << "\n";}
+#line 45 "scanner.l"
+{return NOT;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 44 "scanner.l"
-{std::cout << "Found a = operator: " << yytext << "\n";}
+#line 46 "scanner.l"
+{return EQ;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 45 "scanner.l"
-{std::cout << "Found a <> operator: " << yytext << "\n";}
+#line 47 "scanner.l"
+{return NEQ;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 46 "scanner.l"
-{std::cout << "Found a < operator: " << yytext << "\n";}
+#line 48 "scanner.l"
+{return LE;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 47 "scanner.l"
-{std::cout << "Found a <= operator: " << yytext << "\n";}
+#line 49 "scanner.l"
+{return LEQ;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 48 "scanner.l"
-{std::cout << "Found a > operator: " << yytext << "\n";}
+#line 50 "scanner.l"
+{return GE;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 49 "scanner.l"
-{std::cout << "Found a >= operator: " << yytext << "\n";}
+#line 51 "scanner.l"
+{return GEQ;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 50 "scanner.l"
-{std::cout << "Found a . operator: " << yytext << "\n";}
+#line 52 "scanner.l"
+{return DOT;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 51 "scanner.l"
-{std::cout << "Found a , operator: " << yytext << "\n";}
+#line 53 "scanner.l"
+{return COMMA;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 52 "scanner.l"
-{std::cout << "Found a : operator: " << yytext << "\n";}
+#line 54 "scanner.l"
+{return COLON;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 53 "scanner.l"
-{std::cout << "Found a ; operator: " << yytext << "\n";}
+#line 55 "scanner.l"
+{return SEMICOLON;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 54 "scanner.l"
-{std::cout << "Found a ( operator: " << yytext << "\n";}
+#line 56 "scanner.l"
+{return OPAR;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 55 "scanner.l"
-{std::cout << "Found a ) operator: " << yytext << "\n";}
+#line 57 "scanner.l"
+{return CPAR;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 56 "scanner.l"
-{std::cout << "Found a [ operator: " << yytext << "\n";}
+#line 58 "scanner.l"
+{return OBRACKET;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 57 "scanner.l"
-{std::cout << "Found a ] operator: " << yytext << "\n";}
+#line 59 "scanner.l"
+{return CBRACKET;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 58 "scanner.l"
-{std::cout << "Found a := operator: " << yytext << "\n";}
+#line 60 "scanner.l"
+{return ASSIGN;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 59 "scanner.l"
-{std::cout << "Found a % operator: " << yytext << "\n";}
+#line 61 "scanner.l"
+{return MOD;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 60 "scanner.l"
-{std::cout << "Found an INTEGER constant: " << yytext << "\n";}
+#line 62 "scanner.l"
+{yylval.val = atof(yytext); return INT;}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 61 "scanner.l"
-{std::cout << "Found a CHARACTER constant: " << yytext << "\n";}
+#line 63 "scanner.l"
+{yylval.val = yytext; return CHAR;}
 	YY_BREAK
 case 57:
 /* rule 57 can match eol */
 YY_RULE_SETUP
-#line 62 "scanner.l"
-{std::cout << "Found a STRING constant: " << yytext << "\n";}
+#line 64 "scanner.l"
+{yylval.val = yyext; return STR;}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 63 "scanner.l"
-{std::cout << "Found a COMMENT: " << yytext << "\n";}
+#line 65 "scanner.l"
+{}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 64 "scanner.l"
-{std::cout << "Found an identifier: " << yytext << "\n";}
+#line 66 "scanner.l"
+{return ID;}
 	YY_BREAK
 case 60:
 /* rule 60 can match eol */
 YY_RULE_SETUP
-#line 65 "scanner.l"
-{std::cout << "Found a NEWLINE: " << yytext << "\n";}
+#line 67 "scanner.l"
+{}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 66 "scanner.l"
-{std::cout << "Found a CARRIAGE RETURN: " << yytext << "\n";}
+#line 68 "scanner.l"
+{}
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 67 "scanner.l"
-{std::cout << "Found a BACKSPACE: " << yytext << "\n";}
+#line 69 "scanner.l"
+{}
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 68 "scanner.l"
-{std::cout << "Found a TAB: " << yytext << "\n";}
+#line 70 "scanner.l"
+{}
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 69 "scanner.l"
-{std::cout << "Found a NEWLINE: " << yytext << "\n";}
+#line 71 "scanner.l"
+{}
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 70 "scanner.l"
-{std::cout << "Found a SPACE: " << yytext << "\n";}
+#line 72 "scanner.l"
+{}
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 71 "scanner.l"
-{std::cout << "Found a BLANK: " << yytext << "\n";}
+#line 73 "scanner.l"
+{}
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 73 "scanner.l"
+#line 75 "scanner.l"
 {std::cout << "Lexical Error Detected"; exit(1);}
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 74 "scanner.l"
+#line 76 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 1252 "lex.yy.c"
+#line 1254 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2249,7 +2251,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 74 "scanner.l"
+#line 76 "scanner.l"
 
 
 
