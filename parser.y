@@ -77,9 +77,6 @@ std::string word;
 %type <word> STR
 
 %%
-program : statement { std::cout << $1 << "\n"; }
-	;
-
 empty : 
       ;
 parameters : empty
@@ -132,8 +129,13 @@ expression : expression OR expression
 	   ;
 expression_list : expression
 		| expression_list COMMA expression
-lvalue : ident 
+lvalue : ident member_list
        ;
+member_list : empty
+	    | DOT ident
+	    | OBRACKET expression CBRACKET
+	    | member_list member_list
+	    ;
 statement : assignment
 	  | statement_if
 	  | statement_while
@@ -162,33 +164,51 @@ statement_while : WHILE expression DO statement_sequence END
 statement_repeat : REPEAT statement_sequence UNTIL expression
 		 ;
 statement_for : FOR ident ASSIGN expression TO expression DO statement_sequence END
-	      | for ident ASSIGN expression downto expression DO statement_sequence END
+	      | FOR ident ASSIGN expression DOWNTO expression DO statement_sequence END
 	      ;
 statement_stop : STOP
 	       ;
-statement_return : RETURN expression ?
+statement_return : RETURN empty
+		 | RETURN expression
 		 ;
-statement_read : READ OPAR lval COMMA lval * CPAR
+statement_read : READ OPAR lvalue_list CPAR
 	       ;
-statement_write : WRITE OPAR expression COMMA expression * CPAR
+lvalue_list : lvalue
+	    | lvalue_list COMMA lvalue
+	    ;
+statement_write : WRITE OPAR expression_list CPAR
 		;
-procedure_call : ident OPAR expression COMMA expression * CPAR
+expression_list : expression
+		| expression_list COMMA expression
+		;
+procedure_call : ident OPAR expression_list CPAR
+	       | ident OPAR empty CPAR
 	       ;
 statement_null : empty
 	       ;
 statement_sequence : statement SEMICOLON statement * 
 		   ;
-decl_const : CONST ident EQ expression SEMICOLON
+decl_const : CONST decl_const_list
 	   ;
+decl_const_list : ident EQ expression SEMICOLON
+		| decl_const_list decl_const_list
+		;
 decl_proc  : PROCEDURE ident OPAR parameters CPAR SEMICOLON FORWARD SEMICOLON
 	   | PROCEDURE ident OPAR parameters CPAR SEMICOLON body SEMICOLON
 	   ;
 decl_funct : FUNCTION ident OPAR parameters CPAR COLON type SEMICOLON FORWARD SEMICOLON
            | FUNCTION ident OPAR parameters CPAR COLON type SEMICOLON body SEMICOLON
 	   ;
-decl_type : TYPE ident = type SEMICLON
+decl_type : TYPE decl_type_list
 	  ;
-decl_var : VAR ident_list COLON type SEMICOLON
+decl_type_list : ident EQ type SEMICOLON
+	       | decl_type_list decl_type_list
+	       ;
+decl_var : VAR decl_var_list
+	 ;
+decl_var_list : ident_list COLON type SEMICOLON
+	      | decl_var_list decl_var_list
+	      ;
 
 Statement : Expression DONE {std::cout << $1 << "\n";}
 Expression : Expression ADD Term {$$ = $1 + $3;} 
