@@ -75,7 +75,3 @@ $.* {}
 . {std::cout << "Lexical Error Detected"; exit(1);}
 %%
 
-int main(){
-	yylex();
-}
-

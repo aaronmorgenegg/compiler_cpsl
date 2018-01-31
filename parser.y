@@ -3,7 +3,7 @@
 #include <string>
 
 extern int yylex();
-extern int yyparse();
+void yyerror(const char*);
 %}
 
 %union
@@ -186,7 +186,8 @@ procedure_call : ident OPAR expression_list CPAR
 	       ;
 statement_null : empty
 	       ;
-statement_sequence : statement SEMICOLON statement * 
+statement_sequence : statement 
+		   | statement_sequence SEMICOLON statement
 		   ;
 decl_const : CONST decl_const_list
 	   ;
@@ -210,12 +211,10 @@ decl_var_list : ident_list COLON type SEMICOLON
 	      | decl_var_list decl_var_list
 	      ;
 
-void yyerror(char const *s){
-	std::cout<<"Parse Error Detected: " << s << std::endl;
+%%
+
+void yyerror(const char * s){
+	std::cerr << s << std::endl;
 	exit(1);
 }
-
-int main(){
-	yyparse();
-};
 
