@@ -1,14 +1,19 @@
 %{
 #include <iostream>
-#include <string>
 
 extern int yylex();
 void yyerror(const char*);
 %}
 
+%union
+{
+int number;
+char letter;
+char * word;
+};
 
 %token ARRAY
-%token BEGIN
+%token BEGINTOKEN
 %token CHR
 %token CONST
 %token DO
@@ -73,7 +78,6 @@ void yyerror(const char*);
 %left AND
 %left OR
 %right NOT
-%right SUB
 %nonassoc EQ
 %nonassoc NEQ
 %nonassoc LE
@@ -81,6 +85,26 @@ void yyerror(const char*);
 %nonassoc GE
 %nonassoc GEQ
 %%
+program : decl_const_opt decl_type_opt decl_var_opt decl_proc_funct_list block DOT
+	;
+decl_const_opt : empty
+	       | decl_const
+	       ;
+decl_type_opt : empty
+	      | decl_type
+	      ;
+decl_var_opt : empty
+	     | decl_var
+	     ;
+decl_proc_funct_list : empty
+		     | decl_proc
+		     | decl_funct
+		     | decl_proc_funct_list empty
+		     | decl_proc_funct_list decl_proc
+                     | decl_proc_funct_list decl_funct
+		     ;
+block : BEGINTOKEN statement_sequence END
+      ;
 empty : 
       ;
 parameters : empty
@@ -101,8 +125,6 @@ type_record : RECORD ident_list COLON type SEMICOLON END
 	    ;
 type_array : ARRAY OBRACKET expression COLON expression CBRACKET OF type
 	   ;
-block : BEGIN statement_sequence END
-      ;
 body : block
      | decl_const body
      | decl_type body
@@ -138,7 +160,9 @@ lvalue : ident member_list
 member_list : empty
 	    | DOT ident
 	    | OBRACKET expression CBRACKET
-	    | member_list member_list
+	    | member_list empty
+            | member_list DOT ident
+            | member_list OBRACKET expression CBRACKET
 	    ;
 statement : assignment
 	  | statement_if
@@ -158,7 +182,8 @@ statement_if : IF expression THEN statement_sequence elseif_list else_list END
 	     ;
 elseif_list : empty
 	    | ELSEIF expression THEN statement_sequence
-	    | elseif_list elseif_list
+	    | elseif_list empty
+            | elseif_list ELSEIF expression THEN statement_sequence
 	    ;
 else_list : empty
 	  | ELSE statement_sequence
@@ -196,7 +221,7 @@ statement_sequence : statement
 decl_const : CONST decl_const_list
 	   ;
 decl_const_list : ident EQ expression SEMICOLON
-		| decl_const_list decl_const_list
+		| decl_const_list ident EQ expression SEMICOLON
 		;
 decl_proc  : PROCEDURE ident OPAR parameters CPAR SEMICOLON FORWARD SEMICOLON
 	   | PROCEDURE ident OPAR parameters CPAR SEMICOLON body SEMICOLON
@@ -212,7 +237,7 @@ decl_type_list : ident EQ type SEMICOLON
 decl_var : VAR decl_var_list
 	 ;
 decl_var_list : ident_list COLON type SEMICOLON
-	      | decl_var_list decl_var_list
+	      | decl_var_list ident_list COLON type SEMICOLON
 	      ;
 
 %%

@@ -1,12 +1,13 @@
 %{
 #include <cstdlib>
+#include <iostream>
 
 #include "parser.hpp"
 %}
 %option noyywrap
 %%
 array|ARRAY {return ARRAY;}
-begin|BEGIN {return BEGIN;}
+begin|BEGIN {return BEGINTOKEN;}
 chr|CHR {return CHR;}
 const|CONST {return CONST;}
 do|DO {return DO;}
@@ -59,9 +60,9 @@ write|WRITE {return WRITE;}
 \] {return CBRACKET;}
 := {return ASSIGN;}
 % {return MOD;}
-[0-9]x?[0-9a-fA-F]* {yylval.val = atof(yytext); return INT;}
-'.' {yylval.val = yytext; return CHAR;}
-\"[a-zA-Z0-9_\-=\+\[\{\]\};:'\,\<\.\>\/\?\\\|`~!@#\$%\^&\*\(\) \t\n]*\" {yylval.val = yyext; return STR;}
+[0-9]x?[0-9a-fA-F]* {yylval.number = atof(yytext); return INT;}
+'.' {yylval.letter = yytext[0]; return CHAR;}
+\"[a-zA-Z0-9_\-=\+\[\{\]\};:'\,\<\.\>\/\?\\\|`~!@#\$%\^&\*\(\) \t\n]*\" {yylval.word = yytext; return STR;}
 $.* {}
 [a-zA-z][a-zA-z0-9_]* {return ID;}
 \n {}
