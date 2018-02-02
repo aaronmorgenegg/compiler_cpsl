@@ -6,12 +6,6 @@ extern int yylex();
 void yyerror(const char*);
 %}
 
-%union
-{
-int number;
-char character;
-std::string word;
-}
 
 %token ARRAY
 %token BEGIN
@@ -72,10 +66,20 @@ std::string word;
 %token STR
 %token ID
 
-%type <number> INT
-%type <character> CHAR
-%type <word> STR
-
+%left ADD
+%left SUB
+%left MUL
+%left DIV
+%left AND
+%left OR
+%right NOT
+%right SUB
+%nonassoc EQ
+%nonassoc NEQ
+%nonassoc LE
+%nonassoc LEQ
+%nonassoc GE
+%nonassoc GEQ
 %%
 empty : 
       ;
