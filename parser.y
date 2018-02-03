@@ -108,9 +108,19 @@ block : BEGINTOKEN statement_sequence END
 empty : 
       ;
 parameters : empty
-	   | ident_list
+	   | var_ref_opt ident_list COLON type parameters_list
 	   ;
+parameters_list : empty
+		| SEMICOLON var_ref_opt ident_list COLON type
+		;
+var_ref_opt : empty
+	    | VAR
+	    | REF
+	    ;
 ident : ID
+      | INT
+      | CHAR
+      | STR
       ;
 ident_list : ident
 	   | ident_list COMMA ident
@@ -121,17 +131,26 @@ type : type_simple
      ;
 type_simple : ident
 	    ;
-type_record : RECORD ident_list COLON type SEMICOLON END
+type_record : RECORD type_record_list END
 	    ;
+type_record_list : empty
+		 | ident_list COLON type SEMICOLON
+		 | type_record_list ident_list COLON type SEMICOLON
+		 ;
 type_array : ARRAY OBRACKET expression COLON expression CBRACKET OF type
 	   ;
 body : block
-     | decl_const body
-     | decl_type body
-     | decl_var body
+     | decl_const block
+     | decl_const decl_type block
+     | decl_const decl_var block
+     | decl_const decl_type decl_var block
+     | decl_type block
+     | decl_type decl_var block
+     | decl_var block
      ;
 expression : expression OR expression
 	   | expression AND expression
+	   | NOT expression
 	   | expression EQ expression
 	   | expression NEQ expression
 	   | expression LEQ expression
@@ -143,14 +162,13 @@ expression : expression OR expression
 	   | expression MUL expression
 	   | expression DIV expression
 	   | expression MOD expression
-	   | NOT expression
 	   | SUB expression
 	   | OPAR expression CPAR
 	   | ident OPAR expression_list CPAR
-	   | CHR expression
-	   | ORD expression
-	   | PRED expression
-	   | SUCC expression
+	   | CHR OPAR expression CPAR
+	   | ORD OPAR expression CPAR
+	   | PRED OPAR expression CPAR
+	   | SUCC OPAR expression CPAR
 	   | lvalue
 	   ;
 expression_list : expression
@@ -232,7 +250,7 @@ decl_funct : FUNCTION ident OPAR parameters CPAR COLON type SEMICOLON FORWARD SE
 decl_type : TYPE decl_type_list
 	  ;
 decl_type_list : ident EQ type SEMICOLON
-	       | decl_type_list decl_type_list
+	       | decl_type_list ident EQ type SEMICOLON
 	       ;
 decl_var : VAR decl_var_list
 	 ;
