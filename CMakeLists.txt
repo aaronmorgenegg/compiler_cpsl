@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project(CPSL_Compiler)
+project(cpsl)
 
 find_package(BISON)
 find_package(FLEX)
@@ -13,13 +13,13 @@ set(EXTRA_COMPILE_FLAGS "-g3 -std=c++14")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EXTRA_COMPILE_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
 
-set(compiler_srcs
+set(cpsl_srcs
   main.cpp
   ${BISON_Parser_OUTPUTS}
   ${FLEX_Scanner_OUTPUTS}
 )
-source_group("CPSL_Compiler" FILES ${compiler_srcs})
+source_group("CPSL" FILES ${cpsl_srcs})
 
-add_executable(compiler ${compiler_srcs})
-target_link_libraries(compiler ${FLEX_LIBRARIES} ${BISON_LIBRARIES})
+add_executable(cpsl ${cpsl_srcs})
+target_link_libraries(cpsl ${FLEX_LIBRARIES} ${BISON_LIBRARIES})
 

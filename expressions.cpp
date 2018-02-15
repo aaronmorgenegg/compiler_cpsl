@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include "symbol_table.cpp"
@@ -6,15 +7,16 @@ struct Expression {
     std::string reg;
     int value;
     bool is_const;
-}
+};
 
 class RegisterPool {
+public:
     static std::string getRegister();
-}
+};
 
 std::string LoadExpression(Expression a){
     if(a.is_const){
-        auto r = RegisterPool::getReg();
+        auto r = RegisterPool::getRegister();
         // TODO this will actually go to a file
         std::cout << "li " << r << ", " << std::to_string(a.value) << " # Load constant" << std::endl;
         return r;
@@ -36,7 +38,7 @@ void binop(std::string op, std::string dest, std::string a, std::string b) {
 }
 
 Expression add(Expression a, Expression b) {
-        return apply(a, b, [](auto d, auto a, auto b){binop("add",d,a,b})
+        return apply(a, b, [](auto d, a, b){binop("add",d,a,b})
 }
 
 Expression mult(Expression a, Expression b) {
