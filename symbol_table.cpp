@@ -1,6 +1,4 @@
-#pragma once 
-#include <map>
-#include "expressions.cpp"
+#include "symbol_table.hpp"
 
 std::map<std::string, Expression> symbol_table;
 
@@ -13,10 +11,9 @@ void store_value(char *i, Expression v){
         delete i;
 }
 
-float lookup_value(char * i) {
-        auto v = symbol_table(std::string(i));
+Expression lookup_value(char * i) {
+        Expression v = symbol_table[std::string(i)];
         delete i;
         return v;
 }
-
 

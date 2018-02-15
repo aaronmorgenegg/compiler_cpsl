@@ -1,18 +1,9 @@
-#pragma once
-#include <iostream>
-#include <string>
-#include "symbol_table.cpp"
+#include "expressions.hpp"
 
-struct Expression {
-    std::string reg;
-    int value;
-    bool is_const;
-};
+std::string RegisterPool::getRegister(){
+	std::cout<<"TODO: getting register..."<<std::endl;
+}
 
-class RegisterPool {
-public:
-    static std::string getRegister();
-};
 
 std::string LoadExpression(Expression a){
     if(a.is_const){
@@ -25,6 +16,7 @@ std::string LoadExpression(Expression a){
     }
 }
 
+/*
 template <typename f>
 Expression apply(Expression a, Expression b){
         std::string reg1 = loadExpression(a);
@@ -33,18 +25,20 @@ Expression apply(Expression a, Expression b){
         f(result, reg1, reg2);
 }
 
-void binop(std::string op, std::string dest, std::string a, std::string b) {
-    std::cout << op << " " << dest << "," << a << "," << b << std::endl;
+void binop(std::string op, std::string d, std::string a, std::string b) {
+    std::cout << op << " " << d << "," << a << "," << b << std::endl;
 }
 
 Expression add(Expression a, Expression b) {
-        return apply(a, b, [](auto d, a, b){binop("add",d,a,b})
+        return apply(a, b, [](auto d, a, b){binop("add",d,a,b});
 }
 
 Expression mult(Expression a, Expression b) {
-        return apply(a, b, [](auto d, auto a, auto b){
+        return apply(a, b, [](auto d, a, b){
                 std::cout << "mult " << a << "," << b <<std::endl;
-                std::cout << "mflo " << dest << std::endl;
-        }
+                std::cout << "mflo " << d << std::endl;
+        });
 }
+*/
+
 
