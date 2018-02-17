@@ -123,32 +123,32 @@ cpsl_tests/fast:
 	$(MAKE) -f CMakeFiles/cpsl_tests.dir/build.make CMakeFiles/cpsl_tests.dir/build
 .PHONY : cpsl_tests/fast
 
-main.o: main.cpp.o
+source/main.o: source/main.cpp.o
 
-.PHONY : main.o
+.PHONY : source/main.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/cpsl_tests.dir/build.make CMakeFiles/cpsl_tests.dir/main.cpp.o
-.PHONY : main.cpp.o
+source/main.cpp.o:
+	$(MAKE) -f CMakeFiles/cpsl_tests.dir/build.make CMakeFiles/cpsl_tests.dir/source/main.cpp.o
+.PHONY : source/main.cpp.o
 
-main.i: main.cpp.i
+source/main.i: source/main.cpp.i
 
-.PHONY : main.i
+.PHONY : source/main.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/cpsl_tests.dir/build.make CMakeFiles/cpsl_tests.dir/main.cpp.i
-.PHONY : main.cpp.i
+source/main.cpp.i:
+	$(MAKE) -f CMakeFiles/cpsl_tests.dir/build.make CMakeFiles/cpsl_tests.dir/source/main.cpp.i
+.PHONY : source/main.cpp.i
 
-main.s: main.cpp.s
+source/main.s: source/main.cpp.s
 
-.PHONY : main.s
+.PHONY : source/main.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/cpsl_tests.dir/build.make CMakeFiles/cpsl_tests.dir/main.cpp.s
-.PHONY : main.cpp.s
+source/main.cpp.s:
+	$(MAKE) -f CMakeFiles/cpsl_tests.dir/build.make CMakeFiles/cpsl_tests.dir/source/main.cpp.s
+.PHONY : source/main.cpp.s
 
 # Help Target
 help:
@@ -159,9 +159,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... cpsl_tests"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... source/main.o"
+	@echo "... source/main.i"
+	@echo "... source/main.s"
 .PHONY : help
 
 

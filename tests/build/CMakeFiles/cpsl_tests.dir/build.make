@@ -57,38 +57,38 @@ include CMakeFiles/cpsl_tests.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/cpsl_tests.dir/flags.make
 
-CMakeFiles/cpsl_tests.dir/main.cpp.o: CMakeFiles/cpsl_tests.dir/flags.make
-CMakeFiles/cpsl_tests.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/aaronmorgenegg/Projects/school/compilers/compiler_cpsl/tests/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cpsl_tests.dir/main.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cpsl_tests.dir/main.cpp.o -c /home/aaronmorgenegg/Projects/school/compilers/compiler_cpsl/tests/main.cpp
+CMakeFiles/cpsl_tests.dir/source/main.cpp.o: CMakeFiles/cpsl_tests.dir/flags.make
+CMakeFiles/cpsl_tests.dir/source/main.cpp.o: ../source/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/aaronmorgenegg/Projects/school/compilers/compiler_cpsl/tests/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cpsl_tests.dir/source/main.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cpsl_tests.dir/source/main.cpp.o -c /home/aaronmorgenegg/Projects/school/compilers/compiler_cpsl/tests/source/main.cpp
 
-CMakeFiles/cpsl_tests.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cpsl_tests.dir/main.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/aaronmorgenegg/Projects/school/compilers/compiler_cpsl/tests/main.cpp > CMakeFiles/cpsl_tests.dir/main.cpp.i
+CMakeFiles/cpsl_tests.dir/source/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cpsl_tests.dir/source/main.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/aaronmorgenegg/Projects/school/compilers/compiler_cpsl/tests/source/main.cpp > CMakeFiles/cpsl_tests.dir/source/main.cpp.i
 
-CMakeFiles/cpsl_tests.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cpsl_tests.dir/main.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/aaronmorgenegg/Projects/school/compilers/compiler_cpsl/tests/main.cpp -o CMakeFiles/cpsl_tests.dir/main.cpp.s
+CMakeFiles/cpsl_tests.dir/source/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cpsl_tests.dir/source/main.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/aaronmorgenegg/Projects/school/compilers/compiler_cpsl/tests/source/main.cpp -o CMakeFiles/cpsl_tests.dir/source/main.cpp.s
 
-CMakeFiles/cpsl_tests.dir/main.cpp.o.requires:
+CMakeFiles/cpsl_tests.dir/source/main.cpp.o.requires:
 
-.PHONY : CMakeFiles/cpsl_tests.dir/main.cpp.o.requires
+.PHONY : CMakeFiles/cpsl_tests.dir/source/main.cpp.o.requires
 
-CMakeFiles/cpsl_tests.dir/main.cpp.o.provides: CMakeFiles/cpsl_tests.dir/main.cpp.o.requires
-	$(MAKE) -f CMakeFiles/cpsl_tests.dir/build.make CMakeFiles/cpsl_tests.dir/main.cpp.o.provides.build
-.PHONY : CMakeFiles/cpsl_tests.dir/main.cpp.o.provides
+CMakeFiles/cpsl_tests.dir/source/main.cpp.o.provides: CMakeFiles/cpsl_tests.dir/source/main.cpp.o.requires
+	$(MAKE) -f CMakeFiles/cpsl_tests.dir/build.make CMakeFiles/cpsl_tests.dir/source/main.cpp.o.provides.build
+.PHONY : CMakeFiles/cpsl_tests.dir/source/main.cpp.o.provides
 
-CMakeFiles/cpsl_tests.dir/main.cpp.o.provides.build: CMakeFiles/cpsl_tests.dir/main.cpp.o
+CMakeFiles/cpsl_tests.dir/source/main.cpp.o.provides.build: CMakeFiles/cpsl_tests.dir/source/main.cpp.o
 
 
 # Object files for target cpsl_tests
 cpsl_tests_OBJECTS = \
-"CMakeFiles/cpsl_tests.dir/main.cpp.o"
+"CMakeFiles/cpsl_tests.dir/source/main.cpp.o"
 
 # External object files for target cpsl_tests
 cpsl_tests_EXTERNAL_OBJECTS =
 
-cpsl_tests: CMakeFiles/cpsl_tests.dir/main.cpp.o
+cpsl_tests: CMakeFiles/cpsl_tests.dir/source/main.cpp.o
 cpsl_tests: CMakeFiles/cpsl_tests.dir/build.make
 cpsl_tests: CMakeFiles/cpsl_tests.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/aaronmorgenegg/Projects/school/compilers/compiler_cpsl/tests/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable cpsl_tests"
@@ -99,7 +99,7 @@ CMakeFiles/cpsl_tests.dir/build: cpsl_tests
 
 .PHONY : CMakeFiles/cpsl_tests.dir/build
 
-CMakeFiles/cpsl_tests.dir/requires: CMakeFiles/cpsl_tests.dir/main.cpp.o.requires
+CMakeFiles/cpsl_tests.dir/requires: CMakeFiles/cpsl_tests.dir/source/main.cpp.o.requires
 
 .PHONY : CMakeFiles/cpsl_tests.dir/requires
 
