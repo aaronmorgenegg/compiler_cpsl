@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/aaronmorgenegg/Projects/school/compilers/compiler_cpsl/tests/main.cpp
+iostream
+-
+expressions.hpp
+/home/aaronmorgenegg/Projects/school/compilers/compiler_cpsl/tests/expressions.hpp
+

@@ -1,0 +1,3 @@
+/home/aaronmorgenegg/Projects/school/compilers/compiler_cpsl/tests/build/CMakeFiles/edit_cache.dir
+/home/aaronmorgenegg/Projects/school/compilers/compiler_cpsl/tests/build/CMakeFiles/rebuild_cache.dir
+/home/aaronmorgenegg/Projects/school/compilers/compiler_cpsl/tests/build/CMakeFiles/cpsl_tests.dir
