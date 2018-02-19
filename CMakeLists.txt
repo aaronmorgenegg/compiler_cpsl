@@ -16,6 +16,7 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
 set(cpsl_srcs
   ../source/main.cpp
   ../source/symbol_table.cpp
+  ../source/register_pool.cpp
   ../source/expressions.cpp
   ${BISON_Parser_OUTPUTS}
   ${FLEX_Scanner_OUTPUTS}

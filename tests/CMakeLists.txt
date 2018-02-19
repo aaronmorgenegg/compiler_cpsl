@@ -8,6 +8,9 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
 
 set(cpsl_srcs
   source/main.cpp
+  ../source/expressions.cpp
+  ../source/symbol_table.cpp
+  ../source/register_pool.cpp
 )
 source_group("CPSL_TESTS" FILES ${cpsl_srcs})
 

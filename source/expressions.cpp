@@ -1,15 +1,5 @@
 #include "expressions.hpp"
 
-const bool DEBUG = true;
-
-std::string RegisterPool::GetRegister(){
-	return "TODO: getting register...";
-}
-
-std::string RegisterPool::ReleaseRegister(std::string reg){
-	return "TODO: releasing register...";
-}
-
 std::string LoadExpression(Expression * a){
 	if(a->is_const){
 		auto r = RegisterPool::GetRegister();
@@ -58,29 +48,4 @@ Expression * Add(Expression * a, Expression * b){
 	else return Apply(a, b, "add", "binop");
 }
 
-
-/*
-template <typename f>
-Expression apply(Expression a, Expression b){
-        std::string reg1 = loadExpression(a);
-        std::string reg2 = loadExpression(b);
-        std::string result = RegisterPool::getRegister();
-        f(result, reg1, reg2);
-}
-
-void binop(std::string op, std::string d, std::string a, std::string b) {
-    std::cout << op << " " << d << "," << a << "," << b << std::endl;
-}
-
-Expression add(Expression a, Expression b) {
-        return apply(a, b, [](auto d, auto a, auto b){binop("add",d,a,b);});
-}
-
-Expression mult(Expression a, Expression b) {
-        return apply(a, b, [](auto d, auto a, auto b){
-                std::cout << "mult " << a << "," << b <<std::endl;
-                std::cout << "mflo " << d << std::endl;
-        });
-}
-*/
 
