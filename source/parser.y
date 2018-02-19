@@ -1,6 +1,7 @@
 %{
 #include <iostream>
 #include <fstream>
+#include "../source/expressions.hpp"
 
 extern int yylex();
 void yyerror(const char*);
@@ -11,6 +12,7 @@ void yyerror(const char*);
   char * str_val;
   int int_val;
   char char_val;
+  Expression * expression_val;
 }
 
 %error-verbose
@@ -86,7 +88,7 @@ void yyerror(const char*);
 %type <int_val> ElseClause 
 %type <int_val> ElseIfHead 
 %type <int_val> ElseIfList 
-%type <int_val> Expression 
+%type <expression_val> Expression 
 %type <int_val> FSignature 
 %type <int_val> FieldDecl 
 %type <int_val> FieldDecls
@@ -125,7 +127,7 @@ void yyerror(const char*);
 %type <str_val> STRINGSY 
 
 %%
-Program : ProgramHead Block DOTSY {}
+Program : ProgramHead Block DOTSY {exit(1);}
 				;
 
 ProgramHead : OptConstDecls OptTypeDecls OptVarDecls PFDecls
@@ -322,20 +324,20 @@ Arguments : Arguments COMMASY Expression {}
 Expression : CHARCONSTSY                         {}
            | CHRSY LPARENSY Expression RPARENSY  {}
            | Expression ANDSY Expression         {}
-           | Expression DIVSY Expression         {}
+           | Expression DIVSY Expression         {$$ = Div($1, $3);}
            | Expression EQSY Expression          {}
            | Expression GTESY Expression         {}
            | Expression GTSY Expression          {}
            | Expression LTESY Expression         {}
            | Expression LTSY Expression          {}
-           | Expression MINUSSY Expression       {}
-           | Expression MODSY Expression         {}
-           | Expression MULTSY Expression        {}
+           | Expression MINUSSY Expression       {$$ = Sub($1, $3);}
+           | Expression MODSY Expression         {$$ = Mod($1, $3);}
+           | Expression MULTSY Expression        {$$ = Mult($1, $3);}
            | Expression NEQSY Expression         {}
            | Expression ORSY Expression          {}
-           | Expression PLUSSY Expression        {}
+           | Expression PLUSSY Expression        {$$ = Add($1, $3);}
            | FunctionCall                        {}
-           | INTSY                               {}
+           | INTSY                               {$$ = new Expression($1);}
            | LPARENSY Expression RPARENSY        {}
            | LValue                              {}
            | MINUSSY Expression %prec UMINUSSY   {}

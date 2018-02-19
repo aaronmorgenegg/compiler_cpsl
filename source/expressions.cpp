@@ -1,5 +1,21 @@
 #include "expressions.hpp"
 
+Expression::Expression(std::string reg){
+        this->reg = reg;
+}
+
+Expression::Expression(int value){
+	this->value = value;
+	this->is_const = true;
+	this->reg = "";
+	this->type = 0;
+}
+
+
+std::ostream& operator<<(std::ostream &strm, Expression & e){
+        return strm << "Expression: reg(" << e.reg << ") value(" << e.value << ")";
+}
+
 std::string LoadExpression(Expression * a){
 	if(a->is_const){
 		auto r = RegisterPool::GetRegister();
@@ -31,6 +47,7 @@ Expression * Apply(Expression * a, Expression * b, std::string op, std::string m
 }
 
 void CheckExpression(Expression * a, Expression * b){
+	if(DEBUG) std::cout << "Expression a: " << *a << ". Expression b: " << *b << "." << std::endl;
 	if(!a || !b){ 
                 std::cerr << "Error: nullptr during expression apply." << std::endl;
                 exit(1);
@@ -48,4 +65,27 @@ Expression * Add(Expression * a, Expression * b){
 	else return Apply(a, b, "add", "binop");
 }
 
+Expression * Sub(Expression * a, Expression * b){
+        CheckExpression(a, b);
+        if(a->is_const && b->is_const) return new Expression(a->value - b->value); // constant folding
+        else return Apply(a, b, "sub", "binop");
+}
+
+Expression * Mult(Expression * a, Expression * b){
+        CheckExpression(a, b);
+        if(a->is_const && b->is_const) return new Expression(a->value * b->value); // constant folding
+        else return Apply(a, b, "mult", "binop");
+}
+
+Expression * Div(Expression * a, Expression * b){
+        CheckExpression(a, b);
+        if(a->is_const && b->is_const) return new Expression(a->value / b->value); // constant folding
+        else return Apply(a, b, "div", "binop");
+}
+
+Expression * Mod(Expression * a, Expression * b){
+        CheckExpression(a, b);
+        if(a->is_const && b->is_const) return new Expression(a->value % b->value); // constant folding
+        else return Apply(a, b, "mod", "binop");
+}
 

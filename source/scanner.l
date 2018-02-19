@@ -2,6 +2,7 @@
 #include <cstring>
 #include <cstdlib>
 
+#include "../source/expressions.hpp"
 #include "parser.hpp"
 %}
 
