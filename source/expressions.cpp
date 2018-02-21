@@ -28,9 +28,6 @@ std::string LoadExpression(Expression * a){
 
 void Binop(std::string op, std::string d, std::string a, std::string b) {
 	// op = operator, d = destination register, a = reg1, b = reg2
-	if(DEBUG) {
-		std::cout << "binop op: " << op << ", dest reg: " << d << ", reg1: " << a << ", reg2: " << b << std::endl;
-	}
 	FOUT.Write(std::string(op + " " + d + "," + a + "," + b + " # Binop"));
 }
 
@@ -45,7 +42,7 @@ Expression * Apply(Expression * a, Expression * b, std::string op, std::string m
 }
 
 void CheckExpression(Expression * a, Expression * b){
-	if(DEBUG) std::cout << "a: " << *a << ". b: " << *b << "." << std::endl;
+	if(DEBUG) std::cout << "Checking Expressions: a: " << *a << ". b: " << *b << "." << std::endl;
 	if(!a || !b){ 
                 std::cerr << "Error: nullptr during expression apply." << std::endl;
                 exit(1);

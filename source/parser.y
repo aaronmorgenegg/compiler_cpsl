@@ -10,7 +10,7 @@ void yyerror(const char*);
 
 %union
 {
-  char * str_val;
+  const char * str_val;
   int int_val;
   char char_val;
   Expression * expression_val;
@@ -103,7 +103,7 @@ void yyerror(const char*);
 %type <int_val> OptVar 
 %type <int_val> IfHead 
 %type <int_val> IfStatement 
-%type <str_val> LValue 
+%type <int_val> LValue 
 %type <int_val> OptArguments 
 %type <int_val> OptFormalParameters  
 %type <int_val> PSignature 
@@ -141,7 +141,7 @@ ConstDecls : ConstDecls ConstDecl
 					 | ConstDecl
 					 ;
 
-ConstDecl : IDENTSY EQSY Expression SCOLONSY {SYMBOL_TABLE.Store($1, $3);}
+ConstDecl : IDENTSY EQSY Expression SCOLONSY {SYMBOL_TABLE.Store(std::string($1), $3);}
 					;
 
 PFDecls : PFDecls ProcedureDecl
@@ -250,7 +250,7 @@ Statement : Assignment {}
           | {}
           ;
 
-Assignment : LValue ASSIGNSY Expression {SYMBOL_TABLE.Store($1, $3);}
+Assignment : LValue ASSIGNSY Expression {}
            ;
 
 IfStatement : IfHead ThenPart ElseIfList ElseClause ENDSY {}
@@ -340,7 +340,7 @@ Expression : CHARCONSTSY                         {}
            | FunctionCall                        {}
            | INTSY                               {$$ = new Expression($1);}
            | LPARENSY Expression RPARENSY        {}
-           | LValue                              {}
+           | LValue                              {$$ = new Expression($1);}
            | MINUSSY Expression %prec UMINUSSY   {}
            | NOTSY Expression                    {}
            | ORDSY LPARENSY Expression RPARENSY  {}
@@ -354,7 +354,7 @@ FunctionCall : IDENTSY LPARENSY OptArguments RPARENSY {}
 
 LValue : LValue DOTSY IDENTSY {}
        | LValue LBRACKETSY Expression RBRACKETSY {}
-       | IDENTSY {}
+       | IDENTSY {$$ = SYMBOL_TABLE.Lookup(std::string($1))->value;}
        ;
 %%
 

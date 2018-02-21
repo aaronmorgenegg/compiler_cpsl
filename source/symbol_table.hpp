@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <stdexcept>
 #include "expressions.hpp"
 
 class Expression;

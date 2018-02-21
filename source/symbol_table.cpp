@@ -3,8 +3,8 @@
 // Needs to hold an expression based on an ID
 // expression could have a value, memory location(offset + register),
 // or a register that holds that value
-
-// TODO need a stack of levels, 
+//
+// need a stack of levels, 
 // 1. predifined expressions(id->type, id->expr, id->function
 // 2. global(const, var, type)
 // 3. functions(const, var), due later
@@ -17,15 +17,17 @@
 SymbolTable SYMBOL_TABLE;
 
 void SymbolTable::Initialize(){
-	
+	if(DEBUG)std::cout<<"Initializing Symbol Table..." << std::endl;
+	EnterScope();
+	// TODO: define default types and such
+	EnterScope();
 }
 
 Expression * SymbolTable::Lookup(std::string id){
-	for(auto cur = expression_table.rbegin(); cur!= expression_table.rend(); cur++){
-		auto found = cur->find(id);
-		if(found != cur->end()){
-			return found->second;
-		}
+	if(DEBUG) std::cout<<"Lookup: id<" << id << ">" << std::endl;
+	for(int i = expression_table.size() - 1; i >= 0; i--){
+		try {return expression_table[i].at(id);}
+	       	catch (const std::out_of_range& e){}
 	}
 
 	std::cerr << "Error: lookup on symbol table for <" << id << "> failed." << std::endl;
@@ -35,12 +37,24 @@ Expression * SymbolTable::Lookup(std::string id){
 void SymbolTable::Store(std::string id, Expression * e){
 	// find on top level, err if found
 	// insert at top level
-	auto found = expression_table[0].find(id);
-	if(found != expression_table[0].end()){
-		expression_table[0][id] = e;
+	if(DEBUG) std::cout << "Storing: id<" << id << "> expression<" << *e <<">" << std::endl;
+	if(expression_table.back().count(id) == 0){
+		expression_table.back()[id] = e;
 	} else {
 		std::cerr << "Error: Redefinition of id <" << id << ">." << std::endl;
 		exit(1);
 	}
+}
+
+void SymbolTable::EnterScope(){
+	std::map<std::string, Expression*> e;
+	std::map<std::string, Type*> t;
+	expression_table.push_back(e);
+	type_table.push_back(t);
+}
+
+void SymbolTable::ExitScope(){
+	expression_table.pop_back();
+	type_table.pop_back();
 }
 

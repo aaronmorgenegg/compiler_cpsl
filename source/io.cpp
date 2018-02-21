@@ -2,13 +2,11 @@
 
 void WriteFunction(std::string msg){
 	if(DEBUG) std::cout << "Writing <" << msg << ">\n";
-	std::string reg1 = REGISTER_POOL.GetRegister();
-	std::string reg2 = REGISTER_POOL.GetRegister();
-	FOUT.Write("li " + reg1 + ",4 # Load syscall : print_string");
-	FOUT.Write("li " + reg2 + "," + msg);
+	std::string reg = REGISTER_POOL.GetRegister();
+	FOUT.Write("li $v0,4 # Load syscall : print_string");
+	FOUT.Write("li " + reg + "," + msg);
 	FOUT.Write("syscall");
-	REGISTER_POOL.ReleaseRegister(reg1);
-	REGISTER_POOL.ReleaseRegister(reg2);
+	REGISTER_POOL.ReleaseRegister(reg);
 }
 
 void ReadFunction(){

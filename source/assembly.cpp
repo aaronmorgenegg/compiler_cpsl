@@ -19,7 +19,7 @@ ASManager::~ASManager(){
 
 void ASManager::Write(std::string msg){
 	// Output the msg to the asm file
-	std::cout << " Outputing: " << msg << std::endl;
+	std::cout << "  Outputing: " << msg << std::endl;
 	file << msg << std::endl;
 }
 
