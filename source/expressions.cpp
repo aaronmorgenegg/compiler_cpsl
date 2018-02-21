@@ -47,7 +47,7 @@ Expression * Apply(Expression * a, Expression * b, std::string op, std::string m
 }
 
 void CheckExpression(Expression * a, Expression * b){
-	if(DEBUG) std::cout << "Expression a: " << *a << ". Expression b: " << *b << "." << std::endl;
+	if(DEBUG) std::cout << "a: " << *a << ". b: " << *b << "." << std::endl;
 	if(!a || !b){ 
                 std::cerr << "Error: nullptr during expression apply." << std::endl;
                 exit(1);

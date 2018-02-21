@@ -102,7 +102,7 @@ void yyerror(const char*);
 %type <int_val> OptVar 
 %type <int_val> IfHead 
 %type <int_val> IfStatement 
-%type <int_val> LValue 
+%type <str_val> LValue 
 %type <int_val> OptArguments 
 %type <int_val> OptFormalParameters  
 %type <int_val> PSignature 
@@ -140,7 +140,7 @@ ConstDecls : ConstDecls ConstDecl
 					 | ConstDecl
 					 ;
 
-ConstDecl : IDENTSY EQSY Expression SCOLONSY {}
+ConstDecl : IDENTSY EQSY Expression SCOLONSY {SYMBOL_TABLE.Store($1, $3);}
 					;
 
 PFDecls : PFDecls ProcedureDecl
@@ -249,7 +249,7 @@ Statement : Assignment {}
           | {}
           ;
 
-Assignment : LValue ASSIGNSY Expression {}
+Assignment : LValue ASSIGNSY Expression {SYMBOL_TABLE.Store($1, $3);}
            ;
 
 IfStatement : IfHead ThenPart ElseIfList ElseClause ENDSY {}
@@ -290,7 +290,7 @@ ToHead : TOSY Expression {}
        | DOWNTOSY Expression {}
        ;
 
-StopStatement : STOPSY {}
+StopStatement : STOPSY {exit(1);}
               ;
 
 ReturnStatement : RETURNSY Expression {}
@@ -353,7 +353,7 @@ FunctionCall : IDENTSY LPARENSY OptArguments RPARENSY {}
 
 LValue : LValue DOTSY IDENTSY {}
        | LValue LBRACKETSY Expression RBRACKETSY {}
-       | IDENTSY {}
+       | IDENTSY {$$ = SYMBOL_TABLE.Lookup($1);}
        ;
 %%
 
