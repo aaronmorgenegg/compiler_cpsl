@@ -3,6 +3,7 @@
 #include <cstdlib>
 
 #include "../source/expressions.hpp"
+#include "../source/io.hpp"
 #include "parser.hpp"
 %}
 

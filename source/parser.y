@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include "../source/expressions.hpp"
+#include "../source/io.hpp"
 
 extern int yylex();
 void yyerror(const char*);
@@ -308,8 +309,8 @@ ReadArgs : ReadArgs COMMASY LValue {}
 WriteStatement : WRITESY LPARENSY WriteArgs RPARENSY {}
                ;
 
-WriteArgs : WriteArgs COMMASY Expression {}
-          | Expression                   {}
+WriteArgs : WriteArgs COMMASY Expression {WriteFunction(std::to_string($3->value));}
+          | Expression                   {WriteFunction(std::to_string($1->value));}
           ;
 
 ProcedureCall : IDENTSY LPARENSY OptArguments RPARENSY {}

@@ -25,6 +25,8 @@ void ASManager::Write(std::string msg){
 
 void ASManager::WriteHeader(){
 	// This is what goes at the beginning of every asm file
-	
+	Write(".text");
+	Write(".globl main");
+	Write("main:");
 }
 

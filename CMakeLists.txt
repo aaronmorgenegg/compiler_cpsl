@@ -17,6 +17,7 @@ set(cpsl_srcs
   ../source/main.cpp
   ../source/symbol_table.cpp
   ../source/assembly.cpp
+  ../source/io.cpp
   ../source/register_pool.cpp
   ../source/expressions.cpp
   ${BISON_Parser_OUTPUTS}

@@ -18,7 +18,7 @@ std::ostream& operator<<(std::ostream &strm, Expression & e){
 
 std::string LoadExpression(Expression * a){
 	if(a->is_const){
-		auto r = RegisterPool::GetRegister();
+		auto r = REGISTER_POOL.GetRegister();
 		FOUT.Write(std::string("li " + r + ", " + std::to_string(a->value) + " # Load constant"));
 		return r;
 	} else{
@@ -40,7 +40,7 @@ Expression * Apply(Expression * a, Expression * b, std::string op, std::string m
 
 	if(mode == "binop") Binop(op, reg1, reg1, reg2);
 
-	RegisterPool::ReleaseRegister(reg2);
+	REGISTER_POOL.ReleaseRegister(reg2);
 	return new Expression(reg1);
 }
 
