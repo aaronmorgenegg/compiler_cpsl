@@ -353,7 +353,7 @@ FunctionCall : IDENTSY LPARENSY OptArguments RPARENSY {}
 
 LValue : LValue DOTSY IDENTSY {}
        | LValue LBRACKETSY Expression RBRACKETSY {}
-       | IDENTSY {$$ = SYMBOL_TABLE.Lookup($1);}
+       | IDENTSY {}
        ;
 %%
 

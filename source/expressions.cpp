@@ -19,8 +19,7 @@ std::ostream& operator<<(std::ostream &strm, Expression & e){
 std::string LoadExpression(Expression * a){
 	if(a->is_const){
 		auto r = RegisterPool::GetRegister();
-		// TODO this will actually go to a file
-		std::cout << "li " << r << ", " << std::to_string(a->value) << " # Load constant" << std::endl;
+		FOUT.Write(std::string("li " + r + ", " + std::to_string(a->value) + " # Load constant"));
 		return r;
 	} else{
 		return a->reg;
@@ -32,8 +31,7 @@ void Binop(std::string op, std::string d, std::string a, std::string b) {
 	if(DEBUG) {
 		std::cout << "binop op: " << op << ", dest reg: " << d << ", reg1: " << a << ", reg2: " << b << std::endl;
 	}
-	// TODO: this will actually go to a file
-	std::cout << op << " " << d << "," << a << "," << b << " # Binop " << std::endl;
+	FOUT.Write(std::string(op + " " + d + "," + a + "," + b + " # Binop"));
 }
 
 Expression * Apply(Expression * a, Expression * b, std::string op, std::string mode){
