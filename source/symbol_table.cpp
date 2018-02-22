@@ -20,6 +20,12 @@ void SymbolTable::Initialize(){
 	if(DEBUG)std::cout<<"Initializing Symbol Table..." << std::endl;
 	EnterScope();
 	// TODO: define default types and such
+	// Integer
+	// Char
+	// String
+	// Boolean
+	// True
+	// False
 	EnterScope();
 }
 

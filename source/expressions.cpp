@@ -97,3 +97,53 @@ Expression * Mod(Expression * a, Expression * b){
         else return Apply(a, b, "div", "hi");
 }
 
+Expression * And(Expression * a, Expression * b){
+        CheckExpression(a, b);
+        if(a->is_const && b->is_const) return new Expression(a->value && b->value); // constant folding
+        else return Apply(a, b, "and", "binop");
+}
+
+Expression * Eq(Expression * a, Expression * b){
+        CheckExpression(a, b);
+        if(a->is_const && b->is_const) return new Expression(a->value == b->value); // constant folding
+        else return Apply(a, b, "seq", "binop");
+}
+
+Expression * Gteq(Expression * a, Expression * b){
+        CheckExpression(a, b);
+        if(a->is_const && b->is_const) return new Expression(a->value >= b->value); // constant folding
+        else return Apply(a, b, "sge", "binop");
+}
+
+Expression * Gt(Expression * a, Expression * b){
+        CheckExpression(a, b);
+        if(a->is_const && b->is_const) return new Expression(a->value > b->value); // constant folding
+        else return Apply(a, b, "sgt", "binop");
+}
+
+Expression * Lteq(Expression * a, Expression * b){
+        CheckExpression(a, b);
+        if(a->is_const && b->is_const) return new Expression(a->value <= b->value); // constant folding
+        else return Apply(a, b, "sle", "binop");
+}
+
+Expression * Lt(Expression * a, Expression * b){
+        CheckExpression(a, b);
+        if(a->is_const && b->is_const) return new Expression(a->value < b->value); // constant folding
+        else return Apply(a, b, "slt", "binop");
+}
+
+Expression * Neq(Expression * a, Expression * b){
+        CheckExpression(a, b);
+        if(a->is_const && b->is_const) return new Expression(a->value != b->value); // constant folding
+        else return Apply(a, b, "sne", "binop");
+}
+
+Expression * Or(Expression * a, Expression * b){
+        CheckExpression(a, b);
+        if(a->is_const && b->is_const) return new Expression(a->value || b->value); // constant folding
+        else return Apply(a, b, "or", "binop");
+}
+
+
+

@@ -324,18 +324,18 @@ Arguments : Arguments COMMASY Expression {}
 
 Expression : CHARCONSTSY                         {}
            | CHRSY LPARENSY Expression RPARENSY  {}
-           | Expression ANDSY Expression         {}
+           | Expression ANDSY Expression         {$$ = And($1, $3);}
            | Expression DIVSY Expression         {$$ = Div($1, $3);}
-           | Expression EQSY Expression          {}
-           | Expression GTESY Expression         {}
-           | Expression GTSY Expression          {}
-           | Expression LTESY Expression         {}
-           | Expression LTSY Expression          {}
+           | Expression EQSY Expression          {$$ = Eq($1, $3);}
+           | Expression GTESY Expression         {$$ = Gteq($1, $3);}
+           | Expression GTSY Expression          {$$ = Gt($1, $3);}
+           | Expression LTESY Expression         {$$ = Lteq($1, $3);}
+           | Expression LTSY Expression          {$$ = Lt($1, $3);}
            | Expression MINUSSY Expression       {$$ = Sub($1, $3);}
            | Expression MODSY Expression         {$$ = Mod($1, $3);}
            | Expression MULTSY Expression        {$$ = Mult($1, $3);}
-           | Expression NEQSY Expression         {}
-           | Expression ORSY Expression          {}
+           | Expression NEQSY Expression         {$$ = Neq($1, $3);}
+           | Expression ORSY Expression          {$$ = Or($1, $3);}
            | Expression PLUSSY Expression        {$$ = Add($1, $3);}
            | FunctionCall                        {}
            | INTSY                               {$$ = new Expression($1);}

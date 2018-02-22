@@ -13,9 +13,9 @@ public:
 	bool is_const;
 	int type; // TODO: make this a Type object
 
-	Expression(std::string reg);
+	Expression(std::string);
 
-	Expression(int value);
+	Expression(int);
 };
 
 std::ostream& operator<<(std::ostream &strm, Expression & e);
@@ -37,4 +37,20 @@ Expression * Mult(Expression * a, Expression * b);
 Expression * Div(Expression * a, Expression * b);
 
 Expression * Mod(Expression * a, Expression * b);
+
+Expression * And(Expression * a, Expression * b);
+
+Expression * Eq(Expression * a, Expression * b);
+
+Expression * Gteq(Expression * a, Expression * b);
+
+Expression * Gt(Expression * a, Expression * b);
+
+Expression * Lteq(Expression * a, Expression * b);
+
+Expression * Lt(Expression * a, Expression * b);
+
+Expression * Neq(Expression * a, Expression * b);
+
+Expression * Or(Expression * a, Expression * b);
 
