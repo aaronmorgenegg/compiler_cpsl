@@ -11,6 +11,7 @@ public:
 	~ASManager();
 	void Write(std::string msg);
 	void WriteHeader();
+	void WriteFooter();
 private:
 	std::ofstream file;
 	std::string file_name;

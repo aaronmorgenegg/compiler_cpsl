@@ -30,3 +30,8 @@ void ASManager::WriteHeader(){
 	Write("main:");
 }
 
+void ASManager::WriteFooter(){
+	// This is what goes at the end of every asm file
+	
+}
+

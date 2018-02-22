@@ -309,8 +309,8 @@ ReadArgs : ReadArgs COMMASY LValue {}
 WriteStatement : WRITESY LPARENSY WriteArgs RPARENSY {}
                ;
 
-WriteArgs : WriteArgs COMMASY Expression {WriteFunction(std::to_string($3->value));}
-          | Expression                   {WriteFunction(std::to_string($1->value));}
+WriteArgs : WriteArgs COMMASY Expression {WriteFunction($3->value);}
+          | Expression                   {WriteFunction($1->value);}
           ;
 
 ProcedureCall : IDENTSY LPARENSY OptArguments RPARENSY {}

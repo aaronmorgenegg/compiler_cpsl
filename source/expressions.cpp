@@ -18,7 +18,7 @@ std::ostream& operator<<(std::ostream &strm, Expression & e){
 
 std::string LoadExpression(Expression * a){
 	if(a->is_const){
-		auto r = REGISTER_POOL.GetRegister();
+		std::string r = REGISTER_POOL.GetRegister();
 		FOUT.Write(std::string("li " + r + ", " + std::to_string(a->value) + " # Load constant"));
 		return r;
 	} else{
@@ -31,11 +31,24 @@ void Binop(std::string op, std::string d, std::string a, std::string b) {
 	FOUT.Write(std::string(op + " " + d + "," + a + "," + b + " # Binop"));
 }
 
+void BinopLo(std::string op, std::string d, std::string a, std::string b){
+	FOUT.Write(std::string(op + " " + a + "," + b));
+	FOUT.Write(std::string("mflo " + d));
+}
+
+void BinopHi(std::string op, std::string d, std::string a, std::string b){
+        FOUT.Write(std::string(op + " " + a + "," + b));
+        FOUT.Write(std::string("mfhi " + d));
+}
+
+
 Expression * Apply(Expression * a, Expression * b, std::string op, std::string mode){
 	std::string reg1 = LoadExpression(a);
 	std::string reg2 = LoadExpression(b);
 
 	if(mode == "binop") Binop(op, reg1, reg1, reg2);
+	if(mode == "hi") BinopHi(op, reg1, reg1, reg2);
+	if(mode == "lo") BinopLo(op, reg1, reg1, reg2);
 
 	REGISTER_POOL.ReleaseRegister(reg2);
 	return new Expression(reg1);
@@ -69,18 +82,18 @@ Expression * Sub(Expression * a, Expression * b){
 Expression * Mult(Expression * a, Expression * b){
         CheckExpression(a, b);
         if(a->is_const && b->is_const) return new Expression(a->value * b->value); // constant folding
-        else return Apply(a, b, "mult", "binop");
+        else return Apply(a, b, "mult", "hi");
 }
 
 Expression * Div(Expression * a, Expression * b){
         CheckExpression(a, b);
         if(a->is_const && b->is_const) return new Expression(a->value / b->value); // constant folding
-        else return Apply(a, b, "div", "binop");
+        else return Apply(a, b, "div", "lo");
 }
 
 Expression * Mod(Expression * a, Expression * b){
         CheckExpression(a, b);
         if(a->is_const && b->is_const) return new Expression(a->value % b->value); // constant folding
-        else return Apply(a, b, "mod", "binop");
+        else return Apply(a, b, "div", "hi");
 }
 

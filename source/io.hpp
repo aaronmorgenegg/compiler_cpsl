@@ -5,5 +5,7 @@
 
 void WriteFunction(std::string);
 
+void WriteFunction(int);
+
 void ReadFunction();
 
