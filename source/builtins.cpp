@@ -1,4 +1,4 @@
-#include "io.hpp"
+#include "builtins.hpp"
 
 void WriteFunction(std::string msg){
 	if(DEBUG) std::cout << "Writing <" << msg << ">\n";
@@ -16,5 +16,11 @@ void WriteFunction(int num){
 
 void ReadFunction(){
 	
+}
+
+void StopFunction(){
+	if(DEBUG) std::cout << "Stopping..." << std::endl;
+	FOUT.Write("li $v0,10 # Load syscall : exit");
+	FOUT.Write("syscall");
 }
 

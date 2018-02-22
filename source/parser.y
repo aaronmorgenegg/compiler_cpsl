@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include "../source/expressions.hpp"
-#include "../source/io.hpp"
+#include "../source/builtins.hpp"
 
 extern int yylex();
 void yyerror(const char*);
@@ -291,7 +291,7 @@ ToHead : TOSY Expression {}
        | DOWNTOSY Expression {}
        ;
 
-StopStatement : STOPSY {exit(1);}
+StopStatement : STOPSY {StopFunction();}
               ;
 
 ReturnStatement : RETURNSY Expression {}

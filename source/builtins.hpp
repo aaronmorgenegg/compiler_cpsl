@@ -9,3 +9,5 @@ void WriteFunction(int);
 
 void ReadFunction();
 
+void StopFunction();
+
