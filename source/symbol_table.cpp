@@ -14,8 +14,6 @@
 //
 // when looking up, start at the top and look down
 
-SymbolTable SYMBOL_TABLE;
-
 void SymbolTable::Initialize(){
 	if(DEBUG)std::cout<<"Initializing Symbol Table..." << std::endl;
 	EnterScope();

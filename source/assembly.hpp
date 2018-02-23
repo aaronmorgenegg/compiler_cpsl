@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "globals.hpp"
 
 class ASManager{
 public:
@@ -17,5 +18,5 @@ private:
 	std::string file_name;
 };
 
-extern ASManager FOUT;
+std::ostream& operator<<(std::ostream &strm, ASManager & a);
 

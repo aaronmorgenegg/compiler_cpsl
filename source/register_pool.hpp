@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
-
+#include "globals.hpp"
 
 class RegisterPool {
 public:
@@ -13,5 +13,4 @@ private:
 	std::vector<std::string> available_registers;
 };
 
-extern RegisterPool REGISTER_POOL;
 

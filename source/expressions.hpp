@@ -5,6 +5,7 @@
 #include "symbol_table.hpp"
 #include "register_pool.hpp"
 #include "assembly.hpp"
+#include "globals.hpp"
 
 class Expression{
 public:

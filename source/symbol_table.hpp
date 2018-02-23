@@ -5,9 +5,9 @@
 #include <vector>
 #include <stdexcept>
 #include "expressions.hpp"
+#include "globals.hpp"
 
 class Expression;
-const bool DEBUG = true;
 
 class SymbolTable{
 public:
@@ -23,6 +23,4 @@ private:
 	std::vector<std::map<std::string, Expression *>> expression_table;
 	std::vector<std::map<std::string, Type *>> type_table;
 };
-
-extern SymbolTable SYMBOL_TABLE;
 

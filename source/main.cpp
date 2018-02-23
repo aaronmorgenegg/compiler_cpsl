@@ -1,4 +1,4 @@
-#include "symbol_table.hpp"
+#include "globals.hpp"
 
 extern int yyparse();
 

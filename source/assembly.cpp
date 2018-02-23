@@ -1,7 +1,5 @@
 #include "assembly.hpp"
 
-ASManager FOUT;
-
 ASManager::ASManager(){
 	file_name = "code.asm";
 	file.open(file_name);
@@ -16,6 +14,11 @@ ASManager::ASManager(std::string file_name){
 ASManager::~ASManager(){
 	file.close();
 }
+
+std::ostream& operator<<(std::ostream &strm, ASManager & a){
+
+}
+
 
 void ASManager::Write(std::string msg){
 	// Output the msg to the asm file
