@@ -17,24 +17,33 @@
 void SymbolTable::Initialize(){
 	if(DEBUG)std::cout<<"Initializing Symbol Table..." << std::endl;
 	EnterScope();
-	// TODO: define default types and such
-	// Integer
-	// Char
-	// String
-	// Boolean
-	// True
-	// False
+	
+	SYMBOL_TABLE.Store("INTEGER", &TYPE_INT);
+	SYMBOL_TABLE.Store("integer", &TYPE_INT);
+
+	SYMBOL_TABLE.Store("CHAR", &TYPE_CHAR);
+        SYMBOL_TABLE.Store("char", &TYPE_CHAR);
+
+	SYMBOL_TABLE.Store("STRING", &TYPE_STR);
+        SYMBOL_TABLE.Store("string", &TYPE_STR);
+
+	SYMBOL_TABLE.Store("BOOLEAN", &TYPE_BOOL);
+        SYMBOL_TABLE.Store("boolean", &TYPE_BOOL);
+	
+	SYMBOL_TABLE.Store("true", &EXPR_TRUE);
+	SYMBOL_TABLE.Store("false", &EXPR_FALSE);
+	
 	EnterScope();
 }
 
 Expression * SymbolTable::Lookup(std::string id){
-	if(DEBUG) std::cout<<"Lookup: id<" << id << ">" << std::endl;
+	if(DEBUG) std::cout<<"LookupExpr: id<" << id << ">" << std::endl;
 	for(int i = expression_table.size() - 1; i >= 0; i--){
 		try {return expression_table[i].at(id);}
 	       	catch (const std::out_of_range& e){}
 	}
 
-	std::cerr << "Error: lookup on symbol table for <" << id << "> failed." << std::endl;
+	std::cerr << "Error: lookup expr on symbol table for <" << id << "> failed." << std::endl;
 	exit(1);
 }
 
@@ -48,6 +57,29 @@ void SymbolTable::Store(std::string id, Expression * e){
 		std::cerr << "Error: Redefinition of id <" << id << ">." << std::endl;
 		exit(1);
 	}
+}
+
+Type * SymbolTable::LookupType(std::string id){
+	if(DEBUG) std::cout<<"LookupType: id<" << id << ">" << std::endl;
+        for(int i = type_table.size() - 1; i >= 0; i--){
+                try {return type_table[i].at(id);}
+                catch (const std::out_of_range& e){}
+        }
+
+        std::cerr << "Error: lookup type on symbol table for <" << id << "> failed." << std::endl;
+        exit(1);
+
+}
+
+void SymbolTable::Store(std::string id, Type * t){
+	if(DEBUG) std::cout << "Storing: id<" << id << "> type" << std::endl;
+        if(type_table.back().count(id) == 0){
+	        type_table.back()[id] = t;
+        } else {
+                std::cerr << "Error: Redefinition of id <" << id << ">." << std::endl;
+                exit(1);
+        }
+
 }
 
 void SymbolTable::EnterScope(){
