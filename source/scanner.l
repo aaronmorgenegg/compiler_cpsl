@@ -2,7 +2,7 @@
 #include <cstring>
 #include <cstdlib>
 
-#include "../source/expressions.hpp"
+#include "../source/globals.hpp"
 #include "../source/builtins.hpp"
 #include "parser.hpp"
 %}

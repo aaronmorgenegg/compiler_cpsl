@@ -1,21 +1,20 @@
 #pragma once
+#include "globals.hpp"
 #include "assembly.hpp"
 #include "register_pool.hpp"
 #include "symbol_table.hpp"
 
-void WriteFunction(std::string);
-
-void WriteFunction(int);
+void WriteFunction(Expression *);
 
 void ReadFunction();
 
 void StopFunction();
 
-void ChrFunction();
+Expression * ChrFunction(Expression *);
 
-void OrdFunction();
+Expression * OrdFunction(Expression *);
 
-void PredFunction();
+Expression * PredFunction(Expression *);
 
-void SuccFunction();
+Expression * SuccFunction(Expression *);
 

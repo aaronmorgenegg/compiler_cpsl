@@ -12,11 +12,11 @@ public:
 	std::string reg;
 	int value;
 	bool is_const;
-	SimpleType * type;
+	Type * type;
 
 	Expression(std::string);
 
-	Expression(int);
+	Expression(int, Type *);
 };
 
 std::ostream& operator<<(std::ostream &strm, Expression & e);

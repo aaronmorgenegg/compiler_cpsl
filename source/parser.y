@@ -1,7 +1,7 @@
 %{
 #include <iostream>
 #include <fstream>
-#include "../source/expressions.hpp"
+#include "../source/globals.hpp"
 #include "../source/builtins.hpp"
 
 extern int yylex();
@@ -309,8 +309,8 @@ ReadArgs : ReadArgs COMMASY LValue {}
 WriteStatement : WRITESY LPARENSY WriteArgs RPARENSY {}
                ;
 
-WriteArgs : WriteArgs COMMASY Expression {WriteFunction($3->value);}
-          | Expression                   {WriteFunction($1->value);}
+WriteArgs : WriteArgs COMMASY Expression {WriteFunction($3);}
+          | Expression                   {WriteFunction($1);}
           ;
 
 ProcedureCall : IDENTSY LPARENSY OptArguments RPARENSY {}
@@ -322,8 +322,8 @@ Arguments : Arguments COMMASY Expression {}
           | Expression                   {}
           ;
 
-Expression : CHARCONSTSY                         {}
-           | CHRSY LPARENSY Expression RPARENSY  {}
+Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_INT);}
+           | CHRSY LPARENSY Expression RPARENSY  {$$ = ChrFunction($3);}
            | Expression ANDSY Expression         {$$ = And($1, $3);}
            | Expression DIVSY Expression         {$$ = Div($1, $3);}
            | Expression EQSY Expression          {$$ = Eq($1, $3);}
@@ -338,15 +338,15 @@ Expression : CHARCONSTSY                         {}
            | Expression ORSY Expression          {$$ = Or($1, $3);}
            | Expression PLUSSY Expression        {$$ = Add($1, $3);}
            | FunctionCall                        {}
-           | INTSY                               {$$ = new Expression($1);}
+           | INTSY                               {$$ = new Expression($1, &TYPE_INT);}
            | LPARENSY Expression RPARENSY        {}
-           | LValue                              {$$ = new Expression($1);}
-           | MINUSSY Expression %prec UMINUSSY   {}
+           | LValue                              {$$ = new Expression($1, &TYPE_INT);}
+           | MINUSSY Expression %prec UMINUSSY   {$$ = Mult($2, new Expression(-1, &TYPE_INT));}
            | NOTSY Expression                    {}
-           | ORDSY LPARENSY Expression RPARENSY  {}
-           | PREDSY LPARENSY Expression RPARENSY {}
-           | STRINGSY                            {}
-           | SUCCSY LPARENSY Expression RPARENSY {}
+           | ORDSY LPARENSY Expression RPARENSY  {$$ = OrdFunction($3);}
+           | PREDSY LPARENSY Expression RPARENSY {$$ = PredFunction($3);}
+           | STRINGSY                            {$$ = new Expression(STRING_LIST.Store(std::string($1)), &TYPE_STR);}
+           | SUCCSY LPARENSY Expression RPARENSY {$$ = SuccFunction($3);}
            ;
 
 FunctionCall : IDENTSY LPARENSY OptArguments RPARENSY {}

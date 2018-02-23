@@ -4,15 +4,18 @@ Expression::Expression(std::string reg){
         this->reg = reg;
 }
 
-Expression::Expression(int value){
+Expression::Expression(int value, Type * type){
 	this->value = value;
-	this->is_const = true;
-	this->reg = "";
+	this->type = type;
 }
 
 
 std::ostream& operator<<(std::ostream &strm, Expression & e){
-        return strm << "Expression: reg(" << e.reg << ") value(" << e.value << ")";
+	std::string retval = "Expression: ";
+	if(e.reg.length()) retval += std::string("reg<" + e.reg + "> ");
+	if(e.value>0 || e.value <= 0) retval += std::string("value<" + std::to_string(e.value) + "> ");
+	if(e.is_const == true || e.is_const == false) retval += std::string("is_const<" + std::to_string(e.is_const) + "> ");
+        return strm << retval;
 }
 
 std::string LoadExpression(Expression * a){
@@ -68,81 +71,79 @@ void CheckExpression(Expression * a, Expression * b){
 
 Expression * Add(Expression * a, Expression * b){
 	CheckExpression(a, b);
-	if(a->is_const && b->is_const) return new Expression(a->value + b->value); // constant folding
+	if(a->is_const && b->is_const) return new Expression(a->value + b->value, a->type); // constant folding
 	else return Apply(a, b, "add", "binop");
 }
 
 Expression * Sub(Expression * a, Expression * b){
         CheckExpression(a, b);
-        if(a->is_const && b->is_const) return new Expression(a->value - b->value); // constant folding
+        if(a->is_const && b->is_const) return new Expression(a->value - b->value, a->type); // constant folding
         else return Apply(a, b, "sub", "binop");
 }
 
 Expression * Mult(Expression * a, Expression * b){
         CheckExpression(a, b);
-        if(a->is_const && b->is_const) return new Expression(a->value * b->value); // constant folding
+        if(a->is_const && b->is_const) return new Expression(a->value * b->value, a->type); // constant folding
         else return Apply(a, b, "mult", "hi");
 }
 
 Expression * Div(Expression * a, Expression * b){
         CheckExpression(a, b);
-        if(a->is_const && b->is_const) return new Expression(a->value / b->value); // constant folding
+        if(a->is_const && b->is_const) return new Expression(a->value / b->value, a->type); // constant folding
         else return Apply(a, b, "div", "lo");
 }
 
 Expression * Mod(Expression * a, Expression * b){
         CheckExpression(a, b);
-        if(a->is_const && b->is_const) return new Expression(a->value % b->value); // constant folding
+        if(a->is_const && b->is_const) return new Expression(a->value % b->value, a->type); // constant folding
         else return Apply(a, b, "div", "hi");
 }
 
 Expression * And(Expression * a, Expression * b){
         CheckExpression(a, b);
-        if(a->is_const && b->is_const) return new Expression(a->value && b->value); // constant folding
+        if(a->is_const && b->is_const) return new Expression(a->value && b->value, a->type); // constant folding
         else return Apply(a, b, "and", "binop");
 }
 
 Expression * Eq(Expression * a, Expression * b){
         CheckExpression(a, b);
-        if(a->is_const && b->is_const) return new Expression(a->value == b->value); // constant folding
+        if(a->is_const && b->is_const) return new Expression(a->value == b->value, a->type); // constant folding
         else return Apply(a, b, "seq", "binop");
 }
 
 Expression * Gteq(Expression * a, Expression * b){
         CheckExpression(a, b);
-        if(a->is_const && b->is_const) return new Expression(a->value >= b->value); // constant folding
+        if(a->is_const && b->is_const) return new Expression(a->value >= b->value, a->type); // constant folding
         else return Apply(a, b, "sge", "binop");
 }
 
 Expression * Gt(Expression * a, Expression * b){
         CheckExpression(a, b);
-        if(a->is_const && b->is_const) return new Expression(a->value > b->value); // constant folding
+        if(a->is_const && b->is_const) return new Expression(a->value > b->value, a->type); // constant folding
         else return Apply(a, b, "sgt", "binop");
 }
 
 Expression * Lteq(Expression * a, Expression * b){
         CheckExpression(a, b);
-        if(a->is_const && b->is_const) return new Expression(a->value <= b->value); // constant folding
+        if(a->is_const && b->is_const) return new Expression(a->value <= b->value, a->type); // constant folding
         else return Apply(a, b, "sle", "binop");
 }
 
 Expression * Lt(Expression * a, Expression * b){
         CheckExpression(a, b);
-        if(a->is_const && b->is_const) return new Expression(a->value < b->value); // constant folding
+        if(a->is_const && b->is_const) return new Expression(a->value < b->value, a->type); // constant folding
         else return Apply(a, b, "slt", "binop");
 }
 
 Expression * Neq(Expression * a, Expression * b){
         CheckExpression(a, b);
-        if(a->is_const && b->is_const) return new Expression(a->value != b->value); // constant folding
+        if(a->is_const && b->is_const) return new Expression(a->value != b->value, a->type); // constant folding
         else return Apply(a, b, "sne", "binop");
 }
 
 Expression * Or(Expression * a, Expression * b){
         CheckExpression(a, b);
-        if(a->is_const && b->is_const) return new Expression(a->value || b->value); // constant folding
+        if(a->is_const && b->is_const) return new Expression(a->value || b->value, a->type); // constant folding
         else return Apply(a, b, "or", "binop");
 }
-
-
 

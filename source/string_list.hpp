@@ -5,7 +5,7 @@
 
 class StringList{
 public:
-	void Store(std::string); 
+	int Store(std::string); 
 	std::string Lookup(int);
 	int GetSize();
 private:

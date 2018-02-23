@@ -1,7 +1,8 @@
 #include "string_list.hpp"
 
-void StringList::Store(std::string str){
+int StringList::Store(std::string str){
 	strings.push_back(str);
+	return GetSize();
 }
 
 std::string StringList::Lookup(int index){

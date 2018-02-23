@@ -14,6 +14,11 @@ void WriteFunction(int num){
 	FOUT.Write("syscall");
 }
 
+void WriteFunction(Expression * e){
+	if(DEBUG) std::cout << "Writing <" << *e << ">\n";
+
+}
+
 void ReadFunction(){
 	
 }
@@ -24,19 +29,19 @@ void StopFunction(){
 	FOUT.Write("syscall");
 }
 
-void ChrFunction(){
+Expression * ChrFunction(Expression * e){
 
 }
 
-void OrdFunction(){
+Expression * OrdFunction(Expression * e){
 
 }
 
-void PredFunction(){
+Expression * PredFunction(Expression * e){
 
 }
 
-void SuccFunction(){
+Expression * SuccFunction(Expression * e){
 
 }
 
