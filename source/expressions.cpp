@@ -8,7 +8,6 @@ Expression::Expression(int value){
 	this->value = value;
 	this->is_const = true;
 	this->reg = "";
-	this->type = 0;
 }
 
 

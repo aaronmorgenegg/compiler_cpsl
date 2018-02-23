@@ -11,7 +11,7 @@ public:
 	std::string reg;
 	int value;
 	bool is_const;
-	int type; // TODO: make this a Type object
+	SimpleType * type;
 
 	Expression(std::string);
 

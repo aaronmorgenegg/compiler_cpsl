@@ -11,3 +11,11 @@ void ReadFunction();
 
 void StopFunction();
 
+void ChrFunction();
+
+void OrdFunction();
+
+void PredFunction();
+
+void SuccFunction();
+

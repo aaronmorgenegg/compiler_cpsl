@@ -24,3 +24,19 @@ void StopFunction(){
 	FOUT.Write("syscall");
 }
 
+void ChrFunction(){
+
+}
+
+void OrdFunction(){
+
+}
+
+void PredFunction(){
+
+}
+
+void SuccFunction(){
+
+}
+
