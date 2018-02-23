@@ -13,10 +13,10 @@ public:
 	void Write(std::string msg);
 	void WriteHeader();
 	void WriteFooter();
+	void WriteStrings();
+	void WriteGlobalArea();
 private:
 	std::ofstream file;
 	std::string file_name;
 };
-
-std::ostream& operator<<(std::ostream &strm, ASManager & a);
 

@@ -15,14 +15,9 @@ ASManager::~ASManager(){
 	file.close();
 }
 
-std::ostream& operator<<(std::ostream &strm, ASManager & a){
-
-}
-
-
 void ASManager::Write(std::string msg){
 	// Output the msg to the asm file
-	std::cout << "  Outputing: " << msg << std::endl;
+	if(DEBUG) std::cout << "  Outputing: " << msg << std::endl;
 	file << msg << std::endl;
 }
 
@@ -31,10 +26,24 @@ void ASManager::WriteHeader(){
 	Write(".text");
 	Write(".globl main");
 	Write("main:");
+	Write("la GA, $gp");
 }
 
 void ASManager::WriteFooter(){
 	// This is what goes at the end of every asm file
-	
+	Write(".data");
+	WriteStrings();
+	WriteGlobalArea();
+}
+
+void ASManager::WriteStrings(){
+	Write(".asciiz");
+	for(int i = 0; i < STRING_LIST.GetSize(); i++){
+		Write(std::string("STR"+std::to_string(i)+": " + STRING_LIST.Lookup(i)));
+	}
+}
+
+void ASManager::WriteGlobalArea(){
+	Write("GA:");
 }
 
