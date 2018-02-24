@@ -24,10 +24,23 @@ void WriteFunction(char c){
 	FOUT.Write("syscall");
 }
 
+void WriteFunctionLocation(Expression * e){
+	if(DEBUG) std::cout << "  Writing value from location<" << e->location << ">\n";
+	std::string reg = LoadExpression(e);
+	FOUT.Write(std::string("move $a0," + reg));
+	if(e->type == &TYPE_INT || e->type == &TYPE_BOOL){
+		FOUT.Write("li $v0,1 # Load syscall : print_int");
+	} else if (e->type == &TYPE_CHAR){
+		FOUT.Write("li $v0,11 # Load syscall : print_char");
+	}
+	FOUT.Write("syscall");
+
+}
+
 void WriteFunction(Expression * e){
 	if(DEBUG) std::cout << "Writing <" << *e << ">\n";
 	if(e->location.length()){
-		// TODO: handle expression stored in register, or in a variable address
+		WriteFunctionLocation(e);
 	} else if(e->type == &TYPE_INT){
 		WriteFunction(e->value);
 	} else if(e->type == &TYPE_CHAR){
@@ -54,18 +67,18 @@ void StopFunction(){
 }
 
 Expression * ChrFunction(Expression * e){
-
+	// TODO
 }
 
 Expression * OrdFunction(Expression * e){
-
+	// TODO
 }
 
 Expression * PredFunction(Expression * e){
-
+	// TODO
 }
 
 Expression * SuccFunction(Expression * e){
-
+	// TODO
 }
 

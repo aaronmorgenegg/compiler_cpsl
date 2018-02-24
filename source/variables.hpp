@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include "globals.hpp"
+#include "expressions.hpp"
+#include "type.hpp"
 
 class Expression;
 
