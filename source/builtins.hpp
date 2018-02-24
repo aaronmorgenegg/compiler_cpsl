@@ -15,7 +15,11 @@ void WriteFunctionLocation(Expression *);
 
 void WriteFunction(Expression *);
 
-void ReadFunction();
+void ReadFunctionInt(Expression *);
+
+void ReadFunctionChar(Expression *);
+
+void ReadFunction(std::string);
 
 void StopFunction();
 

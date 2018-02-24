@@ -14,8 +14,8 @@ std::string LoadVariable(std::string location){
 	return r;
 }
 
-void Assignment(Expression * e1, Expression * e2){
-	std::string reg = LoadExpression(e2);
-	FOUT.Write(std::string("sw " + reg + ","  + e1->location));
+void Assignment(std::string id, Expression * e){
+	std::string reg = LoadExpression(e);
+	FOUT.Write(std::string("sw " + reg + ","  + SYMBOL_TABLE.Lookup(id)->location));
 }
 

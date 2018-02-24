@@ -10,5 +10,5 @@ void SaveVariable(std::string, Type *);
 
 std::string LoadVariable(std::string);
 
-void Assignment(Expression *, Expression *);
+void Assignment(std::string, Expression *);
 

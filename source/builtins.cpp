@@ -56,8 +56,34 @@ void WriteFunction(Expression * e){
 	}
 }
 
-void ReadFunction(){
-	
+void ReadFunctionInt(Expression * e){
+	FOUT.Write("li $v0, 5");
+	FOUT.Write("syscall");
+	FOUT.Write("sw $v0," + e->location);
+}
+
+void ReadFunctionChar(Expression * e){
+	FOUT.Write("li $v0, 12");
+        FOUT.Write("syscall");
+        FOUT.Write("sw $v0," + e->location);
+}
+
+void ReadFunction(std::string id){
+	if(DEBUG) std::cout << "Reading into <" << id << ">\n";
+	Expression * e = SYMBOL_TABLE.Lookup(id);
+	if(e->is_const) {
+		std::cerr << "Error: Attempted read into constant." << std::endl;
+		exit(1);
+	} else if(e->type == &TYPE_INT){
+                ReadFunctionInt(e);
+        } else if(e->type == &TYPE_CHAR){
+                ReadFunctionChar(e);
+        } else if(e->type == &TYPE_BOOL){
+                ReadFunctionInt(e);
+	} else {
+		std::cerr << "Error: Attempted read of invalid type." << std::endl;
+		exit(1);
+	}									
 }
 
 void StopFunction(){

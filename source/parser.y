@@ -105,12 +105,12 @@ void yyerror(const char*);
 %type <int_val> OptVar 
 %type <int_val> IfHead 
 %type <int_val> IfStatement 
-%type <expression_val> LValue 
+%type <str_val> LValue 
 %type <int_val> OptArguments 
 %type <int_val> OptFormalParameters  
 %type <int_val> PSignature 
 %type <int_val> ProcedureCall
-%type <int_val> ReadArgs
+%type <str_val> ReadArgs
 %type <int_val> ReadStatement 
 %type <int_val> RecordType 
 %type <int_val> RepeatStatement 
@@ -301,11 +301,11 @@ ReturnStatement : RETURNSY Expression {}
                 ;
 
 
-ReadStatement : READSY LPARENSY ReadArgs RPARENSY {}
+ReadStatement : READSY LPARENSY ReadArgs RPARENSY {ReadFunction(std::string($3));}
               ;
 
 ReadArgs : ReadArgs COMMASY LValue {}
-         | LValue                  {}
+         | LValue                  {$$ = $1;}
          ;
 
 WriteStatement : WRITESY LPARENSY WriteArgs RPARENSY {}
@@ -342,7 +342,7 @@ Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_
            | FunctionCall                        {}
            | INTSY                               {$$ = new Expression($1, &TYPE_INT);}
            | LPARENSY Expression RPARENSY        {}
-           | LValue                              {}
+           | LValue                              {$$ = SYMBOL_TABLE.Lookup(std::string($1));}
            | MINUSSY Expression %prec UMINUSSY   {$$ = Mult($2, new Expression(-1, &TYPE_INT));}
            | NOTSY Expression                    {}
            | ORDSY LPARENSY Expression RPARENSY  {$$ = OrdFunction($3);}
@@ -356,7 +356,7 @@ FunctionCall : IDENTSY LPARENSY OptArguments RPARENSY {}
 
 LValue : LValue DOTSY IDENTSY {}
        | LValue LBRACKETSY Expression RBRACKETSY {}
-       | IDENTSY {$$ = SYMBOL_TABLE.Lookup(std::string($1));}
+       | IDENTSY {$$ = $1;}
        ;
 %%
 
