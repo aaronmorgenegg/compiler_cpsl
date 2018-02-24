@@ -2,7 +2,7 @@
 
 int StringList::Store(std::string str){
 	strings.push_back(str);
-	return GetSize();
+	return GetSize() - 1;
 }
 
 std::string StringList::Lookup(int index){

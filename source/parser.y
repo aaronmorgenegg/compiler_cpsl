@@ -128,7 +128,7 @@ void yyerror(const char*);
 %type <str_val> STRINGSY 
 
 %%
-Program : ProgramHead Block DOTSY {exit(1);}
+Program : ProgramHead Block DOTSY {YYACCEPT;}
 				;
 
 ProgramHead : OptConstDecls OptTypeDecls OptVarDecls PFDecls

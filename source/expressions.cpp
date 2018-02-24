@@ -15,7 +15,7 @@ std::ostream& operator<<(std::ostream &strm, Expression & e){
 	if(e.reg.length()) retval += std::string("reg<" + e.reg + "> ");
 	if(e.value>0 || e.value <= 0) retval += std::string("value<" + std::to_string(e.value) + "> ");
 	if(e.is_const == true || e.is_const == false) retval += std::string("is_const<" + std::to_string(e.is_const) + "> ");
-        return strm << retval;
+        return strm << retval << "type<" << e.type << ">";
 }
 
 std::string LoadExpression(Expression * a){
