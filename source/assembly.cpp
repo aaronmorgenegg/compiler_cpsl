@@ -26,20 +26,25 @@ void ASManager::WriteHeader(){
 	Write(".text");
 	Write(".globl main");
 	Write("main:");
-	// Write("la GA,$gp");
+	// Write("la GA,$gp"); // TODO
 }
 
 void ASManager::WriteFooter(){
 	// This is what goes at the end of every asm file
 	Write(".data");
 	WriteStrings();
-	//WriteGlobalArea();
+	WriteVariables();
+	//WriteGlobalArea(); // TODO
 }
 
 void ASManager::WriteStrings(){
 	for(int i = 0; i < STRING_LIST.GetSize(); i++){
 		Write(std::string("STR"+std::to_string(i)+": .asciiz " + STRING_LIST.Lookup(i)));
 	}
+}
+
+void ASManager::WriteVariables(){
+	// TODO
 }
 
 void ASManager::WriteGlobalArea(){

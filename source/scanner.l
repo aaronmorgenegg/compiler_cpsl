@@ -4,6 +4,7 @@
 
 #include "../source/globals.hpp"
 #include "../source/builtins.hpp"
+#include "../source/variables.hpp"
 #include "parser.hpp"
 %}
 

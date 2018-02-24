@@ -14,6 +14,7 @@ public:
 	void WriteHeader();
 	void WriteFooter();
 	void WriteStrings();
+	void WriteVariables();
 	void WriteGlobalArea();
 private:
 	std::ofstream file;

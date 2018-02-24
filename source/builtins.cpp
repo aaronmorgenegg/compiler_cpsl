@@ -26,8 +26,8 @@ void WriteFunction(char c){
 
 void WriteFunction(Expression * e){
 	if(DEBUG) std::cout << "Writing <" << *e << ">\n";
-	if(e->reg.length()){
-		// TODO: handle expression stored in register
+	if(e->location.length()){
+		// TODO: handle expression stored in register, or in a variable address
 	} else if(e->type == &TYPE_INT){
 		WriteFunction(e->value);
 	} else if(e->type == &TYPE_CHAR){

@@ -16,6 +16,9 @@
 
 void SymbolTable::Initialize(){
 	if(DEBUG)std::cout<<"Initializing Symbol Table..." << std::endl;
+
+	offset_counter = 0;
+
 	EnterScope();
 	
 	SYMBOL_TABLE.Store("INTEGER", &TYPE_INT);
@@ -80,6 +83,13 @@ void SymbolTable::Store(std::string id, Type * t){
                 exit(1);
         }
 
+}
+
+int SymbolTable::IncrementCounter(int size){
+	// Returns the old offset, and increments the offset by given size
+	int temp = offset_counter;
+	offset_counter += size;
+	return temp;
 }
 
 void SymbolTable::EnterScope(){

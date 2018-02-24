@@ -19,8 +19,10 @@ public:
 	void Store(std::string, Type *);
 	void EnterScope();
 	void ExitScope();
+	int IncrementCounter(int);
 private:
 	std::vector<std::map<std::string, Expression *>> expression_table;
 	std::vector<std::map<std::string, Type *>> type_table;
+	int offset_counter;
 };
 

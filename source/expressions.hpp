@@ -6,15 +6,17 @@
 #include "register_pool.hpp"
 #include "assembly.hpp"
 #include "globals.hpp"
+#include "variables.hpp"
 
 class Expression{
 public:
-	std::string reg;
+	std::string location;
 	int value;
 	bool is_const;
+	bool has_address;
 	Type * type;
 
-	Expression(std::string);
+	Expression(std::string, Type *);
 
 	Expression(int, Type *);
 };

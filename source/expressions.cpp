@@ -1,18 +1,23 @@
 #include "expressions.hpp"
 
-Expression::Expression(std::string reg){
-        this->reg = reg;
+Expression::Expression(std::string location, Type * type){
+        this->location = location;
+	this->type = type;
+	this->has_address = false;
+	this->is_const = false;
 }
 
 Expression::Expression(int value, Type * type){
 	this->value = value;
 	this->type = type;
+	this->is_const = true;
+	this->has_address = false;
 }
 
 
 std::ostream& operator<<(std::ostream &strm, Expression & e){
 	std::string retval = "Expression: ";
-	if(e.reg.length()) retval += std::string("reg<" + e.reg + "> ");
+	if(e.location.length()) retval += std::string("reg<" + e.location + "> ");
 	if(e.value>0 || e.value <= 0) retval += std::string("value<" + std::to_string(e.value) + "> ");
 	if(e.is_const == true || e.is_const == false) retval += std::string("is_const<" + std::to_string(e.is_const) + "> ");
         return strm << retval << "type<" << e.type << ">";
@@ -23,8 +28,10 @@ std::string LoadExpression(Expression * a){
 		std::string r = REGISTER_POOL.GetRegister();
 		FOUT.Write(std::string("li " + r + ", " + std::to_string(a->value) + " # Load constant"));
 		return r;
+	} else if(a->has_address){
+		return LoadVariable(a->location);
 	} else{
-		return a->reg;
+		return a->location;
 	}
 }
 
@@ -49,11 +56,11 @@ Expression * Apply(Expression * a, Expression * b, std::string op, std::string m
 	std::string reg2 = LoadExpression(b);
 
 	if(mode == "binop") Binop(op, reg1, reg1, reg2);
-	if(mode == "hi") BinopHi(op, reg1, reg1, reg2);
-	if(mode == "lo") BinopLo(op, reg1, reg1, reg2);
+	else if(mode == "hi") BinopHi(op, reg1, reg1, reg2);
+	else if(mode == "lo") BinopLo(op, reg1, reg1, reg2);
 
 	REGISTER_POOL.ReleaseRegister(reg2);
-	return new Expression(reg1);
+	return new Expression(reg1, a->type);
 }
 
 void CheckExpression(Expression * a, Expression * b){

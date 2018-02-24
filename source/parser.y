@@ -3,6 +3,7 @@
 #include <fstream>
 #include "../source/globals.hpp"
 #include "../source/builtins.hpp"
+#include "../source/variables.hpp"
 
 extern int yylex();
 void yyerror(const char*);
@@ -235,7 +236,7 @@ VarDecls    : VarDecls VarDecl
             | VarDecl
             ;
 
-VarDecl : IdentList COLONSY Type SCOLONSY {SYMBOL_TABLE.Store(std::string($1), $3);}
+VarDecl : IdentList COLONSY Type SCOLONSY {SaveVariable(std::string($1), $3);}
         ;
 
 Statement : Assignment {}
@@ -251,7 +252,7 @@ Statement : Assignment {}
           | {}
           ;
 
-Assignment : LValue ASSIGNSY Expression {}
+Assignment : LValue ASSIGNSY Expression {Assignment($1, $3);}
            ;
 
 IfStatement : IfHead ThenPart ElseIfList ElseClause ENDSY {}
