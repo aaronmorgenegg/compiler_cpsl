@@ -14,6 +14,7 @@ void yyerror(const char*);
   int int_val;
   char char_val;
   Expression * expression_val;
+  Type * type_val;
 }
 
 %error-verbose
@@ -99,11 +100,11 @@ void yyerror(const char*);
 %type <int_val> FormalParameters  
 %type <int_val> FunctionCall 
 %type <int_val> INTSY 
-%type <int_val> IdentList 
+%type <str_val> IdentList 
 %type <int_val> OptVar 
 %type <int_val> IfHead 
 %type <int_val> IfStatement 
-%type <int_val> LValue 
+%type <expression_val> LValue 
 %type <int_val> OptArguments 
 %type <int_val> OptFormalParameters  
 %type <int_val> PSignature 
@@ -113,13 +114,13 @@ void yyerror(const char*);
 %type <int_val> RecordType 
 %type <int_val> RepeatStatement 
 %type <int_val> ReturnStatement 
-%type <int_val> SimpleType 
+%type <type_val> SimpleType 
 %type <int_val> Statement 
 %type <int_val> StatementList 
 %type <int_val> StopStatement 
 %type <int_val> ThenPart 
 %type <int_val> ToHead 
-%type <int_val> Type 
+%type <type_val> Type 
 %type <int_val> WhileHead 
 %type <int_val> WhileStatement 
 %type <int_val> WriteArgs 
@@ -198,7 +199,7 @@ TypeDecls    : TypeDecls TypeDecl
              | TypeDecl
              ;
 
-TypeDecl : IDENTSY EQSY Type SCOLONSY {}
+TypeDecl : IDENTSY EQSY Type SCOLONSY {SYMBOL_TABLE.Store(std::string($1), $3);}
          ;
 
 Type : SimpleType {}
@@ -206,7 +207,7 @@ Type : SimpleType {}
      | ArrayType {}
      ;
 
-SimpleType : IDENTSY {}
+SimpleType : IDENTSY {$$ = SYMBOL_TABLE.LookupType(std::string($1));}
            ;
 
 RecordType : RECORDSY FieldDecls ENDSY {}
@@ -234,7 +235,7 @@ VarDecls    : VarDecls VarDecl
             | VarDecl
             ;
 
-VarDecl : IdentList COLONSY Type SCOLONSY {}
+VarDecl : IdentList COLONSY Type SCOLONSY {SYMBOL_TABLE.Store(std::string($1), $3);}
         ;
 
 Statement : Assignment {}
@@ -322,7 +323,7 @@ Arguments : Arguments COMMASY Expression {}
           | Expression                   {}
           ;
 
-Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_INT);}
+Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_CHAR);}
            | CHRSY LPARENSY Expression RPARENSY  {$$ = ChrFunction($3);}
            | Expression ANDSY Expression         {$$ = And($1, $3);}
            | Expression DIVSY Expression         {$$ = Div($1, $3);}
@@ -340,7 +341,7 @@ Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_
            | FunctionCall                        {}
            | INTSY                               {$$ = new Expression($1, &TYPE_INT);}
            | LPARENSY Expression RPARENSY        {}
-           | LValue                              {$$ = new Expression($1, &TYPE_INT);}
+           | LValue                              {}
            | MINUSSY Expression %prec UMINUSSY   {$$ = Mult($2, new Expression(-1, &TYPE_INT));}
            | NOTSY Expression                    {}
            | ORDSY LPARENSY Expression RPARENSY  {$$ = OrdFunction($3);}
@@ -354,7 +355,7 @@ FunctionCall : IDENTSY LPARENSY OptArguments RPARENSY {}
 
 LValue : LValue DOTSY IDENTSY {}
        | LValue LBRACKETSY Expression RBRACKETSY {}
-       | IDENTSY {$$ = SYMBOL_TABLE.Lookup(std::string($1))->value;}
+       | IDENTSY {$$ = SYMBOL_TABLE.Lookup(std::string($1));}
        ;
 %%
 

@@ -4,6 +4,12 @@
 #include "register_pool.hpp"
 #include "symbol_table.hpp"
 
+void WriteFunction(std::string);
+
+void WriteFunction(char);
+
+void WriteFunction(int);
+
 void WriteFunction(Expression *);
 
 void ReadFunction();
