@@ -1,9 +1,9 @@
 #include "builtins.hpp"
 
-void WriteFunction(std::string msg){
-	if(DEBUG) std::cout << "Writing string<" << msg << ">\n";
+void WriteFunction(std::string str){
+	if(DEBUG) std::cout << "Writing string<" << str << ">\n";
 	FOUT.Write("li $v0,4 # Load syscall : print_string");
-	FOUT.Write("la $a0," + msg);
+	FOUT.Write("la $a0," + str);
 	FOUT.Write("syscall");
 }
 
@@ -17,10 +17,8 @@ void WriteFunction(int num){
 void WriteFunction(char c){
 	if(DEBUG) std::cout << "  Writing char<" << c << ">\n";
 	FOUT.Write("li $v0,11 # Load syscall : print_char");
-	std::string temp = "li $a0,'";
-	temp += c;
-	temp += "'";
-	FOUT.Write(std::string(temp));
+	std::string temp = std::string(1, c);
+	FOUT.Write("li $a0,'" + temp + "'");
 	FOUT.Write("syscall");
 }
 

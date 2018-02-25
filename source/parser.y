@@ -341,7 +341,7 @@ Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_
            | Expression PLUSSY Expression        {$$ = Add($1, $3);}
            | FunctionCall                        {}
            | INTSY                               {$$ = new Expression($1, &TYPE_INT);}
-           | LPARENSY Expression RPARENSY        {}
+           | LPARENSY Expression RPARENSY        {$$ = $2;}
            | LValue                              {$$ = SYMBOL_TABLE.Lookup(std::string($1));}
            | MINUSSY Expression %prec UMINUSSY   {$$ = Mult($2, new Expression(-1, &TYPE_INT));}
            | NOTSY Expression                    {}
