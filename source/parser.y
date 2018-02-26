@@ -1,6 +1,8 @@
 %{
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <string>
 #include "../source/globals.hpp"
 #include "../source/builtins.hpp"
 #include "../source/variables.hpp"
@@ -16,6 +18,7 @@ void yyerror(const char*);
   char char_val;
   Expression * expression_val;
   Type * type_val;
+  std::vector<std::string> * list_val;
 }
 
 %error-verbose
@@ -101,7 +104,7 @@ void yyerror(const char*);
 %type <int_val> FormalParameters  
 %type <int_val> FunctionCall 
 %type <int_val> INTSY 
-%type <str_val> IdentList 
+%type <list_val> IdentList 
 %type <int_val> OptVar 
 %type <int_val> IfHead 
 %type <int_val> IfStatement 
@@ -181,7 +184,6 @@ OptVar : VARSY {}
        | {}
        ;
 
-
 Body : OptConstDecls OptTypeDecls OptVarDecls Block {}
      ;
 
@@ -221,8 +223,8 @@ FieldDecls : FieldDecls FieldDecl {}
 FieldDecl : IdentList COLONSY Type SCOLONSY {}
           ;
 
-IdentList : IdentList COMMASY IDENTSY {}
-          | IDENTSY {}
+IdentList : IdentList COMMASY IDENTSY {$1->push_back(std::string($3));}
+          | IDENTSY {$$ = new std::vector<std::string>(1, std::string($1));}
           ;
 
 ArrayType : ARRAYSY LBRACKETSY Expression COLONSY Expression RBRACKETSY OFSY Type {}
@@ -236,7 +238,7 @@ VarDecls    : VarDecls VarDecl
             | VarDecl
             ;
 
-VarDecl : IdentList COLONSY Type SCOLONSY {SaveVariable(std::string($1), $3);}
+VarDecl : IdentList COLONSY Type SCOLONSY {SaveVariables($1, $3);}
         ;
 
 Statement : Assignment {}
@@ -301,11 +303,11 @@ ReturnStatement : RETURNSY Expression {}
                 ;
 
 
-ReadStatement : READSY LPARENSY ReadArgs RPARENSY {ReadFunction(std::string($3));}
+ReadStatement : READSY LPARENSY ReadArgs RPARENSY {}
               ;
 
-ReadArgs : ReadArgs COMMASY LValue {}
-         | LValue                  {$$ = $1;}
+ReadArgs : ReadArgs COMMASY LValue {ReadFunction(std::string($3));}
+         | LValue                  {ReadFunction(std::string($1));}
          ;
 
 WriteStatement : WRITESY LPARENSY WriteArgs RPARENSY {}
@@ -344,7 +346,7 @@ Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_
            | LPARENSY Expression RPARENSY        {$$ = $2;}
            | LValue                              {$$ = SYMBOL_TABLE.Lookup(std::string($1));}
            | MINUSSY Expression %prec UMINUSSY   {$$ = Mult($2, new Expression(-1, &TYPE_INT));}
-           | NOTSY Expression                    {}
+           | NOTSY Expression                    {$$ = Not($2);}
            | ORDSY LPARENSY Expression RPARENSY  {$$ = OrdFunction($3);}
            | PREDSY LPARENSY Expression RPARENSY {$$ = PredFunction($3);}
            | STRINGSY                            {$$ = new Expression(STRING_LIST.Store(std::string($1)), &TYPE_STR);}

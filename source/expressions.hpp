@@ -19,6 +19,8 @@ public:
 	Expression(std::string, Type *);
 
 	Expression(int, Type *);
+
+	~Expression();
 };
 
 std::ostream& operator<<(std::ostream &strm, Expression & e);
@@ -56,4 +58,6 @@ Expression * Lt(Expression * a, Expression * b);
 Expression * Neq(Expression * a, Expression * b);
 
 Expression * Or(Expression * a, Expression * b);
+
+Expression * Not(Expression * a);
 

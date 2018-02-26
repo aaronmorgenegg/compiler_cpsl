@@ -14,6 +14,11 @@ Expression::Expression(int value, Type * type){
 	this->has_address = false;
 }
 
+Expression::~Expression(){
+	if(!this->has_address && !this->is_const && this->location.length()){
+		REGISTER_POOL.ReleaseRegister(this->location);
+	}
+}
 
 std::ostream& operator<<(std::ostream &strm, Expression & e){
 	std::string retval = "Expression: ";
@@ -152,5 +157,9 @@ Expression * Or(Expression * a, Expression * b){
         CheckExpression(a, b);
         if(a->is_const && b->is_const) return new Expression(a->value || b->value, a->type); // constant folding
         else return Apply(a, b, "or", "binop");
+}
+
+Expression * Not(Expression * a){
+	// TODO
 }
 

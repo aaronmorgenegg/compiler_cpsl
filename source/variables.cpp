@@ -8,6 +8,12 @@ void SaveVariable(std::string id, Type * type){
 	SYMBOL_TABLE.Store(id, e);
 }
 
+void SaveVariables(std::vector<std::string> * list, Type * type){
+	for(int i = 0; i < list->size(); i++){
+		SaveVariable(list->at(i), type);
+	}
+}
+
 std::string LoadVariable(std::string location){
 	std::string r = REGISTER_POOL.GetRegister();
 	FOUT.Write(std::string("lw " + r + ", " + location));
