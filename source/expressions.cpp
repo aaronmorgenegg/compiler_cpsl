@@ -104,7 +104,7 @@ Expression * Sub(Expression * a, Expression * b){
 Expression * Mult(Expression * a, Expression * b){
         CheckExpression(a, b);
         if(a->is_const && b->is_const) return new Expression(a->value * b->value, a->type); // constant folding
-        else return Apply(a, b, "mult", "hi");
+        else return Apply(a, b, "mult", "lo");
 }
 
 Expression * Div(Expression * a, Expression * b){

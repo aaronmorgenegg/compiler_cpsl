@@ -1,2 +1,2 @@
-Need to handle writing escaped characters, like \n
+Need to implement CHR, ORD, PREC, SUCC functions
 

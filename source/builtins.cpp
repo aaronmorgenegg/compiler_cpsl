@@ -14,10 +14,18 @@ void WriteFunction(int num){
 	FOUT.Write("syscall");
 }
 
+std::string HandleEscapedCharacters(std::string str){
+	if(str == "\n") return "\\n";
+	if(str == "\t") return "\\t";
+	if(str == "\r") return "\\r";
+	return str;
+}
+
 void WriteFunction(char c){
 	if(DEBUG) std::cout << "  Writing char<" << c << ">\n";
 	FOUT.Write("li $v0,11 # Load syscall : print_char");
 	std::string temp = std::string(1, c);
+	temp = HandleEscapedCharacters(temp);
 	FOUT.Write("li $a0,'" + temp + "'");
 	FOUT.Write("syscall");
 }

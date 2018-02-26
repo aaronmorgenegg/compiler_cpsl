@@ -7,6 +7,8 @@
 
 void WriteFunction(std::string);
 
+std::string HandleEscapedCharacters(std::string);
+
 void WriteFunction(char);
 
 void WriteFunction(int);
