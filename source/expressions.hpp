@@ -33,6 +33,12 @@ void CheckExpression(Expression * a, Expression * b);
 
 void Binop(std::string op, std::string d, std::string a, std::string b);
 
+void BinopLo(std::string op, std::string d, std::string a, std::string b);
+
+void BinopHi(std::string op, std::string d, std::string a, std::string b);
+
+void Unop(std::string op, std::string d, std::string a);
+
 Expression * Add(Expression * a, Expression * b);
 
 Expression * Sub(Expression * a, Expression * b);

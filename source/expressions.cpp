@@ -55,6 +55,13 @@ void BinopHi(std::string op, std::string d, std::string a, std::string b){
         FOUT.Write(std::string("mfhi " + d));
 }
 
+void Unop(std::string op, std::string d, std::string a){
+	FOUT.Write(std::string(op + " " + d + "," + a + "# Unop"));
+	if(op == "not"){
+		FOUT.Write(std::string("sltu " + d + ", $zero, " + a));
+		FOUT.Write(std::string("xori " + d + "," + d + ",1"));
+	}
+}
 
 Expression * Apply(Expression * a, Expression * b, std::string op, std::string mode){
 	std::string reg1 = LoadExpression(a);
@@ -63,6 +70,7 @@ Expression * Apply(Expression * a, Expression * b, std::string op, std::string m
 	if(mode == "binop") Binop(op, reg1, reg1, reg2);
 	else if(mode == "hi") BinopHi(op, reg1, reg1, reg2);
 	else if(mode == "lo") BinopLo(op, reg1, reg1, reg2);
+	else if(mode == "unop") Unop(op, reg1, reg2);
 
 	REGISTER_POOL.ReleaseRegister(reg2);
 	return new Expression(reg1, a->type);
@@ -160,6 +168,8 @@ Expression * Or(Expression * a, Expression * b){
 }
 
 Expression * Not(Expression * a){
-	// TODO
+	CheckExpression(a, a);
+	if(a->is_const) return new Expression((a->value+1)%2, a->type); // constant folding
+	else return Apply(a, a, "not", "unop");
 }
 
