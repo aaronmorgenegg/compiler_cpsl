@@ -99,18 +99,44 @@ void StopFunction(){
 }
 
 Expression * ChrFunction(Expression * e){
-	// TODO
+	if(e->type == &TYPE_INT){
+		e->type = &TYPE_CHAR;
+		return e;
+	} else {
+		std:: cerr << "Error: Chr function attempted on non-integer type." << std::endl;
+		exit(1);
+	}
 }
 
 Expression * OrdFunction(Expression * e){
-	// TODO
+	if(e->type == &TYPE_CHAR){
+	        e->type = &TYPE_INT;
+		return e;
+        } else {
+                std:: cerr << "Error: Ord function attempted on non-char type." << std::endl;
+                exit(1);
+        }
 }
 
 Expression * PredFunction(Expression * e){
-	// TODO
+	if(e->type == &TYPE_INT || e->type == &TYPE_CHAR){
+                return Sub(e, new Expression(1, e->type));
+        } else if (e->type == &TYPE_BOOL) {
+		return Not(e);
+	} else {
+                std:: cerr << "Error: Pred function attempted on invalid type." << std::endl;
+                exit(1);
+        }
 }
 
 Expression * SuccFunction(Expression * e){
-	// TODO
+	if(e->type == &TYPE_INT || e->type == &TYPE_CHAR){
+                return Add(e, new Expression(1, e->type));
+        } else if (e->type == &TYPE_BOOL) {
+                return Not(e);
+        } else {
+                std:: cerr << "Error: Succ function attempted on invalid type." << std::endl;
+                exit(1);
+        }
 }
 
