@@ -14,3 +14,11 @@ public:
 	SimpleType();
 };
 
+class ArrayType: public Type {
+public:
+	ArrayType(Expression *, Expression *, Type *);
+	Type * base_type;
+	int lower_bound;
+	int upper_bound;
+};
+

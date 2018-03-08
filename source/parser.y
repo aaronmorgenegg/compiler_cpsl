@@ -213,7 +213,7 @@ Type : SimpleType {}
 SimpleType : IDENTSY {$$ = SYMBOL_TABLE.LookupType(std::string($1));}
            ;
 
-RecordType : RECORDSY FieldDecls ENDSY {}
+RecordType : RECORDSY FieldDecls ENDSY {std::cout<<"TODO: record decl"<<std::endl;}
            ;
 
 FieldDecls : FieldDecls FieldDecl {}
@@ -227,7 +227,7 @@ IdentList : IdentList COMMASY IDENTSY {$1->push_back(std::string($3));}
           | IDENTSY {$$ = new std::vector<std::string>(1, std::string($1));}
           ;
 
-ArrayType : ARRAYSY LBRACKETSY Expression COLONSY Expression RBRACKETSY OFSY Type {}
+ArrayType : ARRAYSY LBRACKETSY Expression COLONSY Expression RBRACKETSY OFSY Type {$$ = new ArrayType($3, $5, $8);}
           ;
 
 OptVarDecls : VARSY VarDecls
@@ -302,15 +302,14 @@ ReturnStatement : RETURNSY Expression {}
                 | RETURNSY {}
                 ;
 
-
-ReadStatement : READSY LPARENSY ReadArgs RPARENSY {}
+ReadStatement : READSY LPARENSY ReadArgs RPARENSY 
               ;
 
 ReadArgs : ReadArgs COMMASY LValue {ReadFunction(std::string($3));}
          | LValue                  {ReadFunction(std::string($1));}
          ;
 
-WriteStatement : WRITESY LPARENSY WriteArgs RPARENSY {}
+WriteStatement : WRITESY LPARENSY WriteArgs RPARENSY 
                ;
 
 WriteArgs : WriteArgs COMMASY Expression {WriteFunction($3);}
@@ -356,8 +355,8 @@ Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_
 FunctionCall : IDENTSY LPARENSY OptArguments RPARENSY {}
              ;
 
-LValue : LValue DOTSY IDENTSY {}
-       | LValue LBRACKETSY Expression RBRACKETSY {}
+LValue : LValue DOTSY IDENTSY {std::cout<<"TODO: record access"<<std::endl;}
+       | LValue LBRACKETSY Expression RBRACKETSY {std::cout<<"TODO: array access"<<std::endl;}
        | IDENTSY {$$ = $1;}
        ;
 %%
