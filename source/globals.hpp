@@ -1,18 +1,21 @@
 #pragma once
+
+class Type;
+class Expression;
+class SymbolTable;
+class RegisterPool;
+class ASManager;
+class StringList;
+class SimpleType;
+class ArrayType;
+class RecordType;
+
 #include "symbol_table.hpp"
 #include "register_pool.hpp"
 #include "assembly.hpp"
 #include "string_list.hpp"
 #include "type.hpp"
 #include "expressions.hpp"
-
-class SymbolTable;
-class RegisterPool;
-class ASManager;
-class StringList;
-class Type;
-class SimpleType;
-class Expression;
 
 extern SymbolTable SYMBOL_TABLE;
 extern RegisterPool REGISTER_POOL;

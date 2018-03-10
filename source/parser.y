@@ -87,7 +87,7 @@ void yyerror(const char*);
 
 %type <char_val> CHARCONSTSY
 %type <int_val> Arguments 
-%type <int_val> ArrayType 
+%type <type_val> ArrayType 
 %type <int_val> Assignment
 %type <int_val> Block 
 %type <int_val> Body  

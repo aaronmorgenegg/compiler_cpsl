@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
-#include "expressions.hpp"
 #include "globals.hpp"
+#include "expressions.hpp"
 
 class Expression;
 

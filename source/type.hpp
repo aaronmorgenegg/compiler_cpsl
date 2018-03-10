@@ -1,5 +1,10 @@
 #pragma once
 
+#include "globals.hpp"
+#include "expressions.hpp"
+
+class Expression;
+
 //Type.size -> (virtual) how much space the type needs
 //inherited by simple type(int, char, string, bool), array, and record
 class Type{
@@ -16,9 +21,10 @@ public:
 
 class ArrayType: public Type {
 public:
-	ArrayType(Expression *, Expression *, Type *);
 	Type * base_type;
 	int lower_bound;
 	int upper_bound;
+	
+	ArrayType(Expression *, Expression *, Type *);
 };
 

@@ -1,11 +1,11 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "globals.hpp"
 #include "type.hpp"
 #include "symbol_table.hpp"
 #include "register_pool.hpp"
 #include "assembly.hpp"
-#include "globals.hpp"
 #include "variables.hpp"
 
 class Expression{
