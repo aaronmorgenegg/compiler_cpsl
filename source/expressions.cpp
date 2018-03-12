@@ -20,9 +20,15 @@ Expression::~Expression(){
 	}
 }
 
+std::string to_string(Expression * expr){
+	std::stringstream strm;
+	strm << *expr;
+	return strm.str();
+}
+
 std::ostream& operator<<(std::ostream &strm, Expression & e){
 	std::string retval = "Expression: ";
-	if(e.location.length()) retval += std::string("reg<" + e.location + "> ");
+	if(e.location.length()) retval += std::string("location<" + e.location + "> ");
 	if(e.value>0 || e.value <= 0) retval += std::string("value<" + std::to_string(e.value) + "> ");
 	if(e.is_const == true || e.is_const == false) retval += std::string("is_const<" + std::to_string(e.is_const) + "> ");
         return strm << retval << "type<" << e.type << ">";
@@ -79,12 +85,10 @@ Expression * Apply(Expression * a, Expression * b, std::string op, std::string m
 void CheckExpression(Expression * a, Expression * b){
 	if(DEBUG) std::cout << "Checking Expressions: a: " << *a << ". b: " << *b << "." << std::endl;
 	if(!a || !b){ 
-                std::cerr << "Error: nullptr during expression apply." << std::endl;
-                exit(1);
+                Error("Error: nullptr during expression apply.");
         }
         if(a->type != b->type) { // Type error
-                std::cerr << "Error: Type error during expression apply." << std::endl;
-                exit(1);
+                Error("Error: Type error during expression apply.");
         }
 	
 }

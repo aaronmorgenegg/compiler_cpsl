@@ -12,6 +12,7 @@ class Expression;
 class Type{
 public:
 	int GetSize();
+	virtual Type * GetBaseType();
 protected:
 	int size;
 };
@@ -23,6 +24,8 @@ public:
 
 class ArrayType: public Type {
 public:
+	Type * GetBaseType();
+
 	Type * base_type;
 	int lower_bound;
 	int upper_bound;

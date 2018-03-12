@@ -227,7 +227,7 @@ IdentList : IdentList COMMASY IDENTSY {$1->push_back(std::string($3));}
           | IDENTSY {$$ = new std::vector<std::string>(1, std::string($1));}
           ;
 
-ArrayType : ARRAYSY LBRACKETSY Expression COLONSY Expression RBRACKETSY OFSY Type {$$ = new ArrayType($3, $5, $8);}
+ArrayType : ARRAYSY LBRACKETSY Expression COLONSY Expression RBRACKETSY OFSY Type {$$ = dynamic_cast<Type *>(new ArrayType($3, $5, $8));}
           ;
 
 OptVarDecls : VARSY VarDecls

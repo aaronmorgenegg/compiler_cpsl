@@ -38,6 +38,8 @@ void WriteFunctionLocation(Expression * e){
 		FOUT.Write("li $v0,1 # Load syscall : print_int");
 	} else if (e->type == &TYPE_CHAR){
 		FOUT.Write("li $v0,11 # Load syscall : print_char");
+	} else {
+		Error("Error: Write attempted on invalid type. Expr <" + to_string(e) + ">\n");
 	}
 	FOUT.Write("syscall");
 
@@ -57,8 +59,7 @@ void WriteFunction(Expression * e){
 		std::string s = std::string("STR" + std::to_string(e->value));
 		WriteFunction(s);
 	} else {
-		std:: cerr << "Error: attempted to write invalid expression." << std::endl;
-		exit(1);
+		Error("Error: attempted to write invalid expression.");
 	}
 }
 
@@ -78,8 +79,7 @@ void ReadFunction(std::string id){
 	if(DEBUG) std::cout << "Reading into <" << id << ">\n";
 	Expression * e = SYMBOL_TABLE.Lookup(id);
 	if(e->is_const) {
-		std::cerr << "Error: Attempted read into constant." << std::endl;
-		exit(1);
+		Error("Error: Attempted read into constant.");
 	} else if(e->type == &TYPE_INT){
                 ReadFunctionInt(e);
         } else if(e->type == &TYPE_CHAR){
@@ -87,8 +87,7 @@ void ReadFunction(std::string id){
         } else if(e->type == &TYPE_BOOL){
                 ReadFunctionInt(e);
 	} else {
-		std::cerr << "Error: Attempted read of invalid type." << std::endl;
-		exit(1);
+		Error("Error: Attempted read of invalid type.");
 	}									
 }
 
@@ -103,8 +102,7 @@ Expression * ChrFunction(Expression * e){
 		e->type = &TYPE_CHAR;
 		return e;
 	} else {
-		std:: cerr << "Error: Chr function attempted on non-integer type." << std::endl;
-		exit(1);
+		Error("Error: Chr function attempted on non-integer type.");
 	}
 }
 
@@ -113,8 +111,7 @@ Expression * OrdFunction(Expression * e){
 	        e->type = &TYPE_INT;
 		return e;
         } else {
-                std:: cerr << "Error: Ord function attempted on non-char type." << std::endl;
-                exit(1);
+                Error("Error: Ord function attempted on non-char type.");
         }
 }
 
@@ -124,8 +121,7 @@ Expression * PredFunction(Expression * e){
         } else if (e->type == &TYPE_BOOL) {
 		return Not(e);
 	} else {
-                std:: cerr << "Error: Pred function attempted on invalid type." << std::endl;
-                exit(1);
+                Error("Error: Pred function attempted on invalid type.");
         }
 }
 
@@ -135,8 +131,7 @@ Expression * SuccFunction(Expression * e){
         } else if (e->type == &TYPE_BOOL) {
                 return Not(e);
         } else {
-                std:: cerr << "Error: Succ function attempted on invalid type." << std::endl;
-                exit(1);
+                Error("Error: Succ function attempted on invalid type.");
         }
 }
 

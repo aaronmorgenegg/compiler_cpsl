@@ -4,6 +4,7 @@
 #include "register_pool.hpp"
 #include "symbol_table.hpp"
 #include "expressions.hpp"
+#include "utils.hpp"
 
 void WriteFunction(std::string);
 

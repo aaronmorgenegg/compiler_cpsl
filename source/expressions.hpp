@@ -1,13 +1,14 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <sstream>
 #include "globals.hpp"
 #include "type.hpp"
 #include "symbol_table.hpp"
 #include "register_pool.hpp"
 #include "assembly.hpp"
 #include "variables.hpp"
-#include <cctype>
+#include "utils.hpp"
 
 class Expression{
 public:
@@ -25,6 +26,8 @@ public:
 };
 
 std::ostream& operator<<(std::ostream &strm, Expression & e);
+
+std::string to_string(Expression *);
 
 std::string LoadExpression(Expression * a);
 
