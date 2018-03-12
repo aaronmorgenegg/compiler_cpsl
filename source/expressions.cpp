@@ -89,6 +89,15 @@ void CheckExpression(Expression * a, Expression * b){
 	
 }
 
+Expression * Lvalue(std::string id){
+	/*if(isdigit(id[0])){ // if it's an array location
+		Expression * expr = new Expression(id);
+		expr->has_address = true;
+		return expr;
+	}*/
+	return SYMBOL_TABLE.Lookup(id); // If it's an id
+}
+
 Expression * Add(Expression * a, Expression * b){
 	CheckExpression(a, b);
 	if(a->is_const && b->is_const) return new Expression(a->value + b->value, a->type); // constant folding

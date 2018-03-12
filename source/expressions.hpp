@@ -7,6 +7,7 @@
 #include "register_pool.hpp"
 #include "assembly.hpp"
 #include "variables.hpp"
+#include <cctype>
 
 class Expression{
 public:
@@ -38,6 +39,8 @@ void BinopLo(std::string op, std::string d, std::string a, std::string b);
 void BinopHi(std::string op, std::string d, std::string a, std::string b);
 
 void Unop(std::string op, std::string d, std::string a);
+
+Expression * Lvalue(std::string);
 
 Expression * Add(Expression * a, Expression * b);
 

@@ -15,8 +15,16 @@ ArrayType::ArrayType(Expression * lower_bound, Expression * upper_bound, Type * 
 	this->size = (this->upper_bound - this->lower_bound) * this->base_type->GetSize();
 }
 
-Expression * ArrayAccess(std::string id, Expression * index){
+std::string ArrayAccess(std::string id, Expression * index){
+	if(DEBUG) std::cout << "Accessing array <" << id << "> at index <" << *index << ">\n";
 	// TODO: check if id is an array type
-	// TODO: return expression holding address of expression, ex 12$gp
+	Expression * array = SYMBOL_TABLE.Lookup(id);
+	if(!array->has_address){
+		std::cerr<<"Error: missing address during array access of<" << id << ">." << std::endl;
+		exit(1);
+	}
+	std::string address = array->location;
+	if(DEBUG) std::cout << "  address <" << address << ">" << std::endl;
+	return address;
 }
 

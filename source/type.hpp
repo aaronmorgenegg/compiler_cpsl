@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <iostream>
 
 #include "globals.hpp"
 #include "expressions.hpp"
@@ -29,5 +30,5 @@ public:
 	ArrayType(Expression *, Expression *, Type *);
 };
 
-Expression * ArrayAccess(std::string, Expression *);
+std::string ArrayAccess(std::string, Expression *);
 

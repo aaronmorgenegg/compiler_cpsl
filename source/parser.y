@@ -343,7 +343,7 @@ Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_
            | FunctionCall                        {}
            | INTSY                               {$$ = new Expression($1, &TYPE_INT);}
            | LPARENSY Expression RPARENSY        {$$ = $2;}
-           | LValue                              {$$ = $1;}
+           | LValue                              {$$ = Lvalue(std::string($1));}
            | MINUSSY Expression %prec UMINUSSY   {$$ = Mult($2, new Expression(-1, &TYPE_INT));}
            | NOTSY Expression                    {$$ = Not($2);}
            | ORDSY LPARENSY Expression RPARENSY  {$$ = OrdFunction($3);}
@@ -356,8 +356,8 @@ FunctionCall : IDENTSY LPARENSY OptArguments RPARENSY {}
              ;
 
 LValue : LValue DOTSY IDENTSY {std::cout<<"TODO: record access"<<std::endl;}
-       | LValue LBRACKETSY Expression RBRACKETSY {$$ = ArrayAccess($1, $3);}
-       | IDENTSY {$$ = SYMBOL_TABLE.Lookup(std::string($1));}
+       | LValue LBRACKETSY Expression RBRACKETSY {$$ = ArrayAccess($1, $3).c_str();}
+       | IDENTSY {$$ = $1;}
        ;
 %%
 
