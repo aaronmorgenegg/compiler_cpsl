@@ -46,8 +46,7 @@ Expression * SymbolTable::Lookup(std::string id){
 	       	catch (const std::out_of_range& e){}
 	}
 
-	std::cerr << "Error: lookup expr on symbol table for <" << id << "> failed." << std::endl;
-	throw(3);
+	Error("Error: lookup expr on symbol table for <" + id + "> failed.");
 }
 
 void SymbolTable::Store(std::string id, Expression * e){
@@ -57,7 +56,9 @@ void SymbolTable::Store(std::string id, Expression * e){
 	if(expression_table.back().count(id) == 0){
 		expression_table.back()[id] = e;
 	} else {
-		Error("Error: Redefinition of id <" + id + ">.");
+		// Error("Error: Redefinition of id <" + id + ">.");
+		std::cerr << "Error: Redefinition of id <" << id << ">.\n";
+		throw(3);
 	}
 }
 
