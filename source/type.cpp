@@ -21,7 +21,9 @@ ArrayType::ArrayType(Expression * lower_bound, Expression * upper_bound, Type * 
 	if(this->lower_bound > this->upper_bound) {
 		Error("Error: Array lower bound greater than upper bound.");
 	}
-	// TODO: check types on bounds
+	if(lower_bound->type != upper_bound->type) {
+		Error("Error: Array bounds are not of the same type.");
+	}
 }
 
 Type * ArrayType::GetBaseType(){
@@ -38,6 +40,7 @@ std::string ArrayAccess(std::string id, Expression * index){
 		Error("Error: missing address during array access of<" + id + ">.");
 	}
 	std::string address = array->location;
+	address = UpdateArrayAddress(address, index, array_base_type);
 	Expression * array_expr = new Expression(address, array_base_type);
 	array_expr->has_address = true;
 
@@ -51,4 +54,13 @@ std::string ArrayAccess(std::string id, Expression * index){
 	return address;
 }
 
+std::string UpdateArrayAddress(std::string address, Expression * index, Type * base_type){
+	// Returns a new address with the updated size, ex converts 12($gp) at index 3 to 24($gp)
+	auto offset_index = address.find("(");
+	int offset = std::stoi(address.substr(0, offset_index));
+	std::string location = address.substr(offset_index, address.length());
+	offset += index->value * base_type->GetSize();
+	std::string new_address = std::to_string(offset) + location;
+	return new_address;
+}
 

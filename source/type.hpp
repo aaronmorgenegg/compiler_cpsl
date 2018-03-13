@@ -35,3 +35,5 @@ public:
 
 std::string ArrayAccess(std::string, Expression *);
 
+std::string UpdateArrayAddress(std::string, Expression *, Type *);
+
