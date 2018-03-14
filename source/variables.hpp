@@ -15,3 +15,9 @@ std::string LoadVariable(std::string);
 
 void Assignment(std::string, Expression *);
 
+int GetOffset(std::string);
+
+std::string GetAddress(std::string);
+
+std::string IncrementLocation(std::string, int);
+

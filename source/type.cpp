@@ -56,11 +56,7 @@ std::string ArrayAccess(std::string id, Expression * index){
 
 std::string UpdateArrayAddress(std::string address, Expression * index, Type * base_type){
 	// Returns a new address with the updated size, ex converts 12($gp) at index 3 to 24($gp)
-	auto offset_index = address.find("(");
-	int offset = std::stoi(address.substr(0, offset_index));
-	std::string location = address.substr(offset_index, address.length());
-	offset += index->value * base_type->GetSize();
-	std::string new_address = std::to_string(offset) + location;
+	std::string new_address = IncrementLocation(address, index->value * base_type->GetSize());
 	return new_address;
 }
 
@@ -70,6 +66,42 @@ RecordField::RecordField(std::vector<std::string> * members, Type * type){
 }
 
 RecordType::RecordType(std::vector<RecordField *> * members_list){
+	// members_list is a vector containing vector of ID's and their associated types
+	this->size = 0;
+	for(int i = 0; i < members_list->size(); i++){
+		RecordField * record = members_list->at(i);
+		Type * type = record->type;
+		for(int j = 0; j < record->members->size(); j++){
+			AddMember(record->members->at(j), type);
+			this->size += type->GetSize();
+		}
+	}
+}
 
+void RecordType::AddMember(std::string id, Type * type){
+	// Add the given id of given type to internal map of members
+	if(DEBUG) std::cout<<"Adding member<" << id << "> of type <" << type << ">\n";
+	this->offset_table[id] = this->size;
+	this->type_table[id] = type;
+}
+
+int RecordType::LookupOffset(std::string id){
+	return this->offset_table.at(id);
+}
+
+Type * RecordType::LookupType(std::string id){
+	return this->type_table.at(id);
+}
+
+std::string RecordAccess(std::string id, std::string member){
+	// access member from inside id, ex id.member
+	Expression * record = SYMBOL_TABLE.Lookup(id);
+	// TODO: type check to make sure it is of RecordType
+	std::string base_address = record->location;
+	RecordType * base_type = dynamic_cast<RecordType *>(record->type);
+	int member_offset = base_type->LookupOffset(member);
+	int member_size = base_type->LookupType(member)->GetSize();
+
+	return IncrementLocation(base_address, member_offset*member_size);
 }
 

@@ -215,7 +215,7 @@ Type : SimpleType {}
 SimpleType : IDENTSY {$$ = SYMBOL_TABLE.LookupType(std::string($1));}
            ;
 
-RecordType : RECORDSY FieldDecls ENDSY {$$ = new RecordType($2);}
+RecordType : RECORDSY FieldDecls ENDSY {$$ = dynamic_cast<Type *>(new RecordType($2));}
            ;
 
 FieldDecls : FieldDecls FieldDecl {$1->push_back($2);}
@@ -357,7 +357,7 @@ Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_
 FunctionCall : IDENTSY LPARENSY OptArguments RPARENSY {}
              ;
 
-LValue : LValue DOTSY IDENTSY {std::cout<<"TODO: record access"<<std::endl;}
+LValue : LValue DOTSY IDENTSY {$$ = RecordAccess($1, $3).c_str();}
        | LValue LBRACKETSY Expression RBRACKETSY {$$ = ArrayAccess($1, $3).c_str();}
        | IDENTSY {$$ = $1;}
        ;

@@ -26,3 +26,24 @@ void Assignment(std::string id, Expression * e){
 	REGISTER_POOL.ReleaseRegister(reg);
 }
 
+int GetOffset(std::string location){
+	// Returns the offset from a given location, ex given 12($gp), returns 12
+	auto offset_index = location.find("(");
+	return std::stoi(location.substr(0, offset_index));
+}
+
+std::string GetAddress(std::string location){
+	// Returns the address from a given location, ex given 12($gp), returns ($gp)
+	auto offset_index = location.find("(");
+	return location.substr(offset_index, location.length());
+}
+
+std::string IncrementLocation(std::string location, int value){
+	// returns a new string with given value, ex given 12($gp) and 8, returns 20($gp)
+        int offset = GetOffset(location);
+        std::string mem_loc = GetAddress(location);
+        offset += value;
+        std::string new_address = std::to_string(offset) + mem_loc;
+        return new_address;		
+}
+
