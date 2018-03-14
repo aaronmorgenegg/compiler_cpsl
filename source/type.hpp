@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <map>
 
 #include "globals.hpp"
 #include "expressions.hpp"
@@ -36,4 +37,19 @@ public:
 std::string ArrayAccess(std::string, Expression *);
 
 std::string UpdateArrayAddress(std::string, Expression *, Type *);
+
+struct RecordField{
+public:
+        RecordField(std::vector<std::string> *, Type *);
+        std::vector<std::string> * members;
+        Type * type;
+};
+
+class RecordType: public Type {
+public:
+	RecordType(std::vector<RecordField *> *);
+
+	std::map<std::string, int> offset_table;
+	std::map<std::string, Type *> type_table;
+};
 

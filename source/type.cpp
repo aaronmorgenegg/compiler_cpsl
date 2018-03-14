@@ -64,3 +64,12 @@ std::string UpdateArrayAddress(std::string address, Expression * index, Type * b
 	return new_address;
 }
 
+RecordField::RecordField(std::vector<std::string> * members, Type * type){
+	this->members = members;
+	this->type = type;
+}
+
+RecordType::RecordType(std::vector<RecordField *> * members_list){
+
+}
+

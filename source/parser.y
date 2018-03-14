@@ -19,6 +19,8 @@ void yyerror(const char*);
   Expression * expression_val;
   Type * type_val;
   std::vector<std::string> * list_val;
+  RecordField * field_val;
+  std::vector<RecordField *> * field_list_val;
 }
 
 %error-verbose
@@ -96,8 +98,8 @@ void yyerror(const char*);
 %type <int_val> ElseIfList 
 %type <expression_val> Expression 
 %type <int_val> FSignature 
-%type <int_val> FieldDecl 
-%type <int_val> FieldDecls
+%type <field_val> FieldDecl 
+%type <field_list_val> FieldDecls
 %type <int_val> ForHead 
 %type <int_val> ForStatement 
 %type <int_val> FormalParameter
@@ -115,7 +117,7 @@ void yyerror(const char*);
 %type <int_val> ProcedureCall
 %type <str_val> ReadArgs
 %type <int_val> ReadStatement 
-%type <int_val> RecordType 
+%type <type_val> RecordType 
 %type <int_val> RepeatStatement 
 %type <int_val> ReturnStatement 
 %type <type_val> SimpleType 
@@ -213,14 +215,14 @@ Type : SimpleType {}
 SimpleType : IDENTSY {$$ = SYMBOL_TABLE.LookupType(std::string($1));}
            ;
 
-RecordType : RECORDSY FieldDecls ENDSY {std::cout<<"TODO: record decl"<<std::endl;}
+RecordType : RECORDSY FieldDecls ENDSY {$$ = new RecordType($2);}
            ;
 
-FieldDecls : FieldDecls FieldDecl {}
-           | {}
+FieldDecls : FieldDecls FieldDecl {$1->push_back($2);}
+           | {$$ = new std::vector<RecordField *>;}
            ;
 
-FieldDecl : IdentList COLONSY Type SCOLONSY {}
+FieldDecl : IdentList COLONSY Type SCOLONSY {$$ = new RecordField($1, $3);}
           ;
 
 IdentList : IdentList COMMASY IDENTSY {$1->push_back(std::string($3));}
