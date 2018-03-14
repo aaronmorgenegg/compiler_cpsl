@@ -21,6 +21,7 @@ std::string LoadVariable(std::string location){
 }
 
 void Assignment(std::string id, Expression * e){
+	if(DEBUG) std::cout << "Assignment of id<" << id << "> to expr<" << *e << ">\n";
 	std::string reg = LoadExpression(e);
 	FOUT.Write(std::string("sw " + reg + ","  + SYMBOL_TABLE.Lookup(id)->location));
 	REGISTER_POOL.ReleaseRegister(reg);

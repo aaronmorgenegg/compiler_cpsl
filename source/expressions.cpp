@@ -94,11 +94,11 @@ void CheckExpression(Expression * a, Expression * b){
 }
 
 Expression * Lvalue(std::string id){
-	if(isdigit(id[0])){ // if it's an array location
+	/*if(isdigit(id[0])){ // if it's an array location
 		Expression * expr = new Expression(id, &TYPE_INT);
 		expr->has_address = true;
 		return expr;
-	}
+	}*/
 	return SYMBOL_TABLE.Lookup(id); // If it's an id
 }
 

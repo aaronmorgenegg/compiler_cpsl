@@ -54,7 +54,6 @@ public:
 
 	std::map<std::string, int> offset_table;
 	std::map<std::string, Type *> type_table;
-	int offset_counter;
 };
 
 std::string RecordAccess(std::string, std::string);
