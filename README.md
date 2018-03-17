@@ -2,8 +2,8 @@
 CPSL compiler for USU's compiler construction course.
 
 # Compile
-cd build
-cmake CMakeLists.txt
+cd build;
+cmake CMakeLists.txt;
 make
 
 # running
