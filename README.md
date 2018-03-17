@@ -2,7 +2,7 @@
 CPSL compiler for USU's compiler construction course.
 
 # Compile
-Compile in the build directory.
+Run compile.sh.
 
 # running
 Run build/cpsl, enter program input into std input, code will be generated and output to code.asm

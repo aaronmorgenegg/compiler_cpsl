@@ -98,21 +98,21 @@ std::string RecordAccess(std::string id, std::string member){
 	std::string member_id = id + "." + member;
 	if(DEBUG) std::cout << "Record access of member_id<" << member_id << ">\n";
 	try{
+		SYMBOL_TABLE.Lookup(member_id);
+	} catch (int e){ // Insert member into symbol table if it isn't there
 		Expression * record = SYMBOL_TABLE.Lookup(id);
 		// TODO: type check to make sure it is a record
 		std::string base_address = record->location;
 	        RecordType * base_type = dynamic_cast<RecordType *>(record->type);
 	        int member_offset = base_type->LookupOffset(member);
-	        int member_size = base_type->LookupType(member)->GetSize();
 
 		std::string new_address = IncrementLocation(base_address, member_offset);
 		Type * new_type = base_type->LookupType(member);
 		Expression * new_expression = new Expression(new_address, new_type);
 		new_expression->has_address = true;
 		SYMBOL_TABLE.Store(member_id, new_expression);
-	} catch(int e){
-		// do nothing since it's already in the symbol table
 	}
+	if(DEBUG) std::cout << "Record access of member_id returning<"<<member_id<<">\n";
 	return member_id;
 }
 

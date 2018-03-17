@@ -23,6 +23,7 @@ extern ASManager FOUT;
 extern StringList STRING_LIST;
 
 extern const bool DEBUG;
+extern const bool STDOUT;
 extern SimpleType TYPE_INT;
 extern SimpleType TYPE_CHAR;
 extern SimpleType TYPE_BOOL;
