@@ -1,2 +1,4 @@
-build/
-*.asm
+build/*
+tests/build/*
+**/code.asm
+!build/CMakeLists.txt
