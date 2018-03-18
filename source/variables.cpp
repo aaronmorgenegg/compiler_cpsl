@@ -20,10 +20,10 @@ std::string LoadVariable(std::string location){
 	return r;
 }
 
-void Assignment(std::string id, Expression * e){
-	if(DEBUG) std::cout << "Assignment of id<" << id << "> to expr<" << *e << ">\n";
+void Assignment(Expression * lvalue, Expression * e){
+	if(DEBUG) std::cout << "Assignment of lvalue<" << lvalue << "> to expr<" << *e << ">\n";
 	std::string reg = LoadExpression(e);
-	FOUT.Write(std::string("sw " + reg + ","  + SYMBOL_TABLE.Lookup(id)->location));
+	FOUT.Write(std::string("sw " + reg + ","  + lvalue->location));
 	REGISTER_POOL.ReleaseRegister(reg);
 }
 

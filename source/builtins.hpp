@@ -22,7 +22,7 @@ void ReadFunctionInt(Expression *);
 
 void ReadFunctionChar(Expression *);
 
-void ReadFunction(std::string);
+void ReadFunction(Expression *);
 
 void StopFunction();
 

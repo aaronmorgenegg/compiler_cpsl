@@ -110,7 +110,7 @@ void yyerror(const char*);
 %type <int_val> OptVar 
 %type <int_val> IfHead 
 %type <int_val> IfStatement 
-%type <str_val> LValue 
+%type <expression_val> LValue 
 %type <int_val> OptArguments 
 %type <int_val> OptFormalParameters  
 %type <int_val> PSignature 
@@ -307,8 +307,8 @@ ReturnStatement : RETURNSY Expression {}
 ReadStatement : READSY LPARENSY ReadArgs RPARENSY 
               ;
 
-ReadArgs : ReadArgs COMMASY LValue {ReadFunction(std::string($3));}
-         | LValue                  {ReadFunction(std::string($1));}
+ReadArgs : ReadArgs COMMASY LValue {ReadFunction($3);}
+         | LValue                  {ReadFunction($1);}
          ;
 
 WriteStatement : WRITESY LPARENSY WriteArgs RPARENSY 
@@ -345,7 +345,7 @@ Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_
            | FunctionCall                        {}
            | INTSY                               {$$ = new Expression($1, &TYPE_INT);}
            | LPARENSY Expression RPARENSY        {$$ = $2;}
-           | LValue                              {$$ = Lvalue(std::string($1));}
+           | LValue                              {$$ = $1;}
            | MINUSSY Expression %prec UMINUSSY   {$$ = Mult($2, new Expression(-1, &TYPE_INT));}
            | NOTSY Expression                    {$$ = Not($2);}
            | ORDSY LPARENSY Expression RPARENSY  {$$ = OrdFunction($3);}
@@ -357,9 +357,9 @@ Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_
 FunctionCall : IDENTSY LPARENSY OptArguments RPARENSY {}
              ;
 
-LValue : LValue DOTSY IDENTSY {$$ = RecordAccess($1, $3).c_str();}
-       | LValue LBRACKETSY Expression RBRACKETSY {$$ = ArrayAccess($1, $3).c_str();}
-       | IDENTSY {$$ = $1;}
+LValue : LValue DOTSY IDENTSY {$$ = RecordAccess($1, $3);}
+       | LValue LBRACKETSY Expression RBRACKETSY {$$ = ArrayAccess($1, $3);}
+       | IDENTSY {$$ = Lvalue($1);}
        ;
 %%
 

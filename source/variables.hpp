@@ -13,7 +13,7 @@ void SaveVariables(std::vector<std::string> *, Type *);
 
 std::string LoadVariable(std::string);
 
-void Assignment(std::string, Expression *);
+void Assignment(Expression *, Expression *);
 
 int GetOffset(std::string);
 

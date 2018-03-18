@@ -34,9 +34,9 @@ public:
 	ArrayType(Expression *, Expression *, Type *);
 };
 
-std::string ArrayAccess(std::string, Expression *);
+Expression * ArrayAccess(Expression *, Expression *);
 
-std::string UpdateArrayAddress(std::string, Expression *, Type *);
+Expression * UpdateArrayAddress(std::string, Expression *, Type *);
 
 struct RecordField{
 public:
@@ -56,5 +56,5 @@ public:
 	std::map<std::string, Type *> type_table;
 };
 
-std::string RecordAccess(std::string, std::string);
+Expression * RecordAccess(Expression *, std::string);
 

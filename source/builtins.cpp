@@ -75,9 +75,8 @@ void ReadFunctionChar(Expression * e){
         FOUT.Write("sw $v0," + e->location);
 }
 
-void ReadFunction(std::string id){
-	if(DEBUG) std::cout << "Reading into <" << id << ">\n";
-	Expression * e = SYMBOL_TABLE.Lookup(id);
+void ReadFunction(Expression * e){
+	if(DEBUG) std::cout << "Reading into <" << e << ">\n";
 	if(e->is_const) {
 		Error("Error: Attempted read into constant.");
 	} else if(e->type == &TYPE_INT){

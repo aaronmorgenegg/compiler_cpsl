@@ -30,34 +30,31 @@ Type * ArrayType::GetBaseType(){
 	return this->base_type;
 }
 
-std::string ArrayAccess(std::string id, Expression * index){
+Expression * ArrayAccess(Expression * array, Expression * index){
 	// Returns the location of the given array, given id[index]
-	if(DEBUG) std::cout << "Accessing array <" << id << "> at index <" << *index << ">\n";
+	if(DEBUG) std::cout << "Accessing array <" << *array << "> at index <" << *index << ">\n";
 	// TODO: check if id is an array type
-	Expression * array = SYMBOL_TABLE.Lookup(id);
 	Type * array_base_type = array->type->GetBaseType();
 	if(!array->has_address){
-		Error("Error: missing address during array access of<" + id + ">.");
+		Error("Error: missing address during array access of<" + to_string(array) + ">.");
 	}
 	std::string address = array->location;
-	address = UpdateArrayAddress(address, index, array_base_type);
-	Expression * array_expr = new Expression(address, array_base_type);
-	array_expr->has_address = true;
+	Expression * address_expr = new Expression(address, array_base_type);
+	address_expr->has_address = true;
 
-	try {
-		SYMBOL_TABLE.Store(address, array_expr);
-	} catch(int e){
-		// Do nothing since it's already in the symbol table
-	}
-	
-	if(DEBUG) std::cout << "  address <" << address << ">" << std::endl;
-	return address;
+	return UpdateArrayAddress(address, index, array_base_type);
 }
 
-std::string UpdateArrayAddress(std::string address, Expression * index, Type * base_type){
+Expression * UpdateArrayAddress(std::string address, Expression * index, Type * base_type){
 	// Returns a new address with the updated size, ex converts 12($gp) at index 3 to 24($gp)
-	std::string new_address = IncrementLocation(address, index->value * base_type->GetSize());
-	return new_address;
+	std::string index_offset = LoadExpression(Mult(index, new Expression(base_type->GetSize(), base_type)));
+	std::string address_no_parenthesis = address.substr(2, address.size() - 3);
+	FOUT.Write("add " + index_offset + "," + address_no_parenthesis + "," + index_offset);
+	index_offset.insert(0, "(");
+	index_offset.insert(index_offset.size(), ")");
+	Expression * updated_expression = new Expression(index_offset, base_type);
+	updated_expression->has_address = true;
+	return updated_expression;
 }
 
 RecordField::RecordField(std::vector<std::string> * members, Type * type){
@@ -93,26 +90,19 @@ Type * RecordType::LookupType(std::string id){
 	return this->type_table.at(id);
 }
 
-std::string RecordAccess(std::string id, std::string member){
+Expression * RecordAccess(Expression * record, std::string member){
 	// access member from inside id, ex id.member
-	std::string member_id = id + "." + member;
-	if(DEBUG) std::cout << "Record access of member_id<" << member_id << ">\n";
-	try{
-		SYMBOL_TABLE.Lookup(member_id);
-	} catch (int e){ // Insert member into symbol table if it isn't there
-		Expression * record = SYMBOL_TABLE.Lookup(id);
-		// TODO: type check to make sure it is a record
-		std::string base_address = record->location;
-	        RecordType * base_type = dynamic_cast<RecordType *>(record->type);
-	        int member_offset = base_type->LookupOffset(member);
+	if(DEBUG) std::cout << "Record access of member<" << member << ">\n";
+	// TODO: type check to make sure it is a record
+	std::string base_address = record->location;
+        RecordType * base_type = dynamic_cast<RecordType *>(record->type);
+        int member_offset = base_type->LookupOffset(member);
+	std::string new_address = IncrementLocation(base_address, member_offset);
 
-		std::string new_address = IncrementLocation(base_address, member_offset);
-		Type * new_type = base_type->LookupType(member);
-		Expression * new_expression = new Expression(new_address, new_type);
-		new_expression->has_address = true;
-		SYMBOL_TABLE.Store(member_id, new_expression);
-	}
-	if(DEBUG) std::cout << "Record access of member_id returning<"<<member_id<<">\n";
-	return member_id;
+	Type * new_type = base_type->LookupType(member);
+	Expression * new_expression = new Expression(new_address, new_type);
+	new_expression->has_address = true;
+
+	return new_expression;
 }
 
