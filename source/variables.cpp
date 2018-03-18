@@ -29,13 +29,17 @@ void Assignment(Expression * lvalue, Expression * e){
 
 int GetOffset(std::string location){
 	// Returns the offset from a given location, ex given 12($gp), returns 12
-	auto offset_index = location.find("(");
-	return std::stoi(location.substr(0, offset_index));
+	int offset_index = location.find("(");
+	try {
+		return std::stoi(location.substr(0, offset_index));
+	} catch(std::invalid_argument e){
+		return 0;
+	}
 }
 
 std::string GetAddress(std::string location){
 	// Returns the address from a given location, ex given 12($gp), returns ($gp)
-	auto offset_index = location.find("(");
+	int offset_index = location.find("(");
 	return location.substr(offset_index, location.length());
 }
 

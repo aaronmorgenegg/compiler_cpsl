@@ -10,7 +10,10 @@ RegisterPool::RegisterPool(){
 }
 
 std::string RegisterPool::GetRegister(){
-	if(DEBUG && available_registers.size() <=0) std::cout << "Out of registers!" << std::endl;
+	if(available_registers.size() <=0) {
+		std::cerr << "Error: Out of registers!" << std::endl;
+		this->available_registers.push_back("$t9");
+	}
 	std::string reg = available_registers.back();
 	available_registers.pop_back();
 	return reg;

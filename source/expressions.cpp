@@ -31,6 +31,7 @@ std::ostream& operator<<(std::ostream &strm, Expression & e){
 	if(e.location.length()) retval += std::string("location<" + e.location + "> ");
 	if(e.value>0 || e.value <= 0) retval += std::string("value<" + std::to_string(e.value) + "> ");
 	if(e.is_const == true || e.is_const == false) retval += std::string("is_const<" + std::to_string(e.is_const) + "> ");
+	if(e.has_address == true || e.has_address == false) retval += std::string("has_address<" + std::to_string(e.has_address) + "> ");
         return strm << retval << "type<" << e.type << ">";
 }
 
@@ -94,11 +95,6 @@ void CheckExpression(Expression * a, Expression * b){
 }
 
 Expression * Lvalue(std::string id){
-	if(isdigit(id[0])){ // if it's an array location
-		Expression * expr = new Expression(id, &TYPE_INT);
-		expr->has_address = true;
-		return expr;
-	}
 	return SYMBOL_TABLE.Lookup(id); // If it's an id
 }
 

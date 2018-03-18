@@ -5,6 +5,7 @@
 
 #include "globals.hpp"
 #include "expressions.hpp"
+#include "utils.hpp"
 
 class Expression;
 

@@ -48,7 +48,8 @@ Expression * ArrayAccess(Expression * array, Expression * index){
 Expression * UpdateArrayAddress(std::string address, Expression * index, Type * base_type){
 	// Returns a new address with the updated size, ex converts 12($gp) at index 3 to 24($gp)
 	std::string index_offset = LoadExpression(Mult(index, new Expression(base_type->GetSize(), base_type)));
-	std::string address_no_parenthesis = address.substr(2, address.size() - 3);
+	std::string address_no_parenthesis = RemoveSeq(GetAddress(address), '(');
+	address_no_parenthesis = RemoveSeq(address_no_parenthesis, ')');
 	FOUT.Write("add " + index_offset + "," + address_no_parenthesis + "," + index_offset);
 	index_offset.insert(0, "(");
 	index_offset.insert(index_offset.size(), ")");
@@ -98,7 +99,7 @@ Expression * RecordAccess(Expression * record, std::string member){
         RecordType * base_type = dynamic_cast<RecordType *>(record->type);
         int member_offset = base_type->LookupOffset(member);
 	std::string new_address = IncrementLocation(base_address, member_offset);
-
+	
 	Type * new_type = base_type->LookupType(member);
 	Expression * new_expression = new Expression(new_address, new_type);
 	new_expression->has_address = true;
