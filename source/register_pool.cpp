@@ -1,18 +1,21 @@
 #include "register_pool.hpp"
 
 RegisterPool::RegisterPool(){
+	Initialize();
+}
+
+void RegisterPool::Initialize(){
 	std::string registers[18] = {"$s0", "$s1", "$s2", "$s3", "$s4", "$s5", "$s6", "$s7",
-	            		     "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7", "$t8", "$t9"};
-	for(int i = 0; i < 18; i++){
-		this->available_registers.push_back(registers[i]);
-	}
-	
+                                     "$t0", "$t1", "$t2", "$t3", "$t4", "$t5", "$t6", "$t7", "$t8", "$t9"};
+        for(int i = 0; i < 18; i++){
+                this->available_registers.push_back(registers[i]);
+        }
 }
 
 std::string RegisterPool::GetRegister(){
 	if(available_registers.size() <=0) {
 		std::cerr << "Error: Out of registers!" << std::endl;
-		this->available_registers.push_back("$t9");
+		Initialize();
 	}
 	std::string reg = available_registers.back();
 	available_registers.pop_back();

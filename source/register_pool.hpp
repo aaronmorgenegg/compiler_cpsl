@@ -7,6 +7,7 @@
 class RegisterPool {
 public:
 	RegisterPool();
+	void Initialize();
         std::string GetRegister();
         void ReleaseRegister(std::string reg);
 private:

@@ -5,7 +5,7 @@ int Type::GetSize(){
 }
 
 Type * Type::GetBaseType(){
-	if(DEBUG) std::cout << "Warning: accessing base type of parent Type class." << std::endl;
+	std::cerr << "Warning: accessing base type of parent Type class." << std::endl;
 	return this;
 }
 
@@ -33,7 +33,6 @@ Type * ArrayType::GetBaseType(){
 Expression * ArrayAccess(Expression * array, Expression * index){
 	// Returns the location of the given array, given id[index]
 	if(DEBUG) std::cout << "Accessing array <" << *array << "> at index <" << *index << ">\n";
-	// TODO: check if id is an array type
 	Type * array_base_type = array->type->GetBaseType();
 	if(!array->has_address){
 		Error("Error: missing address during array access of<" + to_string(array) + ">.");
@@ -47,7 +46,7 @@ Expression * ArrayAccess(Expression * array, Expression * index){
 
 Expression * UpdateArrayAddress(std::string address, Expression * index, Type * base_type){
 	// Returns a new address with the updated size, ex converts 12($gp) at index 3 to 24($gp)
-	std::string index_offset = LoadExpression(Mult(index, new Expression(base_type->GetSize(), base_type)));
+	std::string index_offset = LoadExpression(Mult(index, new Expression(base_type->GetSize(), index->type)));
 	std::string address_no_parenthesis = RemoveSeq(GetAddress(address), '(');
 	address_no_parenthesis = RemoveSeq(address_no_parenthesis, ')');
 	FOUT.Write("add " + index_offset + "," + address_no_parenthesis + "," + index_offset);
@@ -94,7 +93,6 @@ Type * RecordType::LookupType(std::string id){
 Expression * RecordAccess(Expression * record, std::string member){
 	// access member from inside id, ex id.member
 	if(DEBUG) std::cout << "Record access of member<" << member << ">\n";
-	// TODO: type check to make sure it is a record
 	std::string base_address = record->location;
         RecordType * base_type = dynamic_cast<RecordType *>(record->type);
         int member_offset = base_type->LookupOffset(member);
