@@ -6,6 +6,7 @@
 #include "../source/globals.hpp"
 #include "../source/builtins.hpp"
 #include "../source/variables.hpp"
+#include "../source/control_statements.hpp"
 
 extern int yylex();
 void yyerror(const char*);
@@ -121,6 +122,7 @@ void yyerror(const char*);
 %type <int_val> RepeatStatement 
 %type <int_val> ReturnStatement 
 %type <type_val> SimpleType 
+%type <int_val> StartWhile 
 %type <int_val> Statement 
 %type <int_val> StatementList 
 %type <int_val> StopStatement 
@@ -279,11 +281,14 @@ ElseClause : ELSESY StatementList {}
            | {}
            ;
 
-WhileStatement : WhileHead DOSY StatementList ENDSY {}
+WhileStatement : WhileHead DOSY StatementList ENDSY {WhileStatement($1);}
                ;
 
-WhileHead : WHILESY Expression {}
+WhileHead : StartWhile Expression {$$ = WhileHead($1, $2);}
           ;
+
+StartWhile : WHILESY {$$ = WhileStart();}
+	   ;
 
 RepeatStatement : REPEATSY StatementList UNTILSY Expression {}
 

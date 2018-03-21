@@ -5,6 +5,7 @@
 #include "../source/globals.hpp"
 #include "../source/builtins.hpp"
 #include "../source/variables.hpp"
+#include "../source/control_statements.hpp"
 #include "parser.hpp"
 %}
 
