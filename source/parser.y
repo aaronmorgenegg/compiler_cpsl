@@ -264,21 +264,21 @@ Assignment : LValue ASSIGNSY Expression {Assignment($1, $3);}
 IfStatement : IfHead ThenPart ElseIfList ElseClause ENDSY {}
             ;
 
-IfHead : IFSY Expression {}
+IfHead : IFSY Expression {$$ = IfHead($2);}
        ;
 
-ThenPart : THENSY StatementList {}
+ThenPart : THENSY StatementList {ThenStatement();}
          ;
 
 ElseIfList : ElseIfList ElseIfHead ThenPart {}
            |{}
            ;
 
-ElseIfHead : ELSEIFSY Expression {}
+ElseIfHead : ELSEIFSY Expression {$$ = ElseIfHead($2);}
            ;
 
-ElseClause : ELSESY StatementList {}
-           | {}
+ElseClause : ELSESY StatementList {$$ = ElseStatement();}
+           | {$$ = ElseStatement();}
            ;
 
 WhileStatement : WhileHead DOSY StatementList ENDSY {WhileStatement($1);}

@@ -2,10 +2,13 @@
 
 std::string LABEL_WHILE_START = "SW";
 std::string LABEL_WHILE_END = "EW";
+std::string LABEL_IF_START = "SI";
+std::string LABEL_IF_END = "EI";
+std::string LABEL_ELSE = "E";
 
 int GetWhileCounter(){
-	static int w = 0;
-	return w++;
+	static int while_counter = 0;
+	return while_counter++;
 }
 
 int WhileStart(){
@@ -26,5 +29,47 @@ void WhileStatement(int counter){
 	std::string end_label = LABEL_WHILE_END + std::to_string(counter);
 	FOUT.Write("j " + start_label);
 	FOUT.Write(end_label + ":");
+}
+
+int GetIfCounter(bool increment){
+	static int if_counter = 0;
+	if(increment) return if_counter++;
+	else return if_counter - 1;
+}
+
+int GetElseCounter(){
+	static int else_counter = 0;
+	return else_counter++;
+}
+
+int IfHead(Expression * e){
+	int label_count = GetIfCounter(true);
+	std::string condition = LoadExpression(e);
+	std::string if_end = LABEL_IF_END + std::to_string(label_count);
+	FOUT.Write("beq " + condition + ", $zero, " + if_end);
+	return label_count;
+}
+
+int ThenStatement(){
+	int label_count = GetIfCounter(false);
+	std::string end_if_label = LABEL_IF_END + std::to_string(label_count);
+	FOUT.Write("j " + end_if_label);
+	return label_count;
+}
+
+int ElseIfHead(Expression * e){
+	int label_count = GetIfCounter(false);
+	std::string condition = LoadExpression(e);
+	std::string if_end = LABEL_IF_END + std::to_string(label_count);
+	FOUT.Write("beq " + condition + ", $zero, " + if_end);
+	return label_count;
+}
+
+
+int ElseStatement(){
+	int label_count = GetIfCounter(false);
+	//FOUT.Write("j " + LABEL_IF_END + std::to_string(label_count));
+	FOUT.Write(LABEL_IF_END + std::to_string(label_count) + ":");
+	return label_count;
 }
 

@@ -1,0 +1,16 @@
+var
+i : integer;
+
+begin
+read(i);
+if i = 42 then
+write("The answer to life, the universe, and everything");
+elseif i < 10 then
+write("Hey, that's a single digit!");
+elseif i > 100 then
+write("Woah that's a big number!");
+else
+write("Well I guess that number isn't particularly interesting to me...");
+end
+end.
+
