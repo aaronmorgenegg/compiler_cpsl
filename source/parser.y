@@ -95,6 +95,7 @@ void yyerror(const char*);
 %type <int_val> Block 
 %type <int_val> Body  
 %type <int_val> ElseClause 
+%type <int_val> ElseLabel 
 %type <int_val> ElseIfHead 
 %type <int_val> ElseIfList 
 %type <expression_val> Expression 
@@ -106,6 +107,7 @@ void yyerror(const char*);
 %type <int_val> FormalParameter
 %type <int_val> FormalParameters  
 %type <int_val> FunctionCall 
+%type <int_val> IfLabel
 %type <int_val> INTSY 
 %type <list_val> IdentList 
 %type <int_val> OptVar 
@@ -261,8 +263,11 @@ Statement : Assignment {}
 Assignment : LValue ASSIGNSY Expression {Assignment($1, $3);}
            ;
 
-IfStatement : IfHead ThenPart ElseIfList ElseClause ENDSY {}
+IfStatement : IfLabel ElseIfList ElseClause ENDSY {IfStatement(GetIfCounter());}
             ;
+
+IfLabel : IfHead ThenPart {$$ = ElseLabel($1);}
+	;
 
 IfHead : IFSY Expression {$$ = IfHead($2);}
        ;
@@ -270,15 +275,15 @@ IfHead : IFSY Expression {$$ = IfHead($2);}
 ThenPart : THENSY StatementList {ThenStatement();}
          ;
 
-ElseIfList : ElseIfList ElseIfHead ThenPart {}
+ElseIfList : ElseIfList ElseIfHead ThenPart {$$ = ElseLabel($2);}
            |{}
            ;
 
 ElseIfHead : ELSEIFSY Expression {$$ = ElseIfHead($2);}
            ;
 
-ElseClause : ELSESY StatementList {$$ = ElseStatement();}
-           | {$$ = ElseStatement();}
+ElseClause : ELSESY StatementList {}
+           | {}
            ;
 
 WhileStatement : WhileHead DOSY StatementList ENDSY {WhileStatement($1);}

@@ -17,13 +17,17 @@ int WhileHead(int, Expression *);
 
 void WhileStatement(int);
 
-int GetIfCounter(bool);
+int GetIfCounter();
 
-int GetElseCounter(bool);
+int GetElseCounter();
+
+void IfStatement(int);
 
 int IfHead(Expression *);
 
 int ThenStatement();
+
+int ElseLabel(int);
 
 int ElseIfHead(Expression *);
 

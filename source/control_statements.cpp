@@ -1,10 +1,10 @@
 #include "control_statements.hpp"
 
-std::string LABEL_WHILE_START = "SW";
-std::string LABEL_WHILE_END = "EW";
-std::string LABEL_IF_START = "SI";
-std::string LABEL_IF_END = "EI";
-std::string LABEL_ELSE = "E";
+std::string LABEL_WHILE_START = "STARTWHILE";
+std::string LABEL_WHILE_END = "ENDWHILE";
+std::string LABEL_IF_START = "STARTIF";
+std::string LABEL_IF_END = "ENDIF";
+std::string LABEL_ELSE = "ELSE";
 
 int GetWhileCounter(){
 	static int while_counter = 0;
@@ -32,21 +32,22 @@ void WhileStatement(int counter){
 	FOUT.Write(end_label + ":");
 }
 
-int GetIfCounter(bool increment){
+int GetIfCounter(){
 	static int if_counter = 0;
-	if(increment) return if_counter++;
-	else return if_counter - 1;
+	return if_counter++;
 }
 
-int GetElseCounter(bool increment){
+int GetElseCounter(){
 	static int else_counter = 0;
-	if(increment) return else_counter++;
-	else return else_counter - 1;
+	return else_counter++;
+}
+
+void IfStatement(int label_count){
+	FOUT.Write(LABEL_IF_END + std::to_string(label_count) + ":");
 }
 
 int IfHead(Expression * e){
-	int label_count = GetIfCounter(true);
-	label_count = GetElseCounter(true);
+	int label_count = GetElseCounter();
 	std::string condition = LoadExpression(e);
 	std::string else_label = LABEL_ELSE + std::to_string(label_count);
 	FOUT.Write("beq " + condition + ", $zero, " + else_label);
@@ -55,15 +56,20 @@ int IfHead(Expression * e){
 }
 
 int ThenStatement(){
-	int label_count = GetIfCounter(false);
+	//int label_count = GetIfCounter();
+	int label_count = 0; // TODO: fix this, need to pass in the end if label count
 	std::string end_if_label = LABEL_IF_END + std::to_string(label_count);
 	FOUT.Write("j " + end_if_label);
 	return label_count;
 }
 
+int ElseLabel(int label_count){
+	FOUT.Write(LABEL_ELSE + std::to_string(label_count) + ":");
+	return label_count;
+}
+
 int ElseIfHead(Expression * e){
-	int label_count = GetElseCounter(true);
-	FOUT.Write(LABEL_ELSE + std::to_string(label_count-1) + ":");
+	int label_count = GetElseCounter();
 	std::string condition = LoadExpression(e);
 	std::string else_label = LABEL_ELSE + std::to_string(label_count);
 	FOUT.Write("beq " + condition + ", $zero, " + else_label);
@@ -71,12 +77,11 @@ int ElseIfHead(Expression * e){
 	return label_count;
 }
 
-
 int ElseStatement(){
-	int label_count = GetElseCounter(false);
-	FOUT.Write(LABEL_ELSE + std::to_string(label_count) + ":");
-	label_count = GetIfCounter(false);
+	// int label_count = GetIfCounter();
+	/*int label_count = 0; // TODO: fix this, need to pass in the end if label count
 	FOUT.Write(LABEL_IF_END + std::to_string(label_count) + ":");
-	return label_count;
+	return label_count;*/
+	return 0;
 }
 
