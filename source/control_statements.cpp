@@ -21,6 +21,7 @@ int WhileHead(int counter, Expression * e){
 	std::string condition = LoadExpression(e);
 	std::string label = LABEL_WHILE_END + std::to_string(counter);
 	FOUT.Write("beq $zero, " + condition + ", " + label);
+	REGISTER_POOL.ReleaseRegister(condition);
 	return counter;
 }
 
@@ -37,16 +38,19 @@ int GetIfCounter(bool increment){
 	else return if_counter - 1;
 }
 
-int GetElseCounter(){
+int GetElseCounter(bool increment){
 	static int else_counter = 0;
-	return else_counter++;
+	if(increment) return else_counter++;
+	else return else_counter - 1;
 }
 
 int IfHead(Expression * e){
 	int label_count = GetIfCounter(true);
+	label_count = GetElseCounter(true);
 	std::string condition = LoadExpression(e);
-	std::string if_end = LABEL_IF_END + std::to_string(label_count);
-	FOUT.Write("beq " + condition + ", $zero, " + if_end);
+	std::string else_label = LABEL_ELSE + std::to_string(label_count);
+	FOUT.Write("beq " + condition + ", $zero, " + else_label);
+	REGISTER_POOL.ReleaseRegister(condition);
 	return label_count;
 }
 
@@ -58,17 +62,20 @@ int ThenStatement(){
 }
 
 int ElseIfHead(Expression * e){
-	int label_count = GetIfCounter(false);
+	int label_count = GetElseCounter(true);
+	FOUT.Write(LABEL_ELSE + std::to_string(label_count-1) + ":");
 	std::string condition = LoadExpression(e);
-	std::string if_end = LABEL_IF_END + std::to_string(label_count);
-	FOUT.Write("beq " + condition + ", $zero, " + if_end);
+	std::string else_label = LABEL_ELSE + std::to_string(label_count);
+	FOUT.Write("beq " + condition + ", $zero, " + else_label);
+	REGISTER_POOL.ReleaseRegister(condition);
 	return label_count;
 }
 
 
 int ElseStatement(){
-	int label_count = GetIfCounter(false);
-	//FOUT.Write("j " + LABEL_IF_END + std::to_string(label_count));
+	int label_count = GetElseCounter(false);
+	FOUT.Write(LABEL_ELSE + std::to_string(label_count) + ":");
+	label_count = GetIfCounter(false);
 	FOUT.Write(LABEL_IF_END + std::to_string(label_count) + ":");
 	return label_count;
 }

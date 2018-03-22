@@ -19,7 +19,7 @@ void WhileStatement(int);
 
 int GetIfCounter(bool);
 
-int GetElseCounter();
+int GetElseCounter(bool);
 
 int IfHead(Expression *);
 
