@@ -97,7 +97,7 @@ void yyerror(const char*);
 %type <int_val> Body  
 %type <int_val> ElseClause 
 %type <int_val> ElseIfHead 
-%type <int_val> ElseIfList 
+%type <int_list_val> ElseIfList 
 %type <expression_val> Expression 
 %type <int_val> FSignature 
 %type <field_val> FieldDecl 
@@ -259,10 +259,10 @@ Statement : Assignment {}
 Assignment : LValue ASSIGNSY Expression {Assignment($1, $3);}
            ;
 
-IfStatement : IfLabel ElseIfList ElseClause ENDSY {IfStatement($1->at(1));}
+IfStatement : ElseIfList ElseClause ENDSY {IfStatement($1->at(1));}
             ;
 
-IfLabel : IfHead ThenPart {ElseLabel($1->at(0)); ThenStatement($1->at(1)); $$ = $1;}
+IfLabel : IfHead ThenPart {ThenStatement($1->at(1)); ElseLabel($1->at(0)); $$ = $1;}
 	;
 
 IfHead : IFSY Expression {$$ = IfHead($2);}
@@ -271,8 +271,8 @@ IfHead : IFSY Expression {$$ = IfHead($2);}
 ThenPart : THENSY StatementList {}
          ;
 
-ElseIfList : ElseIfList ElseIfHead ThenPart {$$ = ElseLabel($2);}
-           |{}
+ElseIfList : ElseIfList ElseIfHead ThenPart {$$ = ElseIfList($1->at(1), $2);}
+           | IfLabel {$$ = $1;}
            ;
 
 ElseIfHead : ELSEIFSY Expression {$$ = ElseIfHead($2);}

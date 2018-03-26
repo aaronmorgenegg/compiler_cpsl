@@ -79,6 +79,16 @@ int ElseIfHead(Expression * e){
 	return label_count;
 }
 
+std::vector<int> * ElseIfList(int if_label, int else_label){
+	ThenStatement(if_label);
+	ElseLabel(else_label);
+
+	std::vector<int> * labels = new std::vector<int>();
+	labels->push_back(else_label);
+	labels->push_back(if_label);
+	return labels;
+}
+
 int ElseStatement(){
 	// int label_count = GetIfCounter();
 	/*int label_count = 0; // TODO: fix this, need to pass in the end if label count

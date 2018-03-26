@@ -32,5 +32,7 @@ int ElseLabel(int);
 
 int ElseIfHead(Expression *);
 
+std::vector<int> * ElseIfList(int, int);
+
 int ElseStatement();
 
