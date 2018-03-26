@@ -118,8 +118,6 @@ void yyerror(const char*);
 %type <int_val> OptFormalParameters  
 %type <int_val> PSignature 
 %type <int_val> ProcedureCall
-%type <str_val> ReadArgs
-%type <int_val> ReadStatement 
 %type <type_val> RecordType 
 %type <int_val> RepeatStatement 
 %type <int_val> ReturnStatement 
@@ -133,8 +131,6 @@ void yyerror(const char*);
 %type <type_val> Type 
 %type <int_val> WhileHead 
 %type <int_val> WhileStatement 
-%type <int_val> WriteArgs 
-%type <int_val> WriteStatement  
 %type <str_val> IDENTSY 
 %type <str_val> STRINGSY 
 
