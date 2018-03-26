@@ -95,7 +95,6 @@ void yyerror(const char*);
 %type <int_val> Block 
 %type <int_val> Body  
 %type <int_val> ElseClause 
-%type <int_val> ElseLabel 
 %type <int_val> ElseIfHead 
 %type <int_val> ElseIfList 
 %type <expression_val> Expression 
