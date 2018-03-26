@@ -20,6 +20,7 @@ void yyerror(const char*);
   Expression * expression_val;
   Type * type_val;
   std::vector<std::string> * list_val;
+  std::vector<int> * int_list_val;
   RecordField * field_val;
   std::vector<RecordField *> * field_list_val;
 }
@@ -106,11 +107,11 @@ void yyerror(const char*);
 %type <int_val> FormalParameter
 %type <int_val> FormalParameters  
 %type <int_val> FunctionCall 
-%type <int_val> IfLabel
+%type <int_list_val> IfLabel 
 %type <int_val> INTSY 
 %type <list_val> IdentList 
 %type <int_val> OptVar 
-%type <int_val> IfHead 
+%type <int_list_val> IfHead 
 %type <int_val> IfStatement 
 %type <expression_val> LValue 
 %type <int_val> OptArguments 
@@ -258,16 +259,16 @@ Statement : Assignment {}
 Assignment : LValue ASSIGNSY Expression {Assignment($1, $3);}
            ;
 
-IfStatement : IfLabel ElseIfList ElseClause ENDSY {IfStatement(GetIfCounter());}
+IfStatement : IfLabel ElseIfList ElseClause ENDSY {IfStatement($1->at(1));}
             ;
 
-IfLabel : IfHead ThenPart {$$ = ElseLabel($1);}
+IfLabel : IfHead ThenPart {ElseLabel($1->at(0)); ThenStatement($1->at(1)); $$ = $1;}
 	;
 
 IfHead : IFSY Expression {$$ = IfHead($2);}
        ;
 
-ThenPart : THENSY StatementList {ThenStatement();}
+ThenPart : THENSY StatementList {}
          ;
 
 ElseIfList : ElseIfList ElseIfHead ThenPart {$$ = ElseLabel($2);}

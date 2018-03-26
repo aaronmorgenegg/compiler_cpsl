@@ -46,18 +46,20 @@ void IfStatement(int label_count){
 	FOUT.Write(LABEL_IF_END + std::to_string(label_count) + ":");
 }
 
-int IfHead(Expression * e){
+std::vector<int> * IfHead(Expression * e){
+	std::vector<int> * label_counts = new std::vector<int>();
 	int label_count = GetElseCounter();
 	std::string condition = LoadExpression(e);
 	std::string else_label = LABEL_ELSE + std::to_string(label_count);
 	FOUT.Write("beq " + condition + ", $zero, " + else_label);
 	REGISTER_POOL.ReleaseRegister(condition);
-	return label_count;
+
+	label_counts->push_back(label_count);
+	label_counts->push_back(GetIfCounter());
+	return label_counts;
 }
 
-int ThenStatement(){
-	//int label_count = GetIfCounter();
-	int label_count = 0; // TODO: fix this, need to pass in the end if label count
+int ThenStatement(int label_count){
 	std::string end_if_label = LABEL_IF_END + std::to_string(label_count);
 	FOUT.Write("j " + end_if_label);
 	return label_count;

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 #include "globals.hpp"
 #include "expressions.hpp"
@@ -23,9 +24,9 @@ int GetElseCounter();
 
 void IfStatement(int);
 
-int IfHead(Expression *);
+std::vector<int> * IfHead(Expression *);
 
-int ThenStatement();
+int ThenStatement(int);
 
 int ElseLabel(int);
 
