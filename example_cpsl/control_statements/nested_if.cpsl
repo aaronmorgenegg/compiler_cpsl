@@ -11,11 +11,11 @@ elseif i < 10 then
 	write("That's a single digit, ");
 
 	if i=0 then
-		write("and that digit is 0!");
+		write("and that digit is 0.");
 	elseif i=2|i=4|i=6|i=8 then
-		write("and that digit is even!");
+		write("and that digit is even.");
 	elseif i=1|i=3|i=5|i=7|i=9 then
-		write("and that digit is odd!");
+		write("and that digit is odd.");
 	end
 elseif i > 100 then
 	if i > 9001 then
