@@ -36,3 +36,11 @@ std::vector<int> * ElseIfList(int, int);
 
 int ElseStatement();
 
+int GetForCounter();
+
+void ForStatement();
+
+Expression * ForHead(std::string, Expression *);
+
+void ForStart(Expression *, Expression *);
+

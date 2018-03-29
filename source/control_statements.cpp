@@ -5,6 +5,8 @@ std::string LABEL_WHILE_END = "ENDWHILE";
 std::string LABEL_IF_START = "STARTIF";
 std::string LABEL_IF_END = "ENDIF";
 std::string LABEL_ELSE = "ELSE";
+std::string LABEL_FOR_START = "STARTFOR";
+std::string LABEL_FOR_END = "ENDFOR";
 
 int GetWhileCounter(){
 	static int while_counter = 0;
@@ -89,11 +91,34 @@ std::vector<int> * ElseIfList(int if_label, int else_label){
 	return labels;
 }
 
-int ElseStatement(){
-	// int label_count = GetIfCounter();
-	/*int label_count = 0; // TODO: fix this, need to pass in the end if label count
-	FOUT.Write(LABEL_IF_END + std::to_string(label_count) + ":");
-	return label_count;*/
-	return 0;
+int GetForCounter(){
+        static int for_counter = 0;
+        return for_counter++;
+}
+
+
+void ForStatement(){
+	// output end of loop label, exit scope
+	
+	SYMBOL_TABLE.ExitScope();
+}
+
+Expression * ForHead(std::string id, Expression * val){
+	// Lookup id, if it exists assign it to val, if not create it
+	FOUT.Write(LABEL_FOR_START + std::to_string(GetForCounter()));
+	SYMBOL_TABLE.EnterScope();
+	Expression * var;
+	try{
+		var = SYMBOL_TABLE.Lookup(id);
+	} catch(int e) {
+		std::string reg = LoadExpression(val);
+		var = new Expression(reg, val->type);
+	}
+	Assignment(var, val);
+	return var;
+}
+
+void ForStart(Expression * it, Expression * target){
+
 }
 
