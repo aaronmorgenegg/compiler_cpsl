@@ -91,34 +91,65 @@ std::vector<int> * ElseIfList(int if_label, int else_label){
 	return labels;
 }
 
+ForContainer::ForContainer(Expression * condition, int count){
+	this->condition = condition;
+	this->count = count;
+}
+
 int GetForCounter(){
         static int for_counter = 0;
         return for_counter++;
 }
 
-
-void ForStatement(){
+void ForStatement(int count){
 	// output end of loop label, exit scope
-	
+	std::string start_label = LABEL_FOR_START + std::to_string(count);
+        std::string end_label = LABEL_FOR_END + std::to_string(count);
+        FOUT.Write("j " + start_label);
+        FOUT.Write(end_label + ":");
+
 	SYMBOL_TABLE.ExitScope();
 }
 
-Expression * ForHead(std::string id, Expression * val){
+ForContainer * ForHead(std::string id, Expression * val, int count){
 	// Lookup id, if it exists assign it to val, if not create it
-	FOUT.Write(LABEL_FOR_START + std::to_string(GetForCounter()));
 	SYMBOL_TABLE.EnterScope();
 	Expression * var;
 	try{
 		var = SYMBOL_TABLE.Lookup(id);
 	} catch(int e) {
-		std::string reg = LoadExpression(val);
-		var = new Expression(reg, val->type);
+		SaveVariable(id, val->type);
+		var = SYMBOL_TABLE.Lookup(id);
 	}
 	Assignment(var, val);
-	return var;
+	ForContainer * foo = new ForContainer(var, count);
+	return foo;
 }
 
-void ForStart(Expression * it, Expression * target){
+int ForTo(ForContainer * from, Expression * to){
+	Expression * condition = Lt(from->condition, to);
+	ForStart(from->count, condition, 1); 
+	return from->count;
+}
 
+int ForDownTo(ForContainer * from, Expression * downto){
+	Expression * condition = Gt(from->condition, downto);
+	ForStart(from->count, condition, -1); 
+	return from->count;
+}
+
+void ForStart(int count, Expression * e, int incr){
+	std::string condition = LoadExpression(e);
+	std::string label = LABEL_FOR_END + std::to_string(count);
+        FOUT.Write("beq $zero, " + condition + ", " + label);
+	FOUT.Write("addi " + condition + ", " + condition + ", " + std::to_string(incr));
+	FOUT.Write("sw " + condition + ", " + e->location);
+        REGISTER_POOL.ReleaseRegister(condition);
+}
+
+int ForLabel(){
+	int count = GetForCounter();
+	FOUT.Write(LABEL_FOR_START + std::to_string(count));
+	return count;
 }
 

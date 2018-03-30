@@ -23,6 +23,7 @@ void yyerror(const char*);
   std::vector<int> * int_list_val;
   RecordField * field_val;
   std::vector<RecordField *> * field_list_val;
+  ForContainer * for_val;
 }
 
 %error-verbose
@@ -102,9 +103,10 @@ void yyerror(const char*);
 %type <int_val> FSignature 
 %type <field_val> FieldDecl 
 %type <field_list_val> FieldDecls
-%type <expression_val> ForHead 
+%type <for_val> ForHead 
 %type <int_val> ForStart
 %type <int_val> ForStatement 
+%type <int_val> ForLabel
 %type <int_val> FormalParameter
 %type <int_val> FormalParameters  
 %type <int_val> FunctionCall 
@@ -128,7 +130,6 @@ void yyerror(const char*);
 %type <int_val> StatementList 
 %type <int_val> StopStatement 
 %type <int_val> ThenPart 
-%type <expression_val> ToHead 
 %type <type_val> Type 
 %type <int_val> WhileHead 
 %type <int_val> WhileStatement 
@@ -294,18 +295,18 @@ StartWhile : WHILESY {$$ = WhileStart();}
 
 RepeatStatement : REPEATSY StatementList UNTILSY Expression {}
 
-ForStatement : ForStart DOSY StatementList ENDSY{ForStatement();}
+ForStatement : ForStart DOSY StatementList ENDSY{ForStatement($1);}
              ;
 
-ForStart : ForHead ToHead {ForStart($1, $2);}
+ForStart : ForHead TOSY Expression {$$ = ForTo($1, $3);}
+	 | ForHead DOWNTOSY Expression {$$ = ForDownTo($1, $3);}
 	 ;
 
-ForHead : FORSY IDENTSY ASSIGNSY Expression {$$ = ForHead($2, $4);}
+ForHead : ForLabel IDENTSY ASSIGNSY Expression {$$ = ForHead($2, $4, $1);}
         ;
 
-ToHead : TOSY Expression {}
-       | DOWNTOSY Expression {}
-       ;
+ForLabel : FORSY {$$ = ForLabel();}
+	 ;
 
 StopStatement : STOPSY {StopFunction();}
               ;

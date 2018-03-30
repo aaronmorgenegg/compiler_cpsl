@@ -36,11 +36,23 @@ std::vector<int> * ElseIfList(int, int);
 
 int ElseStatement();
 
+struct ForContainer {
+        Expression * condition;
+        int count;
+        ForContainer(Expression *, int);
+};
+
 int GetForCounter();
 
-void ForStatement();
+void ForStatement(int);
 
-Expression * ForHead(std::string, Expression *);
+ForContainer * ForHead(std::string, Expression *, int count);
 
-void ForStart(Expression *, Expression *);
+int ForTo(ForContainer *, Expression *);
+
+int ForDownTo(ForContainer *, Expression *);
+
+void ForStart(int, Expression *, int);
+
+int ForLabel();
 
