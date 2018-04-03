@@ -39,20 +39,22 @@ int ElseStatement();
 struct ForContainer {
         Expression * condition;
         int count;
-        ForContainer(Expression *, int);
+	int incr;
+	std::string id;
+        ForContainer(std::string, Expression *, int);
 };
 
 int GetForCounter();
 
-void ForStatement(int);
+void ForStatement(ForContainer *);
 
-ForContainer * ForHead(std::string, Expression *, int count);
+ForContainer * ForHead(std::string, Expression *);
 
-int ForTo(ForContainer *, Expression *);
+ForContainer * ForTo(ForContainer *, Expression *);
 
-int ForDownTo(ForContainer *, Expression *);
+ForContainer * ForDownTo(ForContainer *, Expression *);
 
-void ForStart(int, Expression *, int);
+void ForStart(int, Expression *);
 
 int ForLabel();
 

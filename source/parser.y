@@ -104,9 +104,8 @@ void yyerror(const char*);
 %type <field_val> FieldDecl 
 %type <field_list_val> FieldDecls
 %type <for_val> ForHead 
-%type <int_val> ForStart
+%type <for_val> ForStart
 %type <int_val> ForStatement 
-%type <int_val> ForLabel
 %type <int_val> FormalParameter
 %type <int_val> FormalParameters  
 %type <int_val> FunctionCall 
@@ -302,11 +301,8 @@ ForStart : ForHead TOSY Expression {$$ = ForTo($1, $3);}
 	 | ForHead DOWNTOSY Expression {$$ = ForDownTo($1, $3);}
 	 ;
 
-ForHead : ForLabel IDENTSY ASSIGNSY Expression {$$ = ForHead($2, $4, $1);}
+ForHead : FORSY IDENTSY ASSIGNSY Expression {$$ = ForHead($2, $4);}
         ;
-
-ForLabel : FORSY {$$ = ForLabel();}
-	 ;
 
 StopStatement : STOPSY {StopFunction();}
               ;
