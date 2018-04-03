@@ -4,6 +4,10 @@ i : integer;
 BEGIN
 for i:=0 to 10 do
 write(i);
-end
+end;
+write("\n");
+for j:=10 downto 0 do
+write(j);
+end;
 
 end.
