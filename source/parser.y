@@ -122,6 +122,7 @@ void yyerror(const char*);
 %type <int_val> ProcedureCall
 %type <type_val> RecordType 
 %type <int_val> RepeatStatement 
+%type <int_val> RepeatHead
 %type <int_val> ReturnStatement 
 %type <type_val> SimpleType 
 %type <int_val> StartWhile 
@@ -292,7 +293,11 @@ WhileHead : StartWhile Expression {$$ = WhileHead($1, $2);}
 StartWhile : WHILESY {$$ = WhileStart();}
 	   ;
 
-RepeatStatement : REPEATSY StatementList UNTILSY Expression {}
+RepeatStatement : RepeatHead StatementList UNTILSY Expression {RepeatStatement($1, $4);}
+		;
+
+RepeatHead : REPEATSY {$$ = RepeatHead();}
+	   ;
 
 ForStatement : ForStart DOSY StatementList ENDSY{ForStatement($1);}
              ;

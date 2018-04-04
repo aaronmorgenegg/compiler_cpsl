@@ -2,6 +2,7 @@
 
 std::string LABEL_WHILE_START = "STARTWHILE";
 std::string LABEL_WHILE_END = "ENDWHILE";
+std::string LABEL_REPEAT_START = "STARTREPEAT";
 std::string LABEL_IF_START = "STARTIF";
 std::string LABEL_IF_END = "ENDIF";
 std::string LABEL_ELSE = "ELSE";
@@ -32,6 +33,23 @@ void WhileStatement(int counter){
 	std::string end_label = LABEL_WHILE_END + std::to_string(counter);
 	FOUT.Write("j " + start_label);
 	FOUT.Write(end_label + ":");
+}
+
+int GetRepeatCounter(){
+	static int repeat_counter = 0;
+	return repeat_counter++;
+}
+
+int RepeatHead(){
+	int count = GetRepeatCounter();
+	FOUT.Write(LABEL_REPEAT_START + std::to_string(count) + ":");
+	return count;
+}
+
+void RepeatStatement(int count, Expression * e){
+	std::string condition = LoadExpression(e);
+	std::string label = LABEL_REPEAT_START + std::to_string(count);
+	FOUT.Write("beq $zero, " + condition + ", " + label);
 }
 
 int GetIfCounter(){
@@ -139,14 +157,14 @@ ForContainer * ForHead(std::string id, Expression * val){
 }
 
 ForContainer * ForTo(ForContainer * from, Expression * to){
-	Expression * condition = Lt(from->condition, to);
+	Expression * condition = Lteq(from->condition, to);
 	ForStart(from->count, condition); 
 	from->incr = 1;
 	return from;
 }
 
 ForContainer * ForDownTo(ForContainer * from, Expression * downto){
-	Expression * condition = Gt(from->condition, downto);
+	Expression * condition = Gteq(from->condition, downto);
 	ForStart(from->count, condition); 
 	from->incr = -1;
 	return from;

@@ -7,8 +7,11 @@
 
 extern std::string LABEL_WHILE_START;
 extern std::string LABEL_WHILE_END;
+extern std::string LABEL_REPEAT_START;
 extern std::string LABEL_IF_START;
 extern std::string LABEL_IF_END;
+extern std::string LABEL_FOR_START;
+extern std::string LABEL_FOR_END;
 
 int GetWhileCounter();
 
@@ -17,6 +20,12 @@ int WhileStart();
 int WhileHead(int, Expression *);
 
 void WhileStatement(int);
+
+int GetRepeatCounter();
+
+int RepeatHead();
+
+void RepeatStatement(int, Expression *);
 
 int GetIfCounter();
 
