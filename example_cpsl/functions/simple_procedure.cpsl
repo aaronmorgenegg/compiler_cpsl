@@ -1,0 +1,9 @@
+procedure hello();
+BEGIN
+write("hello world!");
+END;
+
+begin
+hello();
+end.
+

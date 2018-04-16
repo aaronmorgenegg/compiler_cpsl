@@ -12,3 +12,11 @@ public:
 	std::vector<Expression *> parameters;
 };
 
+Function * ProcedureBegin(std::string, std::vector<Expression*>*);
+
+void ProcedureEnd(Function *);
+
+void ProcedureDecl(Function *);
+
+void ProcedureCall(std::string, std::vector<Expression *>*);
+

@@ -26,6 +26,7 @@ void yyerror(const char*);
   std::vector<RecordField *> * field_list_val;
   ForContainer * for_val;
   Function * function_val;
+  std::vector<Expression *> * expression_list_val;
 }
 
 %error-verbose
@@ -102,7 +103,7 @@ void yyerror(const char*);
 %type <int_val> ElseIfHead 
 %type <int_list_val> ElseIfList 
 %type <expression_val> Expression 
-%type <int_val> FSignature 
+%type <function_val> FSignature 
 %type <field_val> FieldDecl 
 %type <field_list_val> FieldDecls
 %type <for_val> ForHead 
@@ -118,9 +119,9 @@ void yyerror(const char*);
 %type <int_list_val> IfHead 
 %type <int_val> IfStatement 
 %type <expression_val> LValue 
-%type <int_val> OptArguments 
-%type <int_val> OptFormalParameters  
-%type <int_val> PSignature 
+%type <expression_list_val> OptArguments 
+%type <expression_list_val> OptFormalParameters  
+%type <function_val> PSignature 
 %type <int_val> ProcedureCall
 %type <type_val> RecordType 
 %type <int_val> RepeatStatement 
@@ -142,7 +143,7 @@ void yyerror(const char*);
 Program : ProgramHead Block DOTSY {YYACCEPT;}
 				;
 
-ProgramHead : OptConstDecls OptTypeDecls OptVarDecls PFDecls
+ProgramHead : OptConstDecls OptTypeDecls OptVarDecls PFDecls {FOUT.WriteGlobalArea();}
             ;
 OptConstDecls : CONSTSY ConstDecls
 							|
@@ -161,10 +162,10 @@ PFDecls : PFDecls ProcedureDecl
         ;
 
 ProcedureDecl : PSignature SCOLONSY FORWARDSY SCOLONSY {}
-              | PSignature SCOLONSY Body SCOLONSY {}
+              | PSignature SCOLONSY Body SCOLONSY {ProcedureDecl($1);}
 				    	;
 
-PSignature : PROCEDURESY IDENTSY LPARENSY OptFormalParameters RPARENSY {}
+PSignature : PROCEDURESY IDENTSY LPARENSY OptFormalParameters RPARENSY {$$ = ProcedureBegin(std::string($2), $4);}
            ;
 
 FunctionDecl : FSignature SCOLONSY FORWARDSY SCOLONSY {}
@@ -175,7 +176,7 @@ FSignature : FUNCTIONSY IDENTSY LPARENSY OptFormalParameters RPARENSY COLONSY Ty
            ;
 
 OptFormalParameters : FormalParameters {}
-                    | {}
+                    | {$$ = new std::vector<Expression *>;}
                     ;
 
 FormalParameters : FormalParameters SCOLONSY FormalParameter {}
@@ -332,7 +333,7 @@ WriteArgs : WriteArgs COMMASY Expression {WriteFunction($3);}
           | Expression                   {WriteFunction($1);}
           ;
 
-ProcedureCall : IDENTSY LPARENSY OptArguments RPARENSY {}
+ProcedureCall : IDENTSY LPARENSY OptArguments RPARENSY {ProcedureCall($1, $3);}
               ;
 OptArguments : Arguments {}
              |           {}

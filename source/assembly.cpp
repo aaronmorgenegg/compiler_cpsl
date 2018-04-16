@@ -30,11 +30,13 @@ void ASManager::WriteHeader(){
 	Write(".text");
 	Write(".globl main");
 	Write("main:");
-	// Write("la GA,$gp"); // TODO
+	Write("j GA");
 }
 
 void ASManager::WriteFooter(){
 	// This is what goes at the end of every asm file
+	Write("li $v0, 10");
+	Write("syscall");
 	Write(".data");
 	WriteStrings();
 	WriteVariables();
