@@ -7,6 +7,7 @@
 #include "../source/builtins.hpp"
 #include "../source/variables.hpp"
 #include "../source/control_statements.hpp"
+#include "../source/functions.hpp"
 
 extern int yylex();
 void yyerror(const char*);
@@ -24,6 +25,7 @@ void yyerror(const char*);
   RecordField * field_val;
   std::vector<RecordField *> * field_list_val;
   ForContainer * for_val;
+  Function * function_val;
 }
 
 %error-verbose

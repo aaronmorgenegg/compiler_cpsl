@@ -103,3 +103,21 @@ void SymbolTable::ExitScope(){
 	type_table.pop_back();
 }
 
+Function * SymbolTable::LookupFunction(std::string id){
+	if(DEBUG) std::cout<<"LookupFunction: id<" << id << ">" << std::endl;
+        try {return function_table.at(id);}
+        catch (const std::out_of_range& e){}
+        if(DEBUG)std::cerr << "Error: lookup expr on symbol table for <" << id << "> failed." << std::endl;
+        throw(4);
+}
+
+void SymbolTable::Store(std::string id, Function * f){
+	if(DEBUG) std::cout << "Storing: function id<" << id << std::endl;
+        if(function_table.count(id) == 0){
+                function_table[id] = f;
+        } else {
+        if(DEBUG)std::cerr << "Error: Redefinition of function id <" << id << ">.\n";
+	        throw(4);
+        }
+}
+

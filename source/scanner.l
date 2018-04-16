@@ -6,6 +6,7 @@
 #include "../source/builtins.hpp"
 #include "../source/variables.hpp"
 #include "../source/control_statements.hpp"
+#include "../source/functions.hpp"
 #include "parser.hpp"
 %}
 

@@ -5,7 +5,7 @@ ASManager FOUT;
 StringList STRING_LIST;
 SymbolTable SYMBOL_TABLE;
 
-const bool DEBUG = false;
+const bool DEBUG = true;
 const bool STDOUT = false;
 SimpleType TYPE_INT;
 SimpleType TYPE_CHAR;

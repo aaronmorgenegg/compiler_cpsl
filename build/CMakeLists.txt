@@ -25,6 +25,7 @@ set(cpsl_srcs
   ../source/expressions.cpp
   ../source/variables.cpp
   ../source/control_statements.cpp
+  ../source/functions.cpp 
   ../source/utils.cpp
   ${BISON_Parser_OUTPUTS}
   ${FLEX_Scanner_OUTPUTS}

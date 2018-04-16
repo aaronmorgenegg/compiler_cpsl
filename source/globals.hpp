@@ -9,6 +9,7 @@ class StringList;
 class SimpleType;
 class ArrayType;
 class RecordType;
+class Function;
 
 #include "symbol_table.hpp"
 #include "register_pool.hpp"
