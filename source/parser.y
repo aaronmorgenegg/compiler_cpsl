@@ -316,7 +316,7 @@ ForHead : FORSY IDENTSY ASSIGNSY Expression {$$ = ForHead($2, $4);}
 StopStatement : STOPSY {StopFunction();}
               ;
 
-ReturnStatement : RETURNSY Expression {}
+ReturnStatement : RETURNSY Expression {ReturnStatement($2);}
                 | RETURNSY {}
                 ;
 

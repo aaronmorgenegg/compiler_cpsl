@@ -43,10 +43,10 @@ void ProcedureCall(std::string id, std::vector<Expression*> *parameters){
 }
 
 Function * FunctionBegin(std::string id, FormalParameters * parameters, Type* return_type){
-	SYMBOL_TABLE.EnterScope();
 	Function * sig = new Function(id, parameters, return_type);
 	FOUT.Write(sig->name + ":");
-	LoadParameters(parameters);
+	SYMBOL_TABLE.EnterScope();
+	LoadParameters(parameters, sig);
 	SYMBOL_TABLE.Store(id, sig);
 	return sig;
 }
@@ -57,24 +57,37 @@ void FunctionDecl(Function * sig){
 
 Expression * FunctionCall(std::string id, std::vector<Expression *>* parameters){
 	SYMBOL_TABLE.EnterScope();
-	SaveParameters(parameters);
+	Function * sig = SYMBOL_TABLE.LookupFunction(id);
+	SaveParameters(parameters, sig);
 	FOUT.Write("jal " + id);
 	SYMBOL_TABLE.ExitScope();
-	Function * function = SYMBOL_TABLE.LookupFunction(id);
-	return new Expression("$t9", function->return_type);
+	return new Expression("$t9", sig->return_type);
 }
 
-void SaveParameters(std::vector<Expression *>* parameters){
+void SaveParameters(std::vector<Expression *>* parameters, Function * sig){
 	for(int i = 0; i < parameters->size(); i++){
+		std::string id = sig->parameters->ident_list->at(i);
+		Type * type = sig->parameters->type;
+		Expression * expr = new Expression(PARAM_REGISTERS[i], type);
+		SYMBOL_TABLE.Store(id, expr);
+
 		std::string reg = LoadExpression(parameters->at(i));
 		FOUT.Write("move " + PARAM_REGISTERS[i] + ", " + reg);
 		REGISTER_POOL.ReleaseRegister(reg);
 	}
 }
 
-void LoadParameters(FormalParameters * parameters){
+void LoadParameters(FormalParameters * parameters, Function * sig){
 	for(int i = 0; i < parameters->ident_list->size(); i++){
-		
+		std::string id = sig->parameters->ident_list->at(i);
+		Type * type = sig->parameters->type;
+		Expression * expr = new Expression(PARAM_REGISTERS[i], type);
+		SYMBOL_TABLE.Store(id, expr);
 	}
+}
+
+void ReturnStatement(Expression * ret_val){
+	std::string reg = LoadExpression(ret_val);
+	FOUT.Write("move $t9, " + reg);
 }
 

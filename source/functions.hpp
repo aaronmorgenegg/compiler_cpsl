@@ -34,7 +34,9 @@ void FunctionDecl(Function *);
 
 Expression * FunctionCall(std::string, std::vector<Expression *>*);
 
-void SaveParameters(std::vector<Expression *>*);
+void SaveParameters(std::vector<Expression *>*, Function *);
 
-void LoadParameters(FormalParameters *);
+void LoadParameters(FormalParameters *, Function *);
+
+void ReturnStatement(Expression*);
 
