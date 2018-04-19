@@ -27,6 +27,7 @@ void yyerror(const char*);
   ForContainer * for_val;
   Function * function_val;
   std::vector<Expression *> * expression_list_val;
+  FormalParameters * params_val;
 }
 
 %error-verbose
@@ -94,7 +95,7 @@ void yyerror(const char*);
 %right UMINUSSY 
 
 %type <char_val> CHARCONSTSY
-%type <int_val> Arguments 
+%type <expression_list_val> Arguments 
 %type <type_val> ArrayType 
 %type <int_val> Assignment
 %type <int_val> Block 
@@ -109,9 +110,9 @@ void yyerror(const char*);
 %type <for_val> ForHead 
 %type <for_val> ForStart
 %type <int_val> ForStatement 
-%type <int_val> FormalParameter
-%type <int_val> FormalParameters  
-%type <int_val> FunctionCall 
+%type <params_val> FormalParameter
+%type <params_val> FormalParameters  
+%type <expression_val> FunctionCall 
 %type <int_list_val> IfLabel 
 %type <int_val> INTSY 
 %type <list_val> IdentList 
@@ -120,7 +121,7 @@ void yyerror(const char*);
 %type <int_val> IfStatement 
 %type <expression_val> LValue 
 %type <expression_list_val> OptArguments 
-%type <expression_list_val> OptFormalParameters  
+%type <params_val> OptFormalParameters  
 %type <function_val> PSignature 
 %type <int_val> ProcedureCall
 %type <type_val> RecordType 
@@ -169,21 +170,21 @@ PSignature : PROCEDURESY IDENTSY LPARENSY OptFormalParameters RPARENSY {$$ = Pro
            ;
 
 FunctionDecl : FSignature SCOLONSY FORWARDSY SCOLONSY {}
-						 | FSignature SCOLONSY Body SCOLONSY {}
+						 | FSignature SCOLONSY Body SCOLONSY {FunctionDecl($1);}
 						 ;
 
-FSignature : FUNCTIONSY IDENTSY LPARENSY OptFormalParameters RPARENSY COLONSY Type {}
+FSignature : FUNCTIONSY IDENTSY LPARENSY OptFormalParameters RPARENSY COLONSY Type {$$ = FunctionBegin(std::string($2), $4, $7);}
            ;
 
-OptFormalParameters : FormalParameters {}
-                    | {$$ = new std::vector<Expression *>;}
+OptFormalParameters : FormalParameters {$$ = $1;}
+                    | {$$ = new FormalParameters();}
                     ;
 
-FormalParameters : FormalParameters SCOLONSY FormalParameter {}
-                 | FormalParameter {}
+FormalParameters : FormalParameters SCOLONSY FormalParameter {$$ = $1;}
+                 | FormalParameter {$$ = $1;}
                  ;
 
-FormalParameter : OptVar IdentList COLONSY Type {}
+FormalParameter : OptVar IdentList COLONSY Type {$$ = new FormalParameters($2, $4);}
                 ;
 
 OptVar : VARSY {}
@@ -335,11 +336,11 @@ WriteArgs : WriteArgs COMMASY Expression {WriteFunction($3);}
 
 ProcedureCall : IDENTSY LPARENSY OptArguments RPARENSY {ProcedureCall($1, $3);}
               ;
-OptArguments : Arguments {}
-             |           {}
+OptArguments : Arguments {$$ = $1;}
+             |           {$$ = new std::vector<Expression*>;}
              ;
-Arguments : Arguments COMMASY Expression {}
-          | Expression                   {}
+Arguments : Arguments COMMASY Expression {$1->push_back($3); $$ = $1;}
+          | Expression                   {$$ = new std::vector<Expression*>(1, $1);}
           ;
 
 Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_CHAR);}
@@ -357,7 +358,7 @@ Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_
            | Expression NEQSY Expression         {$$ = Neq($1, $3);}
            | Expression ORSY Expression          {$$ = Or($1, $3);}
            | Expression PLUSSY Expression        {$$ = Add($1, $3);}
-           | FunctionCall                        {}
+           | FunctionCall                        {$$ = $1;}
            | INTSY                               {$$ = new Expression($1, &TYPE_INT);}
            | LPARENSY Expression RPARENSY        {$$ = $2;}
            | LValue                              {$$ = $1;}
@@ -369,7 +370,7 @@ Expression : CHARCONSTSY                         {$$ = new Expression($1, &TYPE_
            | SUCCSY LPARENSY Expression RPARENSY {$$ = SuccFunction($3);}
            ;
 
-FunctionCall : IDENTSY LPARENSY OptArguments RPARENSY {}
+FunctionCall : IDENTSY LPARENSY OptArguments RPARENSY {$$ = FunctionCall(std::string($1), $3);}
              ;
 
 LValue : LValue DOTSY IDENTSY {$$ = RecordAccess($1, $3);}
